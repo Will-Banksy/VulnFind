@@ -1,4 +1,4 @@
-package com.example.vulnfind.ui.theme
+package com.willbanksy.vulnfind.ui.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle

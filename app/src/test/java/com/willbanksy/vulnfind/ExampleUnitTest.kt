@@ -1,4 +1,4 @@
-package com.example.vulnfind
+package com.willbanksy.vulnfind
 
 import org.junit.Test
 

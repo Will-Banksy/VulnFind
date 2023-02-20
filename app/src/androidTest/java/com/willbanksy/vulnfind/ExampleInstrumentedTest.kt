@@ -1,4 +1,4 @@
-package com.example.vulnfind
+package com.willbanksy.vulnfind
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
