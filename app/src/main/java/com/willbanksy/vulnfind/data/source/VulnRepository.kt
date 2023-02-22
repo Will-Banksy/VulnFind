@@ -2,12 +2,26 @@ package com.willbanksy.vulnfind.data.source
 
 import androidx.lifecycle.LiveData
 import com.willbanksy.vulnfind.data.VulnItemState
+import com.willbanksy.vulnfind.data.source.local.VulnDB
+import com.willbanksy.vulnfind.data.source.local.VulnLocalDataSource
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.withContext
 
-interface VulnRepository {
-    suspend fun getAll(): List<VulnItemState>
+class VulnRepository(
+    private val remote: VulnLocalDataSource,
+    private val local: VulnLocalDataSource
+) {
+    val vulns: Flow<List<VulnItemState>> = local.getVulnsStream()
     
-    fun getAllLive(): LiveData<List<VulnItemState>>
+    suspend fun refresh() {
+        withContext(Dispatchers.IO) {
+            // Download vulns to local database
+            TODO()
+        }
+    }
     
-    suspend fun insertAll(vulns: List<VulnItemState>)
+    suspend fun getVuln(cveId: String): VulnItemState? {
+        return local.getVuln(cveId)
+    }
 }

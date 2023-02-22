@@ -7,10 +7,10 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.willbanksy.vulnfind.model.VulnDBModel
+import com.willbanksy.vulnfind.model.VulnListModel
 
 @Composable
-fun VulnSearchView(model: VulnDBModel) {
+fun VulnSearchView(model: VulnListModel) {
     Box(
         modifier = Modifier
             .padding(8.dp)

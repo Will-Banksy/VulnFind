@@ -2,10 +2,9 @@ package com.willbanksy.vulnfind.data
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
-import androidx.room.Ignore
 import androidx.room.PrimaryKey
 
-// TODO: Rename some of this shit
+// TODO: Probably want to enable FTS4 (Full text search 4)?
 
 enum class VulnDataSource {
     SOURCE_DEFAULT,
@@ -16,12 +15,11 @@ enum class VulnDataSource {
 
 @Entity(tableName = "VulnDB")
 data class VulnItemState(
-    @PrimaryKey val name: String,
-    val description: String,
+    @PrimaryKey @ColumnInfo("cve_id") val cveId: String = "",
+    val description: String = "",
 )
 
-@Entity(tableName = "VulnDBList")
-data class VulnDBState( // TODO: Probably want to enable FTS4 (Full text search 4)?
+data class VulnListState(
     var vulns: List<VulnItemState> = listOf(),
-    @Ignore var source: VulnDataSource = VulnDataSource.SOURCE_NONE
+    var source: VulnDataSource = VulnDataSource.SOURCE_NONE
 )

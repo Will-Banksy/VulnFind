@@ -8,26 +8,26 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.room.Room
-import com.willbanksy.vulnfind.data.VulnDBState
 import com.willbanksy.vulnfind.data.VulnDataSource
 import com.willbanksy.vulnfind.data.VulnItemState
-import com.willbanksy.vulnfind.data.source.local.VulnDB
+import com.willbanksy.vulnfind.data.VulnListState
 import com.willbanksy.vulnfind.data.source.VulnRepository
-import com.willbanksy.vulnfind.data.source.VulnRepositoryImpl
+import com.willbanksy.vulnfind.data.source.local.VulnDB
 import kotlinx.coroutines.launch
 
-class VulnDBModel(context: Context): ViewModel() { // TODO: Architectural overhaul
-    var state by mutableStateOf(VulnDBState())
+class VulnListModel(context: Context): ViewModel() {
+    var state by mutableStateOf(VulnListState())
     private val vulnDb: VulnDB
-    private val vulnRepo: VulnRepository
+//    private val vulnRepo: VulnRepository
     var vulnsLive: LiveData<List<VulnItemState>>? = null
+    // TODO: Figure out how to get an instance of VulnRepository set up - Need a context...
 
     init {
         vulnDb = Room.databaseBuilder(context, VulnDB::class.java, "VulnDB").build()
-        vulnRepo = VulnRepositoryImpl(vulnDb.dao())
-        viewModelScope.launch {
-            vulnsLive = vulnRepo.getAllLive()
-        }
+//        vulnRepo = VulnRepositoryImpl(vulnDb.dao())
+//        viewModelScope.launch {
+//            vulnsLive = vulnRepo.getAllLive()
+//        }
     }
     
 //    class Factory(context: Context): ViewModelProvider.Factory {
@@ -38,7 +38,7 @@ class VulnDBModel(context: Context): ViewModel() { // TODO: Architectural overha
     
     fun populateFromDB() {
         viewModelScope.launch { 
-            state = state.copy(vulns = vulnRepo.getAll())
+//            state = state.copy(vulns = vulnRepo.getAll())
         }
     }
     
@@ -83,7 +83,7 @@ class VulnDBModel(context: Context): ViewModel() { // TODO: Architectural overha
     
     fun save() {
         viewModelScope.launch { 
-            vulnRepo.insertAll(state.vulns)
+//            vulnRepo.insertAll(state.vulns)
         }
     }
 }

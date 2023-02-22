@@ -9,16 +9,25 @@ import kotlinx.coroutines.flow.Flow
 interface VulnDBDao {
     @Query("SELECT * FROM VulnDB")
     fun getAll(): List<VulnItemState>
+
+    @Query("SELECT * FROM VulnDB WHERE cve_id = :cveId")
+    fun getById(cveId: String): VulnItemState?
     
     @Query("SELECT * FROM VulnDB")
-    fun getAllLive(): LiveData<List<VulnItemState>>
+    fun observeAll(): Flow<List<VulnItemState>>
     
-    @Query("SELECT * FROM VulnDB WHERE name LIKE :searchTerm")
+    @Query("SELECT * FROM VulnDB WHERE cve_id = :cveId")
+    fun observeById(cveId: String): Flow<VulnItemState?>
+    
+    @Query("SELECT * FROM VulnDB WHERE cve_id LIKE :searchTerm")
     fun search(searchTerm: String): List<VulnItemState>
     
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(vulns: List<VulnItemState>)
     
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insert(vuln: VulnItemState)
+    
     @Delete
-    fun deleteVuln(vuln: VulnItemState)
+    fun delete(vuln: VulnItemState)
 }
