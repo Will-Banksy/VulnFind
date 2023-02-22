@@ -1,17 +1,45 @@
 package com.willbanksy.vulnfind.model
 
+import android.content.Context
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.room.Room
 import com.willbanksy.vulnfind.data.VulnDBState
 import com.willbanksy.vulnfind.data.VulnDataSource
 import com.willbanksy.vulnfind.data.VulnItemState
+import com.willbanksy.vulnfind.data.source.local.VulnDB
+import com.willbanksy.vulnfind.data.source.VulnRepository
+import com.willbanksy.vulnfind.data.source.VulnRepositoryImpl
+import kotlinx.coroutines.launch
 
-class VulnDBModel : ViewModel() {
+class VulnDBModel(context: Context): ViewModel() { // TODO: Architectural overhaul
     var state by mutableStateOf(VulnDBState())
+    private val vulnDb: VulnDB
+    private val vulnRepo: VulnRepository
+    var vulnsLive: LiveData<List<VulnItemState>>? = null
+
+    init {
+        vulnDb = Room.databaseBuilder(context, VulnDB::class.java, "VulnDB").build()
+        vulnRepo = VulnRepositoryImpl(vulnDb.dao())
+        viewModelScope.launch {
+            vulnsLive = vulnRepo.getAllLive()
+        }
+    }
     
-    fun populateFromLocalStorage() {
+//    class Factory(context: Context): ViewModelProvider.Factory {
+//    }
+    
+//    fun initialiseDB(context: Context) {
+//    }
+    
+    fun populateFromDB() {
+        viewModelScope.launch { 
+            state = state.copy(vulns = vulnRepo.getAll())
+        }
     }
     
     fun populateDefault() {
@@ -54,6 +82,8 @@ class VulnDBModel : ViewModel() {
     }
     
     fun save() {
-        
+        viewModelScope.launch { 
+            vulnRepo.insertAll(state.vulns)
+        }
     }
 }
