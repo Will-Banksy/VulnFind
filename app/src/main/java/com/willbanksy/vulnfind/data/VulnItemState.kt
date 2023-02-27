@@ -6,12 +6,12 @@ import androidx.room.PrimaryKey
 
 // TODO: Probably want to enable FTS4 (Full text search 4)?
 
-enum class VulnDataSource {
-    SOURCE_DEFAULT,
-    SOURCE_NVD,
-    SOURCE_LOCALSTORAGE,
-    SOURCE_NONE
-}
+//enum class VulnDataSource {
+//    SOURCE_DEFAULT,
+//    SOURCE_NVD,
+//    SOURCE_LOCALSTORAGE,
+//    SOURCE_NONE
+//}
 
 @Entity(tableName = "VulnDB")
 data class VulnItemState(
@@ -19,7 +19,7 @@ data class VulnItemState(
     val description: String = "",
 )
 
-data class VulnListState(
-    var vulns: List<VulnItemState> = listOf(),
-    var source: VulnDataSource = VulnDataSource.SOURCE_NONE
-)
+//data class VulnListState(
+//    var vulns: List<VulnItemState> = listOf(),
+//    var source: VulnDataSource = VulnDataSource.SOURCE_NONE
+//)

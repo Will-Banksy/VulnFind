@@ -3,11 +3,9 @@ package com.willbanksy.vulnfind.data.source.remote
 import com.willbanksy.vulnfind.data.VulnItemState
 import com.willbanksy.vulnfind.data.source.VulnDataSource
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.runBlocking
 
-class VulnRemoteDataSource : VulnDataSource {
-    private val observableVulns = MutableStateFlow(runBlocking { getVulns() })
+class VulnRemoteDataSource : VulnDataSource { // TODO: Use Retrofit for this
+//    private val observableVulns = MutableStateFlow(runBlocking { getVulns() })
     
     override fun getVulnStream(cveId: String): Flow<VulnItemState?> {
         TODO("Not yet implemented")
