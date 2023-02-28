@@ -4,7 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.willbanksy.vulnfind.data.VulnItemState
 import com.willbanksy.vulnfind.data.source.VulnRepository
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.job
 import kotlinx.coroutines.launch
 
 class VulnListModel(
@@ -16,6 +18,10 @@ class VulnListModel(
 		viewModelScope.launch { 
 			vulnRepository.refreshId(cveId)
 		}
+	}
+	
+	fun getById(cveId: String): Flow<VulnItemState?> {
+		return vulnRepository.getVulnStream(cveId)
 	}
 	
 	fun insertDefault() {

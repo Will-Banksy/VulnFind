@@ -4,4 +4,5 @@
     <string name="label_vulnsearch">Search</string>
     <string name="title_vulnlist">Vulnerability List</string>
     <string name="title_vulnsearch">Vulnerability Search</string>
+    <string name="title_activity_details">DetailsActivity</string>
 </resources>

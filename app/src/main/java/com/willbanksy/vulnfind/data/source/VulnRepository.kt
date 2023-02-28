@@ -28,9 +28,19 @@ class VulnRepository(
 			}
 		}
 	}
+	
+	fun getVulnStream(cveId: String): Flow<VulnItemState?> {
+		// BUG: This will return null if the CVE ID is not in the local database. Need some way of fetching from remote
+		return local.getVulnStream(cveId)
+	}
 
 	suspend fun getVuln(cveId: String): VulnItemState? {
-		return local.getVuln(cveId) ?: return remote.getVuln(cveId)
+		var localVuln = local.getVuln(cveId)
+		if(localVuln == null) {
+			refreshId(cveId)
+			localVuln = local.getVuln(cveId)
+		}
+		return localVuln
 	}
 	
 	suspend fun getVulns(): List<VulnItemState> {

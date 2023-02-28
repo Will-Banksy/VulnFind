@@ -4,7 +4,7 @@ import com.willbanksy.vulnfind.data.VulnItemState
 import com.willbanksy.vulnfind.data.source.VulnDataSource
 import kotlinx.coroutines.flow.Flow
 
-class VulnRemoteDataSource : VulnDataSource { // TODO: Use Retrofit for this
+class VulnRemoteDataSource : VulnDataSource { // TODO: Rate Limiting
 	private val client = NVDClient.getClient()
 	private val api = client.create(NVDApi::class.java)
 	
