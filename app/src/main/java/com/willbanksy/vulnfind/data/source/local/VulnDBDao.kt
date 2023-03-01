@@ -37,7 +37,7 @@ interface VulnDBDao {
 
 	@Transaction
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(vuln: VulnItem, metrics: List<VulnMetric>) // FIXME: THIS IS INSERTING MULTIPLE OF THE SAME METRICS FOR THE SAME VULNERABILITY
+    fun insert(vuln: VulnItem, metrics: List<VulnMetric>)
 
 //	@Transaction
 //    @Delete
