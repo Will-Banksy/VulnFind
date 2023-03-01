@@ -1,6 +1,7 @@
 package com.willbanksy.vulnfind.data.source
 
-import com.willbanksy.vulnfind.data.VulnItemState
+import com.willbanksy.vulnfind.data.VulnItemWithMetrics
+import com.willbanksy.vulnfind.data.VulnMetric
 import com.willbanksy.vulnfind.data.source.local.VulnLocalDataSource
 import com.willbanksy.vulnfind.data.source.remote.VulnRemoteDataSource
 import kotlinx.coroutines.Dispatchers
@@ -11,7 +12,7 @@ class VulnRepository(
 	private val remote: VulnRemoteDataSource,
 	private val local: VulnLocalDataSource
 ) {
-	val vulns: Flow<List<VulnItemState>> = local.getVulnsStream()
+	val vulns: Flow<List<VulnItemWithMetrics>> = local.getVulnsStream()
 	
 	suspend fun refresh() {
 		withContext(Dispatchers.IO) {
@@ -29,12 +30,16 @@ class VulnRepository(
 		}
 	}
 	
-	fun getVulnStream(cveId: String): Flow<VulnItemState?> {
+	fun getAllMetrics(): Flow<List<VulnMetric>> {
+		return local.getAllMetrics()
+	}
+	
+	fun getVulnStream(cveId: String): Flow<VulnItemWithMetrics?> {
 		// BUG: This will return null if the CVE ID is not in the local database. Need some way of fetching from remote
 		return local.getVulnStream(cveId)
 	}
 
-	suspend fun getVuln(cveId: String): VulnItemState? {
+	suspend fun getVuln(cveId: String): VulnItemWithMetrics? {
 		var localVuln = local.getVuln(cveId)
 		if(localVuln == null) {
 			refreshId(cveId)
@@ -43,11 +48,11 @@ class VulnRepository(
 		return localVuln
 	}
 	
-	suspend fun getVulns(): List<VulnItemState> {
+	suspend fun getVulns(): List<VulnItemWithMetrics> {
 		return local.getVulns()
 	}
 	
-	suspend fun manuallySaveToDB(vulns: List<VulnItemState>) {
+	suspend fun manuallySaveToDB(vulns: List<VulnItemWithMetrics>) {
 		withContext(Dispatchers.IO) {
 			local.addVulns(vulns)
 		}

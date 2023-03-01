@@ -19,7 +19,6 @@ object NVDClient {
 		.build()
 	
 	private val jacksonConfig: ObjectMapper = ObjectMapper()
-		.disable(DeserializationFeature.FAIL_ON_MISSING_CREATOR_PROPERTIES)
 		.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
 	
 	fun getClient(): Retrofit =

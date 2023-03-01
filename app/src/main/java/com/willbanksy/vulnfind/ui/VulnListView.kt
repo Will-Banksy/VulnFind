@@ -2,17 +2,13 @@ package com.willbanksy.vulnfind.ui
 
 import android.content.Intent
 import android.util.Log
-import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
@@ -35,7 +31,7 @@ fun VulnListView(model: VulnListModel) {
 		) {
 			items(vulns.value) { item ->
 				val intent = Intent(LocalContext.current, DetailsActivity::class.java).apply {
-					putExtra("cveId", item.cveId)
+					putExtra("cveId", item.item.cveId)
 				}
 				val context = LocalContext.current
 //				val expanded = remember { mutableStateOf(false) }
@@ -45,8 +41,7 @@ fun VulnListView(model: VulnListModel) {
 //						expanded.value = true
 						Log.d("CONTENT ANIM", "Expanded Vuln Card View")
 					},
-					title = item.cveId,
-					description = item.description
+					vuln = item
 				)
 			}
 		}

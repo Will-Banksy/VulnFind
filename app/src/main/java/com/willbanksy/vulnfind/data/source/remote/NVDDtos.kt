@@ -34,29 +34,46 @@ data class CveDescriptionDto(
 )
 
 data class CveMetricsDto(
-	@JsonProperty("cvssMetricV31") val cvssMetricV31: List<CvssMetricV31Dto>,
+	@JsonProperty("cvssMetricV31") val cvssMetricV31: List<CvssMetricDto>?,
+	@JsonProperty("cvssMetricV30") val cvssMetricV30: List<CvssMetricDto>?,
+	@JsonProperty("cvssMetricV2") val cvssMetricV2: List<CvssMetricDto>?
 )
 
-data class CvssMetricV31Dto(
+data class CvssMetricDto(
 	@JsonProperty("source") val source: String,
 	@JsonProperty("type") val type: String,
-//    @JsonProperty("cvssData") val cvssData: String,
+    @JsonProperty("cvssData") val cvssData: CvssMetricDataDto,
 	@JsonProperty("exploitabilityScore") val exploitabilityScore: Float,
 	@JsonProperty("impactScore") val impactScore: Float,
 )
 
-data class CvssDataV31Dto( // Some members of this (e.g. attackVector) are really enums but we can treat them as strings
+data class CvssMetricDataDto(
 	@JsonProperty("version") val version: String,
 	@JsonProperty("vectorString") val vectorString: String,
-	@JsonProperty("attackVector") val attackVector: String,
-	@JsonProperty("attackComplexity") val attackComplexity: String,
-	@JsonProperty("privilegesRequired") val privilegesRequired: String,
-	@JsonProperty("userInteraction") val userInteraction: String,
-	@JsonProperty("scope") val scope: String,
-	@JsonProperty("confidentialityImpact") val confidentialityImpact: String,
-	@JsonProperty("integrityImpact") val integrityImpact: String,
-	@JsonProperty("availabilityImpact") val availabilityImpact: String,
 	@JsonProperty("baseScore") val baseScore: Float,
-	@JsonProperty("baseSeverity") val baseSeverity: Float,
-	@JsonProperty("exploitCodeMaturity") val exploitCodeMaturity: String,
+	@JsonProperty("baseSeverity") val baseSeverity: String?
 )
+
+//data class CvssMetricV31Dto(
+//	@JsonProperty("source") val source: String,
+//	@JsonProperty("type") val type: String,
+////    @JsonProperty("cvssData") val cvssData: String,
+//	@JsonProperty("exploitabilityScore") val exploitabilityScore: Float,
+//	@JsonProperty("impactScore") val impactScore: Float,
+//)
+
+//data class CvssDataV31Dto( // Some members of this (e.g. attackVector) are really enums but we can treat them as strings
+//	@JsonProperty("version") val version: String,
+//	@JsonProperty("vectorString") val vectorString: String,
+//	@JsonProperty("attackVector") val attackVector: String,
+//	@JsonProperty("attackComplexity") val attackComplexity: String,
+//	@JsonProperty("privilegesRequired") val privilegesRequired: String,
+//	@JsonProperty("userInteraction") val userInteraction: String,
+//	@JsonProperty("scope") val scope: String,
+//	@JsonProperty("confidentialityImpact") val confidentialityImpact: String,
+//	@JsonProperty("integrityImpact") val integrityImpact: String,
+//	@JsonProperty("availabilityImpact") val availabilityImpact: String,
+//	@JsonProperty("baseScore") val baseScore: Float,
+//	@JsonProperty("baseSeverity") val baseSeverity: Float,
+//	@JsonProperty("exploitCodeMaturity") val exploitCodeMaturity: String,
+//)

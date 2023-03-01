@@ -3,16 +3,13 @@ package com.willbanksy.vulnfind.ui
 import android.annotation.SuppressLint
 import androidx.annotation.StringRes
 import androidx.compose.animation.*
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -63,7 +60,8 @@ fun MainActivityView(model: VulnListModel) {
 				
 				val topPadding = WindowInsets.systemBars.asPaddingValues().calculateTopPadding()
 				TopAppBar(
-					contentPadding = PaddingValues(top = topPadding)
+					contentPadding = PaddingValues(top = topPadding),
+					elevation = 0.dp
 				) {
 					Text(
 						text = label,
@@ -76,14 +74,17 @@ fun MainActivityView(model: VulnListModel) {
 			bottomBar = {
 				val bottomPadding = WindowInsets.systemBars.asPaddingValues().calculateBottomPadding()
 				BottomAppBar(
-					contentPadding = PaddingValues(bottom = bottomPadding)
+					contentPadding = PaddingValues(bottom = bottomPadding),
+					elevation = 0.dp
 				) {
-					BottomNavigation {
+					BottomNavigation(
+						elevation = 0.dp
+					) {
 						val navBackStackEntry by navController.currentBackStackEntryAsState()
 						val currentDestination = navBackStackEntry?.destination
 						navItems.forEach { navDest ->
 							BottomNavigationItem(
-								icon = { Icon(imageVector = navDest.icon, contentDescription = null)},
+								icon = { Icon(imageVector = navDest.icon, contentDescription = null) },
 								label = { Text(text = stringResource(id = navDest.labelTextRes)) },
 								selected = currentDestination?.hierarchy?.any { it.route == navDest.route } == true,
 								onClick = {

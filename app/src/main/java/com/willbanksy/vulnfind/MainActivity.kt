@@ -25,7 +25,7 @@ class MainActivity : ComponentActivity() {
 				vulnDB = Room.databaseBuilder(this, VulnDB::class.java, "VulnDB").build()
 				repository = VulnRepository(VulnRemoteDataSource(), VulnLocalDataSource(vulnDB.dao()))
 				model = VulnListModel(repository)
-//				model.refreshId("CVE-2019-1010218")
+				model.refreshId("CVE-2019-1010218")
 //				model.refreshId("CVE-2022-47634")
 				MainActivityView(model)
 			}
