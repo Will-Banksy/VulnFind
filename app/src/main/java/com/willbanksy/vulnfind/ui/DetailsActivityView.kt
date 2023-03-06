@@ -9,7 +9,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.willbanksy.vulnfind.R
 import com.willbanksy.vulnfind.model.VulnListModel
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -27,18 +29,7 @@ fun DetailsActivityView(model: VulnListModel, cveId: String) {
 	) {
 		Scaffold(
 			topBar = {
-				val topPadding = WindowInsets.systemBars.asPaddingValues().calculateTopPadding()
-				TopAppBar(
-					contentPadding = PaddingValues(top = topPadding, start = 8.dp, end = 8.dp),
-					elevation = 0.dp
-				) {
-					Text(
-						text = "Vulnerability Details",
-						style = MaterialTheme.typography.h6,
-						color = MaterialTheme.colors.onSurface,
-						modifier = Modifier.padding(start =  8.dp)
-					)
-				}
+				TopBarView(label = stringResource(R.string.activity_details_title), true)
 			}
 		) {
 			Box(

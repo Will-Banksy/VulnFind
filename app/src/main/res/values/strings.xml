@@ -1,14 +1,22 @@
 <resources>
-<!-- TODO: Use this instead of hardcoded user-visible strings -->
     <string name="app_name">VulnFind</string>
-    <string name="label_vulnlist">Vuln List</string>
-    <string name="label_vulnsearch">Search</string>
-    <string name="title_vulnlist">Vulnerability List</string>
-    <string name="title_vulnsearch">Vulnerability Search</string>
-    <string name="title_activity_details">DetailsActivity</string>
-    
+
+    <string name="activity.main_title">VulnFind</string>
+    <string name="activity.details_title">Vulnerability Details</string>
+    <string name="activity.settings_title">Settings</string>
+
     <string name="notification.channel_name">Download/Sync</string>
     <string name="notification.channel_desc">Category for notifications that inform users of ongoing network operations</string>
+
+    <string name="view.topbar_back_icon_name">Back</string>
     <string name="view.menu_button">Menu</string>
-    <string name="view_search_button">Search</string>
+    <string name="view.search_button">Search</string>
+
+    <string name="view.menu_title">Main Menu</string>
+    <string name="view.menu_close_button_icon_name">Close Menu</string>
+    <string name="view.menu.refresh_icon_name">Refresh</string>
+    <string name="view.menu.refresh_title">Refresh Local Database</string>
+    <string name="view.menu.settings_icon_name">Settings</string>
+    <string name="view.menu.settings_title">Settings</string>
+    <string name="title_activity_settings">SettingsActivity</string>
 </resources>
