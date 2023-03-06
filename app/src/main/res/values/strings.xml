@@ -1,8 +1,14 @@
 <resources>
+<!-- TODO: Use this instead of hardcoded user-visible strings -->
     <string name="app_name">VulnFind</string>
     <string name="label_vulnlist">Vuln List</string>
     <string name="label_vulnsearch">Search</string>
     <string name="title_vulnlist">Vulnerability List</string>
     <string name="title_vulnsearch">Vulnerability Search</string>
     <string name="title_activity_details">DetailsActivity</string>
+    
+    <string name="notification.channel_name">Download/Sync</string>
+    <string name="notification.channel_desc">Category for notifications that inform users of ongoing network operations</string>
+    <string name="view.menu_button">Menu</string>
+    <string name="view_search_button">Search</string>
 </resources>

@@ -1,6 +1,5 @@
 package com.willbanksy.vulnfind.ui
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CornerSize
@@ -33,14 +32,13 @@ fun VulnItemCardView(modifier: Modifier, vuln: VulnItemWithMetrics) {
 					style = MaterialTheme.typography.h5
 				)
 				val baseScore: Float? = vuln.metrics.getOrNull(0)?.baseScore
-				Log.d("METRICS", vuln.metrics.toString())
-//				if(baseScore != null) {
-					val background = if((baseScore ?: 0f) >= 7.5f) {
+				if(baseScore != null) {
+					val background = if(baseScore >= 7.5f) {
 						MaterialTheme.colors.error
 					} else {
 						MaterialTheme.colors.surface
 					}
-					val foreground = if((baseScore ?: 0f) >= 7.5f) {
+					val foreground = if(baseScore >= 7.5f) {
 						MaterialTheme.colors.onError
 					} else {
 						MaterialTheme.colors.onSurface
@@ -52,7 +50,7 @@ fun VulnItemCardView(modifier: Modifier, vuln: VulnItemWithMetrics) {
 							color = foreground
 						)
 					}
-//				}
+				}
 			}
             Spacer(modifier = Modifier.height(2.dp))
             Text(

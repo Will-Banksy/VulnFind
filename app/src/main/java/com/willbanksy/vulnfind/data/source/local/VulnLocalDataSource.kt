@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 
 class VulnLocalDataSource(
     private val dao: VulnDBDao,
-    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
+//    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : VulnDataSource {
     override fun getVulnStream(cveId: String): Flow<VulnItemWithMetrics?> {
         return dao.observeById(cveId)
@@ -34,8 +34,9 @@ class VulnLocalDataSource(
     }
 
     override suspend fun addVulns(vulns: List<VulnItemWithMetrics>) {
-//        dao.insertAll(vulns)
-		TODO()
+		for (v in vulns) {
+			dao.insert(v.item, v.metrics)
+		}
     }
 
     override suspend fun refresh() {

@@ -15,7 +15,7 @@ interface VulnDBDao {
 //	@Transaction
 //    @Query("SELECT * FROM VulnDB WHERE cve_id = :cveId")
 //    fun getById(cveId: String): VulnItemWithMetrics?
-//    
+
 	@Transaction
     @Query("SELECT * FROM VulnDB")
     fun observeAll(): Flow<List<VulnItemWithMetrics>>
@@ -26,14 +26,14 @@ interface VulnDBDao {
 	
 	@Query("SELECT * FROM VulnMetrics")
 	fun getAllMetrics(): Flow<List<VulnMetric>>
-//
+
 //	@Transaction
 //    @Query("SELECT * FROM VulnDB WHERE cve_id LIKE :searchTerm")
 //    fun search(searchTerm: String): List<VulnItemWithMetrics>
-//    
+
 //	@Transaction
 //    @Insert(onConflict = OnConflictStrategy.REPLACE)
-//    fun insertAll(vulns: List<VulnItemWithMetrics>)
+//    fun insertAll(vulns: List<VulnItem>, metrics: List<List<VulnMetric>>)
 
 	@Transaction
     @Insert(onConflict = OnConflictStrategy.REPLACE)

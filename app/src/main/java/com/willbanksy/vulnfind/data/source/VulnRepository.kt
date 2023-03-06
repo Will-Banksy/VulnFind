@@ -14,10 +14,26 @@ class VulnRepository(
 ) {
 	val vulns: Flow<List<VulnItemWithMetrics>> = local.getVulnsStream()
 	
-	suspend fun refresh() {
+	data class PagingInfo(
+		val itemsPerPage: Int,
+		val totalItems: Int
+	)
+	
+	suspend fun refreshWithPagingInfo(): PagingInfo? {
+		var pagingInfo: PagingInfo?
 		withContext(Dispatchers.IO) {
 			// Download vulns to local database
-			TODO("Refreshing/downloading of DB from NVD not yet implemented")
+			val dataWithPagingInfo = remote.refreshWithPagingInfo()
+			pagingInfo = dataWithPagingInfo?.pagingInfo
+			local.addVulns(dataWithPagingInfo?.data ?: emptyList())
+		}
+		return pagingInfo
+	}
+	
+	suspend fun refreshSection(sectionIdx: Int, info: PagingInfo) {
+		withContext(Dispatchers.IO) {
+			val vulns = remote.refreshSection(sectionIdx, info)
+			local.addVulns(vulns)
 		}
 	}
 	

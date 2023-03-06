@@ -13,7 +13,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
-private val DarkColorPalette = darkColors(
+private val DarkColorPalette = darkColors( // TODO: Tweak dark theme colours
 	primary = Purple200,
 	primaryVariant = Purple700,
 	secondary = Teal200,

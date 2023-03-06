@@ -1,8 +1,6 @@
 package com.willbanksy.vulnfind.ui
 
 import android.content.Intent
-import android.util.Log
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -16,13 +14,11 @@ import androidx.core.content.ContextCompat.startActivity
 import com.willbanksy.vulnfind.DetailsActivity
 import com.willbanksy.vulnfind.model.VulnListModel
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun VulnListView(model: VulnListModel) {
 	val vulns = model.vulnsStream.collectAsState(initial = emptyList())
 	Box(
 		modifier = Modifier
-//            .padding(8.dp)
 			.fillMaxSize()
 	) {
 		LazyColumn(
@@ -34,12 +30,9 @@ fun VulnListView(model: VulnListModel) {
 					putExtra("cveId", item.item.cveId)
 				}
 				val context = LocalContext.current
-//				val expanded = remember { mutableStateOf(false) }
 				VulnItemCardView(
 					modifier = Modifier.clickable {
 						startActivity(context, intent, null)
-//						expanded.value = true
-						Log.d("CONTENT ANIM", "Expanded Vuln Card View")
 					},
 					vuln = item
 				)

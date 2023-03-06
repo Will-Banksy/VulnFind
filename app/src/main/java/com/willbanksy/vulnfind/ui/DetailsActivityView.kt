@@ -4,10 +4,7 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
@@ -18,28 +15,38 @@ import com.willbanksy.vulnfind.model.VulnListModel
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun DetailsActivityView(model: VulnListModel, cveId: String) {
+	val vulnStream = remember {
+		model.getById(cveId)
+	}
+
+	val vuln = vulnStream.collectAsState(initial = null).value
+	val vulnTitle = vuln?.item?.cveId ?: "Not Found"
 	Surface(
 		modifier = Modifier.fillMaxSize(),
 		color = MaterialTheme.colors.background
 	) {
-		Scaffold {
-			val vulnStream = remember {
-				model.getById(cveId)
+		Scaffold(
+			topBar = {
+				val topPadding = WindowInsets.systemBars.asPaddingValues().calculateTopPadding()
+				TopAppBar(
+					contentPadding = PaddingValues(top = topPadding, start = 8.dp, end = 8.dp),
+					elevation = 0.dp
+				) {
+					Text(
+						text = "Vulnerability Details",
+						style = MaterialTheme.typography.h6,
+						color = MaterialTheme.colors.onSurface,
+						modifier = Modifier.padding(start =  8.dp)
+					)
+				}
 			}
-			
-			val vuln = vulnStream.collectAsState(initial = null).value
-			val vulnTitle = vuln?.item?.cveId ?: "Not Found"
-			
-			val topPadding = WindowInsets.systemBars.asPaddingValues().calculateTopPadding()
-			val bottomPadding = WindowInsets.systemBars.asPaddingValues().calculateBottomPadding()
+		) {
 			Box(
 				modifier = Modifier
 					.fillMaxSize()
-					.padding(8.dp)
+					.padding(16.dp)
 			) {
-				Column(
-					modifier = Modifier.padding(top = topPadding, bottom = bottomPadding)
-				) {
+				Column {
 					Text(
 						text = vulnTitle,
 						style = MaterialTheme.typography.h4
