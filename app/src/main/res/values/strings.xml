@@ -18,5 +18,4 @@
     <string name="view.menu.refresh_title">Refresh Local Database</string>
     <string name="view.menu.settings_icon_name">Settings</string>
     <string name="view.menu.settings_title">Settings</string>
-    <string name="title_activity_settings">SettingsActivity</string>
 </resources>

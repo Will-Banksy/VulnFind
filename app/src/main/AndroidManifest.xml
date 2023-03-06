@@ -10,7 +10,7 @@
             android:allowBackup="true"
             android:dataExtractionRules="@xml/data_extraction_rules"
             android:fullBackupContent="@xml/backup_rules"
-            android:icon="@mipmap/ic_launcher"
+            android:icon="@mipmap/vulnfind_launcher_icon"
             android:label="@string/app_name"
             android:supportsRtl="true"
             android:theme="@style/Theme.VulnFind"
@@ -18,7 +18,7 @@
         <activity
                 android:name=".SettingsActivity"
                 android:exported="false"
-                android:label="@string/title_activity_settings"
+                android:label="@string/activity.settings_title"
                 android:theme="@style/Theme.VulnFind" />
         <activity
                 android:name=".DetailsActivity"
