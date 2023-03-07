@@ -11,8 +11,8 @@ class VulnRemoteDataSource : VulnDataSource { // TODO: Rate Limiting
 		val data: List<VulnItemWithMetrics>
 	)
 	
-	private val client = NVDClient.getClient()
-	private val api = client.create(NVDApi::class.java)
+	private val client = NvdClient.getClient()
+	private val api = client.create(NvdApi::class.java)
 	
 	override fun getVulnStream(cveId: String): Flow<VulnItemWithMetrics?> {
 		throw UnsupportedOperationException()

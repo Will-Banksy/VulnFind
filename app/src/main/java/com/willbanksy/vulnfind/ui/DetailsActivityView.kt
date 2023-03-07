@@ -13,6 +13,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.willbanksy.vulnfind.R
 import com.willbanksy.vulnfind.model.VulnListModel
+import com.willbanksy.vulnfind.ui.components.TopBarView
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable

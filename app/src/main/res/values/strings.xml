@@ -18,4 +18,6 @@
     <string name="view.menu.refresh_title">Refresh Local Database</string>
     <string name="view.menu.settings_icon_name">Settings</string>
     <string name="view.menu.settings_title">Settings</string>
+    <string name="view.menu.about_icon_name">About</string>
+    <string name="view.menu.about_title">About</string>
 </resources>

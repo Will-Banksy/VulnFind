@@ -10,7 +10,7 @@ import okhttp3.Response
 import retrofit2.Retrofit
 import retrofit2.converter.jackson.JacksonConverterFactory
 
-object NVDClient {
+object NvdClient {
 	private const val BASE_URL = "https://services.nvd.nist.gov/"
 	
 	private val okHttpClient: OkHttpClient = OkHttpClient()

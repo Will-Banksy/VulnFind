@@ -3,6 +3,7 @@ package com.willbanksy.vulnfind.ui
 import android.annotation.SuppressLint
 import androidx.activity.result.ActivityResultLauncher
 import androidx.compose.animation.*
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -15,6 +16,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.willbanksy.vulnfind.R
 import com.willbanksy.vulnfind.model.VulnListModel
+import com.willbanksy.vulnfind.ui.components.MenuSheetView
+import com.willbanksy.vulnfind.ui.components.TopBarView
+import com.willbanksy.vulnfind.ui.components.VulnListView
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -25,11 +29,14 @@ fun MainActivityView(model: VulnListModel, notifPermissionRequest: ActivityResul
 		modifier = Modifier.fillMaxSize(),
 		color = MaterialTheme.colors.background
 	) {
-		val bottomSheetState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
+		val bottomSheetState = rememberModalBottomSheetState(
+			initialValue = ModalBottomSheetValue.Hidden,
+			animationSpec = tween(350)
+		)
 		ModalBottomSheetLayout(
 			sheetState = bottomSheetState,
 			scrimColor = Color.Black.copy(alpha = 0.8f),
-			sheetContentColor = MaterialTheme.colors.surface,
+			sheetBackgroundColor = MaterialTheme.colors.surface,
 			sheetElevation = 2.dp,
 			sheetContent = {
 				MenuSheetView(model, bottomSheetState, notifPermissionRequest)
@@ -61,7 +68,7 @@ fun MainActivityView(model: VulnListModel, notifPermissionRequest: ActivityResul
 						IconButton(onClick = { /*TODO*/ }) {
 							Icon(
 								imageVector = Icons.Filled.Search,
-								contentDescription = stringResource(id = R.string.view_search_button),
+								contentDescription = stringResource(R.string.view_search_button),
 								tint = Color.White
 							)
 						}

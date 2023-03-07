@@ -1,4 +1,4 @@
-package com.willbanksy.vulnfind.ui
+package com.willbanksy.vulnfind.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*

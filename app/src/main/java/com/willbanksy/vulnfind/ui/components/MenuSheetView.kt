@@ -1,4 +1,4 @@
-package com.willbanksy.vulnfind.ui
+package com.willbanksy.vulnfind.ui.components
 
 import android.Manifest
 import android.content.Intent
@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
@@ -68,9 +69,7 @@ fun MenuSheetView(model: VulnListModel, sheetState: ModalBottomSheetState, notif
 		val coroutineScope = rememberCoroutineScope()
 		
 		MenuSheetItemView(modifier = Modifier.clickable {
-			coroutineScope.launch {
-				sheetState.hide()
-			}
+			// TODO: Confirmation sheet
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
 				if(context.checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED){
 					val work: WorkRequest = OneTimeWorkRequestBuilder<DownloadWorker>().build()
@@ -94,6 +93,13 @@ fun MenuSheetView(model: VulnListModel, sheetState: ModalBottomSheetState, notif
 			icon = Icons.Filled.Settings,
 			iconDesc = stringResource(R.string.view_menu_settings_icon_name),
 			itemDesc = stringResource(R.string.view_menu_settings_title)
+		)
+		MenuSheetItemView(modifier = Modifier.clickable {
+			// TODO
+		},
+			icon = Icons.Filled.Info,
+			iconDesc = stringResource(R.string.view_menu_about_icon_name),
+			itemDesc = stringResource(R.string.view_menu_about_title)
 		)
 	}
 }

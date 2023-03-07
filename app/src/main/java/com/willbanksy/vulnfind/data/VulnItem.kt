@@ -14,7 +14,7 @@ import androidx.room.*
 //}
 
 @Entity(tableName = "VulnDB")
-data class VulnItem( // TODO: Add more fields to this. Make sure to update NVDDtosMapper.kt when I do
+data class VulnItem( // TODO: Add more fields to this. Make sure to update NvdDtosMapper.kt when I do
 	@PrimaryKey @ColumnInfo("cve_id") val cveId: String = "",
 	val description: String = "",
 	@ColumnInfo("published_date") val publishedDate: String = "",

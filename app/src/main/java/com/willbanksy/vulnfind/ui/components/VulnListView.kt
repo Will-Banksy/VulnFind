@@ -1,4 +1,4 @@
-package com.willbanksy.vulnfind.ui
+package com.willbanksy.vulnfind.ui.components
 
 import android.content.Intent
 import androidx.compose.foundation.clickable

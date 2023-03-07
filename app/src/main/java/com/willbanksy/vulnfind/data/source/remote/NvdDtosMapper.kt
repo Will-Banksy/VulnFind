@@ -1,7 +1,5 @@
 package com.willbanksy.vulnfind.data.source.remote
 
-import android.content.ContentValues.TAG
-import android.util.Log
 import com.willbanksy.vulnfind.data.VulnItem
 import com.willbanksy.vulnfind.data.VulnItemWithMetrics
 import com.willbanksy.vulnfind.data.VulnMetric

@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.willbanksy.vulnfind.R
+import com.willbanksy.vulnfind.ui.components.TopBarView
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
