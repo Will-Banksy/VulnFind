@@ -9,13 +9,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat.startActivity
 import com.willbanksy.vulnfind.DetailsActivity
 import com.willbanksy.vulnfind.model.VulnListModel
 
 @Composable
-fun VulnListView(model: VulnListModel) {
+fun VulnListView(model: VulnListModel, additionalPadding: PaddingValues = PaddingValues(0.dp)) {
 	val vulns = model.vulnsStream.collectAsState(initial = emptyList())
 	Box(
 		modifier = Modifier
@@ -23,7 +24,12 @@ fun VulnListView(model: VulnListModel) {
 	) {
 		LazyColumn(
 			verticalArrangement = Arrangement.spacedBy(8.dp),
-			contentPadding = PaddingValues(8.dp)
+			contentPadding = PaddingValues(
+				start = 8.dp + additionalPadding.calculateStartPadding(LayoutDirection.Rtl),
+				top = 8.dp + additionalPadding.calculateTopPadding(),
+				end = 8.dp + additionalPadding.calculateEndPadding(LayoutDirection.Rtl),
+				bottom = 8.dp + additionalPadding.calculateBottomPadding()
+			)
 		) {
 			items(vulns.value) { item ->
 				val intent = Intent(LocalContext.current, DetailsActivity::class.java).apply {

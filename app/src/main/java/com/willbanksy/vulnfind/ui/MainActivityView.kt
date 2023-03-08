@@ -16,9 +16,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.willbanksy.vulnfind.R
 import com.willbanksy.vulnfind.model.VulnListModel
+import com.willbanksy.vulnfind.ui.components.HomeScreenView
 import com.willbanksy.vulnfind.ui.components.MenuSheetView
 import com.willbanksy.vulnfind.ui.components.TopBarView
-import com.willbanksy.vulnfind.ui.components.VulnListView
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -75,7 +75,7 @@ fun MainActivityView(model: VulnListModel, notifPermissionRequest: ActivityResul
 					}
 				}
 			) {
-				VulnListView(model)
+				HomeScreenView()
 			}
 		}
 	}

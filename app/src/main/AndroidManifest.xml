@@ -16,6 +16,11 @@
             android:theme="@style/Theme.VulnFind"
             tools:targetApi="33">
         <activity
+                android:name=".ListingActivity"
+                android:exported="false"
+                android:label="@string/activity.listing_title"
+                android:theme="@style/Theme.VulnFind" />
+        <activity
                 android:name=".SettingsActivity"
                 android:exported="false"
                 android:label="@string/activity.settings_title"

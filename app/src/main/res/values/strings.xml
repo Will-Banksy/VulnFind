@@ -4,6 +4,7 @@
     <string name="activity.main_title">VulnFind</string>
     <string name="activity.details_title">Vulnerability Details</string>
     <string name="activity.settings_title">Settings</string>
+    <string name="activity.listing_title">Full Listing</string>
 
     <string name="notification.channel_name">Download/Sync</string>
     <string name="notification.channel_desc">Category for notifications that inform users of ongoing network operations</string>
@@ -20,4 +21,7 @@
     <string name="view.menu.settings_title">Settings</string>
     <string name="view.menu.about_icon_name">About</string>
     <string name="view.menu.about_title">About</string>
+    
+    <string name="view.home.listing_icon_name">List</string>
+    <string name="view.home.listing_title">Full Listing</string>
 </resources>
