@@ -32,7 +32,7 @@ class MainActivity : ComponentActivity() {
 		
 		setContent {
 			VulnFindTheme {
-				vulnDB = Room.databaseBuilder(this, VulnDB::class.java, "VulnDB").build()
+				vulnDB = Room.databaseBuilder(this, VulnDB::class.java, "VulnDB").enableMultiInstanceInvalidation().build()
 				repository = VulnRepository(VulnRemoteDataSource(), VulnLocalDataSource(vulnDB.dao()))
 				model = VulnListModel(repository)
 //				model.refreshId("CVE-2019-1010218")

@@ -22,9 +22,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat.startActivity
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.WorkManager
-import androidx.work.WorkRequest
+import androidx.work.*
+import com.willbanksy.vulnfind.AboutActivity
 import com.willbanksy.vulnfind.model.VulnListModel
 import com.willbanksy.vulnfind.R
 import com.willbanksy.vulnfind.SettingsActivity
@@ -68,12 +67,23 @@ fun MenuSheetView(model: VulnListModel, sheetState: ModalBottomSheetState, notif
 		val context = LocalContext.current
 		val coroutineScope = rememberCoroutineScope()
 		
+		val workInfoLiveData = WorkManager.getInstance(context).getWorkInfosForUniqueWorkLiveData(DownloadWorker.UNIQUE_WORK_ID)
+		if(workInfoLiveData.value != null) {
+			Text(text = "Worker is running!")
+		} else {
+			Text(text = "Worker is not running")
+		}
+		
 		MenuSheetItemView(modifier = Modifier.clickable {
-			// TODO: Confirmation sheet
+			// TODO: Confirmation & information sheet
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
 				if(context.checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED){
-					val work: WorkRequest = OneTimeWorkRequestBuilder<DownloadWorker>().build()
-					WorkManager.getInstance(context).enqueue(work)
+					val work: OneTimeWorkRequest = OneTimeWorkRequestBuilder<DownloadWorker>().build()
+					WorkManager.getInstance(context).enqueueUniqueWork(
+						DownloadWorker.UNIQUE_WORK_ID,
+						ExistingWorkPolicy.KEEP,
+						work
+					)
 				} else {
 					notifPermissionRequest.launch(Manifest.permission.POST_NOTIFICATIONS)
 				}
@@ -95,7 +105,11 @@ fun MenuSheetView(model: VulnListModel, sheetState: ModalBottomSheetState, notif
 			itemDesc = stringResource(R.string.view_menu_settings_title)
 		)
 		MenuSheetItemView(modifier = Modifier.clickable {
-			// TODO
+			coroutineScope.launch {
+				sheetState.hide()
+			}
+			val intent = Intent(context, AboutActivity::class.java)
+			startActivity(context, intent, null)
 		},
 			icon = Icons.Filled.Info,
 			iconDesc = stringResource(R.string.view_menu_about_icon_name),

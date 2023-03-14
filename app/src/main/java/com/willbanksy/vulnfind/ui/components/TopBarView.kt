@@ -17,7 +17,8 @@ fun TopBarView(label: String, showBackButton: Boolean = false) {
 	val topPadding = WindowInsets.systemBars.asPaddingValues().calculateTopPadding()
 	TopAppBar(
 		contentPadding = PaddingValues(top = topPadding, start = 8.dp, end = 8.dp),
-		elevation = 0.dp
+		elevation = 0.dp,
+		backgroundColor = MaterialTheme.colors.surface
 	) {
 		if(showBackButton) {
 			val activity = (LocalContext.current as? Activity)

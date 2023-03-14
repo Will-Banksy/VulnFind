@@ -8,11 +8,13 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.willbanksy.vulnfind.data.VulnItemWithMetrics
+import com.willbanksy.vulnfind.util.pickPrimaryMetric
 
 @Composable
 fun VulnItemCardView(modifier: Modifier, vuln: VulnItemWithMetrics) {
@@ -26,30 +28,19 @@ fun VulnItemCardView(modifier: Modifier, vuln: VulnItemWithMetrics) {
         Column(
             modifier = Modifier.padding(8.dp)
         ) {
-			Row {
+			Row(
+				verticalAlignment = Alignment.CenterVertically
+			) {
 				Text(
 					text = vuln.item.cveId,
 					style = MaterialTheme.typography.h5
 				)
-				val baseScore: Float? = vuln.metrics.getOrNull(0)?.baseScore
+				Spacer(modifier = Modifier.width(8.dp))
+				Spacer(modifier = Modifier.weight(1f))
+				val metric = pickPrimaryMetric(vuln.metrics)
+				val baseScore: Float? = metric?.baseScore
 				if(baseScore != null) {
-					val background = if(baseScore >= 7.5f) {
-						MaterialTheme.colors.error
-					} else {
-						MaterialTheme.colors.surface
-					}
-					val foreground = if(baseScore >= 7.5f) {
-						MaterialTheme.colors.onError
-					} else {
-						MaterialTheme.colors.onSurface
-					}
-					Box {
-						Text(
-							text = baseScore.toString(),
-							modifier = Modifier.background(background),
-							color = foreground
-						)
-					}
+					CvssRatingChipView(metric.version, baseScore)
 				}
 			}
             Spacer(modifier = Modifier.height(2.dp))
@@ -57,7 +48,7 @@ fun VulnItemCardView(modifier: Modifier, vuln: VulnItemWithMetrics) {
                 text = vuln.item.description,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
-                fontStyle = FontStyle.Italic, // Doesn't seem to work on my phone with Samsung Sans unless I change my system font to Default
+                fontStyle = FontStyle.Italic,
                 color = MaterialTheme.colors.onBackground.copy(alpha = 0.5f)
             )
         }

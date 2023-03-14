@@ -8,7 +8,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.List
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -16,9 +16,10 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat.startActivity
 import com.willbanksy.vulnfind.ListingActivity
 import com.willbanksy.vulnfind.R
+import com.willbanksy.vulnfind.model.VulnListModel
 
 @Composable
-fun HomeScreenView() {
+fun HomeScreenView(model: VulnListModel) {
 	Column {
 		val context = LocalContext.current
 		val intent = Intent(context, ListingActivity::class.java)

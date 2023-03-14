@@ -3,6 +3,10 @@ package com.willbanksy.vulnfind.data.source.remote
 import com.willbanksy.vulnfind.data.VulnItem
 import com.willbanksy.vulnfind.data.VulnItemWithMetrics
 import com.willbanksy.vulnfind.data.VulnMetric
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.ZoneOffset
+import java.time.format.DateTimeFormatter
 
 fun mapToItems(listingDto: CveListingDto?): List<VulnItemWithMetrics> {
 	return listingDto.let { cveListing ->
@@ -17,7 +21,7 @@ fun mapToItems(listingDto: CveListingDto?): List<VulnItemWithMetrics> {
 			val metrics = combinedLists.map { dto ->
 				metricId++
 				VulnMetric(
-					id = "${metricId}.${metricId}",
+					id = "${cve.id}.${metricId}",
 					of_cve_id = cve.id,
 					version = "CVSS ${dto.cvssData.version}",
 					vectorString = dto.cvssData.vectorString,
@@ -31,6 +35,7 @@ fun mapToItems(listingDto: CveListingDto?): List<VulnItemWithMetrics> {
 					description = description,
 					publishedDate = cve.published,
 					lastModifiedDate = cve.lastModified,
+					publishedDateUnix = LocalDateTime.parse(cve.published, DateTimeFormatter.ISO_DATE_TIME).toEpochSecond(ZoneOffset.UTC)
 				),
 				metrics = metrics,
 			)

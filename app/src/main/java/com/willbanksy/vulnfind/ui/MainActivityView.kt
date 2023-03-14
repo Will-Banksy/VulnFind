@@ -44,13 +44,14 @@ fun MainActivityView(model: VulnListModel, notifPermissionRequest: ActivityResul
 		) {
 			Scaffold(
 				topBar = {
-					TopBarView(label = stringResource(R.string.app_name))
+					TopBarView(label = stringResource(R.string.activity_main_title))
 				},
 				bottomBar = {
 					val bottomPadding = WindowInsets.systemBars.asPaddingValues().calculateBottomPadding()
 					BottomAppBar(
 						contentPadding = PaddingValues(bottom = bottomPadding, start = 8.dp, end = 8.dp),
-						elevation = 0.dp
+						elevation = 0.dp,
+						backgroundColor = MaterialTheme.colors.surface
 					) {
 						val coroutineScope = rememberCoroutineScope()
 						IconButton(onClick = {
@@ -61,7 +62,7 @@ fun MainActivityView(model: VulnListModel, notifPermissionRequest: ActivityResul
 							Icon(
 								imageVector = Icons.Filled.Menu,
 								contentDescription = stringResource(R.string.view_menu_button),
-								tint = Color.White
+								tint = MaterialTheme.colors.onSurface
 							)
 						}
 						Spacer(modifier = Modifier.weight(1f))
@@ -69,13 +70,13 @@ fun MainActivityView(model: VulnListModel, notifPermissionRequest: ActivityResul
 							Icon(
 								imageVector = Icons.Filled.Search,
 								contentDescription = stringResource(R.string.view_search_button),
-								tint = Color.White
+								tint = MaterialTheme.colors.onSurface
 							)
 						}
 					}
 				}
 			) {
-				HomeScreenView()
+				HomeScreenView(model)
 			}
 		}
 	}

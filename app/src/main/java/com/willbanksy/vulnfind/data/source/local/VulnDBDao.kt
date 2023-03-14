@@ -17,15 +17,15 @@ interface VulnDBDao {
 //    fun getById(cveId: String): VulnItemWithMetrics?
 
 	@Transaction
-    @Query("SELECT * FROM VulnDB")
+    @Query("SELECT * FROM VulnDB ORDER BY published_date_unix DESC")
     fun observeAll(): Flow<List<VulnItemWithMetrics>>
 
 	@Transaction
     @Query("SELECT * FROM VulnDB WHERE cve_id = :cveId")
     fun observeById(cveId: String): Flow<VulnItemWithMetrics?>
 	
-	@Query("SELECT * FROM VulnMetrics")
-	fun getAllMetrics(): Flow<List<VulnMetric>>
+//	@Query("SELECT * FROM VulnMetrics")
+//	fun getAllMetrics(): Flow<List<VulnMetric>>
 
 //	@Transaction
 //    @Query("SELECT * FROM VulnDB WHERE cve_id LIKE :searchTerm")

@@ -1,10 +1,8 @@
 package com.willbanksy.vulnfind.data.source.local
 
+import androidx.lifecycle.LiveData
 import com.willbanksy.vulnfind.data.VulnItemWithMetrics
-import com.willbanksy.vulnfind.data.VulnMetric
 import com.willbanksy.vulnfind.data.source.VulnDataSource
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 
 class VulnLocalDataSource(
@@ -43,7 +41,7 @@ class VulnLocalDataSource(
         // NO-OP
     }
 	
-	fun getAllMetrics(): Flow<List<VulnMetric>> {
-		return dao.getAllMetrics()
-	}
+//	fun getAllMetrics(): Flow<List<VulnMetric>> {
+//		return dao.getAllMetrics()
+//	}
 }

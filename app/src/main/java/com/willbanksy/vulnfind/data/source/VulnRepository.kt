@@ -1,7 +1,6 @@
 package com.willbanksy.vulnfind.data.source
 
 import com.willbanksy.vulnfind.data.VulnItemWithMetrics
-import com.willbanksy.vulnfind.data.VulnMetric
 import com.willbanksy.vulnfind.data.source.local.VulnLocalDataSource
 import com.willbanksy.vulnfind.data.source.remote.VulnRemoteDataSource
 import kotlinx.coroutines.Dispatchers
@@ -12,7 +11,7 @@ class VulnRepository(
 	private val remote: VulnRemoteDataSource,
 	private val local: VulnLocalDataSource
 ) {
-	val vulns: Flow<List<VulnItemWithMetrics>> = local.getVulnsStream()
+//	val vulns: LiveData<List<VulnItemWithMetrics>> = local.getVulnsStream() // LiveData objects shouldn't live in the repository
 	
 	data class PagingInfo(
 		val itemsPerPage: Int,
@@ -37,40 +36,44 @@ class VulnRepository(
 		}
 	}
 	
-	suspend fun refreshId(cveId: String) {
-		withContext(Dispatchers.IO) {
-			val remoteCve = remote.getVuln(cveId)
-			if(remoteCve != null) { 
-				local.addVuln(remoteCve)
-			}
-		}
-	}
+//	suspend fun refreshId(cveId: String) {
+//		withContext(Dispatchers.IO) {
+//			val remoteCve = remote.getVuln(cveId)
+//			if(remoteCve != null) { 
+//				local.addVuln(remoteCve)
+//			}
+//		}
+//	}
 	
-	fun getAllMetrics(): Flow<List<VulnMetric>> {
-		return local.getAllMetrics()
-	}
+//	fun getAllMetrics(): Flow<List<VulnMetric>> {
+//		return local.getAllMetrics()
+//	}
 	
-	fun getVulnStream(cveId: String): Flow<VulnItemWithMetrics?> {
+	fun getVuln(cveId: String): Flow<VulnItemWithMetrics?> {
 		// BUG: This will return null if the CVE ID is not in the local database. Need some way of fetching from remote
 		return local.getVulnStream(cveId)
 	}
 
-	suspend fun getVuln(cveId: String): VulnItemWithMetrics? {
-		var localVuln = local.getVuln(cveId)
-		if(localVuln == null) {
-			refreshId(cveId)
-			localVuln = local.getVuln(cveId)
-		}
-		return localVuln
+//	suspend fun getVuln(cveId: String): VulnItemWithMetrics? {
+//		var localVuln = local.getVuln(cveId)
+//		if(localVuln == null) {
+//			refreshId(cveId)
+//			localVuln = local.getVuln(cveId)
+//		}
+//		return localVuln
+//	}
+	
+	fun getVulns(): Flow<List<VulnItemWithMetrics>> {
+		return local.getVulnsStream()
 	}
 	
-	suspend fun getVulns(): List<VulnItemWithMetrics> {
-		return local.getVulns()
-	}
+//	suspend fun getVulns(): List<VulnItemWithMetrics> {
+//		return local.getVulns()
+//	}
 	
-	suspend fun manuallySaveToDB(vulns: List<VulnItemWithMetrics>) {
-		withContext(Dispatchers.IO) {
-			local.addVulns(vulns)
-		}
-	}
+//	suspend fun manuallySaveToDB(vulns: List<VulnItemWithMetrics>) {
+//		withContext(Dispatchers.IO) {
+//			local.addVulns(vulns)
+//		}
+//	}
 }

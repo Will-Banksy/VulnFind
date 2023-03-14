@@ -14,17 +14,18 @@ import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
 private val DarkColorPalette = darkColors( // TODO: Tweak dark theme colours
-	primary = Purple200,
-	primaryVariant = Purple700,
-	secondary = Teal200,
+	primary = Purple600,
+	primaryVariant = Purple300,
+	secondary = Blue800,
 	background = Color.Black,
 	surface = Color.Black
 )
 
 private val LightColorPalette = lightColors(
-	primary = Purple500,
-	primaryVariant = Purple700,
-	secondary = Teal200
+	primary = Purple600,
+	primaryVariant = Purple300,
+	secondary = Blue800,
+	surface = Color.White
 
 	/* Other default colors to override
 	background = Color.White,

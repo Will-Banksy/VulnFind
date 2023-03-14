@@ -19,6 +19,8 @@ data class VulnItem( // TODO: Add more fields to this. Make sure to update NvdDt
 	val description: String = "",
 	@ColumnInfo("published_date") val publishedDate: String = "",
 	@ColumnInfo("last_modified_date") val lastModifiedDate: String = "",
+	/// The published date in Unix time to speed up sorting by published date
+	@ColumnInfo("published_date_unix") val publishedDateUnix: Long
 //	val references: List<VulnReference>
 )
 

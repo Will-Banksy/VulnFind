@@ -1,10 +1,12 @@
 <resources>
-    <string name="app_name">VulnFind</string>
+    <string name="app.name">VulnFind</string>
+    <string name="app.version_string">1.0</string>
 
-    <string name="activity.main_title">VulnFind</string>
+    <string name="activity.main_title">Home</string>
     <string name="activity.details_title">Vulnerability Details</string>
     <string name="activity.settings_title">Settings</string>
     <string name="activity.listing_title">Full Listing</string>
+    <string name="activity.about_title">About</string>
 
     <string name="notification.channel_name">Download/Sync</string>
     <string name="notification.channel_desc">Category for notifications that inform users of ongoing network operations</string>
@@ -12,6 +14,7 @@
     <string name="view.topbar_back_icon_name">Back</string>
     <string name="view.menu_button">Menu</string>
     <string name="view.search_button">Search</string>
+    <string name="view.loading_text">Loading...</string>
 
     <string name="view.menu_title">Main Menu</string>
     <string name="view.menu_close_button_icon_name">Close Menu</string>
@@ -21,7 +24,18 @@
     <string name="view.menu.settings_title">Settings</string>
     <string name="view.menu.about_icon_name">About</string>
     <string name="view.menu.about_title">About</string>
-    
+
     <string name="view.home.listing_icon_name">List</string>
     <string name="view.home.listing_title">Full Listing</string>
+
+    <string name="view.settings.section.api_key_title">API Key</string>
+    <string name="view.settings.section.data_usage_title">Data Usage</string>
+
+    <string name="view.settings.item.api_key_title">NVD API Key</string>
+    <string name="view.settings.item.api_key_description">To obtain an API key for the NVD, go to https://nvd.nist.gov/developers/request-an-api-key and follow the instructions</string>
+    <string name="view.settings.item.metered_connections_title">Metered Connections</string>
+    <string name="view.settings.item.metered_connections_description">Should network activity (such as downloading the NVD) be allowed over metered connections?</string>
+    
+    <string name="view.about.version_prefix">Version</string>
+    <string name="view.about.disclaimer">This product uses data from the NVD API but is not endorsed or certified by the NVD.</string>
 </resources>
