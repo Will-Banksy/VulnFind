@@ -17,11 +17,11 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat.startActivity
 import com.willbanksy.vulnfind.DetailsActivity
-import com.willbanksy.vulnfind.model.VulnListModel
+import com.willbanksy.vulnfind.models.MainViewModel
 import com.willbanksy.vulnfind.R
 
 @Composable
-fun VulnListView(model: VulnListModel, additionalPadding: PaddingValues = PaddingValues(0.dp)) {
+fun VulnListView(model: MainViewModel, additionalPadding: PaddingValues = PaddingValues(0.dp)) {
 	val vulns = model.vulnsStream.collectAsState(initial = emptyList())
 	Box(
 		modifier = Modifier
@@ -49,7 +49,7 @@ fun VulnListView(model: VulnListModel, additionalPadding: PaddingValues = Paddin
 			) {
 				items(vulns.value) { item ->
 					val intent = Intent(LocalContext.current, DetailsActivity::class.java).apply {
-						putExtra("cveId", item.item.cveId)
+						putExtra("cveId", item.cveId)
 					}
 					val context = LocalContext.current
 					VulnItemCardView(

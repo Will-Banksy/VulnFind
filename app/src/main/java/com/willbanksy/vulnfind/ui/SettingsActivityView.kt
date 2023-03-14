@@ -10,13 +10,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.willbanksy.vulnfind.R
-import com.willbanksy.vulnfind.model.VulnListModel
+import com.willbanksy.vulnfind.models.MainViewModel
 import com.willbanksy.vulnfind.ui.components.SettingsItemView
 import com.willbanksy.vulnfind.ui.components.TopBarView
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun SettingsActivityView(model: VulnListModel) {
+fun SettingsActivityView(model: MainViewModel) {
 	Surface(
 		modifier = Modifier.fillMaxSize(),
 		color = MaterialTheme.colors.background

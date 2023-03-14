@@ -16,10 +16,10 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat.startActivity
 import com.willbanksy.vulnfind.ListingActivity
 import com.willbanksy.vulnfind.R
-import com.willbanksy.vulnfind.model.VulnListModel
+import com.willbanksy.vulnfind.models.MainViewModel
 
 @Composable
-fun HomeScreenView(model: VulnListModel) {
+fun HomeScreenView(model: MainViewModel) {
 	Column {
 		val context = LocalContext.current
 		val intent = Intent(context, ListingActivity::class.java)

@@ -10,15 +10,15 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.willbanksy.vulnfind.model.VulnListModel
+import com.willbanksy.vulnfind.models.MainViewModel
 
 @Composable
-fun VulnDetailView(model: VulnListModel, cveId: String) {
+fun VulnDetailView(model: MainViewModel, cveId: String) {
 	val vulnStream = remember {
 		model.getById(cveId)
 	}
 	val vuln = vulnStream.collectAsState(initial = null).value
-	val vulnTitle = vuln?.item?.cveId ?: "Not Found"
+	val vulnTitle = vuln?.cveId ?: "Not Found"
 	
 	Box(
 		modifier = Modifier
@@ -33,14 +33,14 @@ fun VulnDetailView(model: VulnListModel, cveId: String) {
 			if(vuln != null) {
 				Spacer(modifier = Modifier.height(16.dp))
 				Text(
-					text = vuln.item.description
+					text = vuln.description
 				)
 				Spacer(modifier = Modifier.height(16.dp))
 				Text(
-					text = "Published: ${vuln.item.publishedDate}"
+					text = "Published: ${vuln.publishedDate}"
 				)
 				Text(
-					text = "Modified: ${vuln.item.lastModifiedDate}"
+					text = "Modified: ${vuln.lastModifiedDate}"
 				)
 				Spacer(modifier = Modifier.height(16.dp))
 				Text(text = "Number of metrics found: ${vuln.metrics.size}")

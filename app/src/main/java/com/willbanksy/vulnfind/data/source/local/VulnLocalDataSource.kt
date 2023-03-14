@@ -1,44 +1,35 @@
 package com.willbanksy.vulnfind.data.source.local
 
-import androidx.lifecycle.LiveData
-import com.willbanksy.vulnfind.data.VulnItemWithMetrics
+import com.willbanksy.vulnfind.data.VulnDataItem
 import com.willbanksy.vulnfind.data.source.VulnDataSource
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 class VulnLocalDataSource(
     private val dao: VulnDBDao,
 //    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : VulnDataSource {
-    override fun getVulnStream(cveId: String): Flow<VulnItemWithMetrics?> {
-        return dao.observeById(cveId)
-    }
-
-    override fun getVulnsStream(): Flow<List<VulnItemWithMetrics>> {
-        return dao.observeAll()
-    }
-
-    override suspend fun getVuln(cveId: String): VulnItemWithMetrics? {
-//        return dao.getById(cveId)
-		TODO()
-    }
-
-    override suspend fun getVulns(): List<VulnItemWithMetrics> {
-//        return dao.getAll()
-		TODO()
-    }
-
-    override suspend fun addVuln(vuln: VulnItemWithMetrics) {
-        dao.insert(vuln.item, vuln.metrics)
-    }
-
-    override suspend fun addVulns(vulns: List<VulnItemWithMetrics>) {
-		for (v in vulns) {
-			dao.insert(v.item, v.metrics)
+    fun observeById(cveId: String): Flow<VulnDataItem?> {
+        return dao.observeById(cveId).map { vulnDto ->
+			if(vulnDto != null) {
+				mapToItem(vulnDto)
+			} else {
+				null
+			}
 		}
     }
 
-    override suspend fun refresh() {
-        // NO-OP
+    fun observeAll(): Flow<List<VulnDataItem>> {
+        return dao.observeAll().map { vulnsDtos ->
+			mapToItems(vulnsDtos)
+		}
+    }
+
+    fun addVulns(vulns: List<VulnDataItem>) {
+		for (v in vulns) {
+			val dto = mapFromItem(v)
+			dao.insert(dto.item, dto.metrics)
+		}
     }
 	
 //	fun getAllMetrics(): Flow<List<VulnMetric>> {

@@ -11,8 +11,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.willbanksy.vulnfind.util.CvssSeverity
-import com.willbanksy.vulnfind.util.cvssColourForSeverity
+import com.willbanksy.vulnfind.utils.CvssSeverity
+import com.willbanksy.vulnfind.utils.cvssColourForSeverity
 
 @Composable
 fun CvssRatingChipView(metricVersionString: String, baseScore: Float) {

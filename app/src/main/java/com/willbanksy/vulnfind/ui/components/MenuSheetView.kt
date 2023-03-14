@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat.startActivity
 import androidx.work.*
 import com.willbanksy.vulnfind.AboutActivity
-import com.willbanksy.vulnfind.model.VulnListModel
+import com.willbanksy.vulnfind.models.MainViewModel
 import com.willbanksy.vulnfind.R
 import com.willbanksy.vulnfind.SettingsActivity
 import com.willbanksy.vulnfind.workers.DownloadWorker
@@ -32,7 +32,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun MenuSheetView(model: VulnListModel, sheetState: ModalBottomSheetState, notifPermissionRequest: ActivityResultLauncher<String>) {
+fun MenuSheetView(model: MainViewModel, sheetState: ModalBottomSheetState, notifPermissionRequest: ActivityResultLauncher<String>) {
 	val bottomPadding = WindowInsets.systemBars.asPaddingValues().calculateBottomPadding()
 	Column(
 		modifier = Modifier.padding(bottom = bottomPadding)

@@ -1,6 +1,5 @@
 package com.willbanksy.vulnfind.ui.components
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -13,11 +12,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.willbanksy.vulnfind.data.VulnItemWithMetrics
-import com.willbanksy.vulnfind.util.pickPrimaryMetric
+import com.willbanksy.vulnfind.data.VulnDataItem
+import com.willbanksy.vulnfind.utils.pickPrimaryMetric
 
 @Composable
-fun VulnItemCardView(modifier: Modifier, vuln: VulnItemWithMetrics) {
+fun VulnItemCardView(modifier: Modifier, vuln: VulnDataItem) {
     Surface(
         elevation = 2.dp,
         shape = RoundedCornerShape(CornerSize(2.dp)),
@@ -32,7 +31,7 @@ fun VulnItemCardView(modifier: Modifier, vuln: VulnItemWithMetrics) {
 				verticalAlignment = Alignment.CenterVertically
 			) {
 				Text(
-					text = vuln.item.cveId,
+					text = vuln.cveId,
 					style = MaterialTheme.typography.h5
 				)
 				Spacer(modifier = Modifier.width(8.dp))
@@ -45,7 +44,7 @@ fun VulnItemCardView(modifier: Modifier, vuln: VulnItemWithMetrics) {
 			}
             Spacer(modifier = Modifier.height(2.dp))
             Text(
-                text = vuln.item.description,
+                text = vuln.description,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
                 fontStyle = FontStyle.Italic,

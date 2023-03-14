@@ -1,47 +1,22 @@
 package com.willbanksy.vulnfind.data.source.remote
 
-import com.willbanksy.vulnfind.data.VulnItemWithMetrics
+import com.willbanksy.vulnfind.data.VulnDataItem
 import com.willbanksy.vulnfind.data.source.VulnDataSource
 import com.willbanksy.vulnfind.data.source.VulnRepository
-import kotlinx.coroutines.flow.Flow
 
 class VulnRemoteDataSource : VulnDataSource { // TODO: Rate Limiting
 	data class DataWithPagingInfo(
 		val pagingInfo: VulnRepository.PagingInfo,
-		val data: List<VulnItemWithMetrics>
+		val data: List<VulnDataItem>
 	)
 	
 	private val client = NvdClient.getClient()
 	private val api = client.create(NvdApi::class.java)
-	
-	override fun getVulnStream(cveId: String): Flow<VulnItemWithMetrics?> {
-		throw UnsupportedOperationException()
-	}
 
-	override fun getVulnsStream(): Flow<List<VulnItemWithMetrics>> {
-		throw UnsupportedOperationException()
-	}
-
-	override suspend fun getVuln(cveId: String): VulnItemWithMetrics? {
-		val response = api.getCveById(cveId).execute()
-		return mapToItems(response.body()).getOrNull(0)
-	}
-
-	override suspend fun getVulns(): List<VulnItemWithMetrics> {
-		TODO("Not yet implemented")
-	}
-
-	override suspend fun addVuln(vuln: VulnItemWithMetrics) {
-		throw UnsupportedOperationException()
-	}
-
-	override suspend fun addVulns(vulns: List<VulnItemWithMetrics>) {
-		throw UnsupportedOperationException()
-	}
-
-	override suspend fun refresh() {
-		TODO("Not yet implemented")
-	}
+//	fun getVuln(cveId: String): VulnItemWithMetrics? {
+//		val response = api.getCveById(cveId).execute()
+//		return mapToItems(response.body()).getOrNull(0)
+//	}
 
 	fun refreshWithPagingInfo(): DataWithPagingInfo? {
 		val listing = api.getInitial().execute().body() ?: return null
@@ -49,7 +24,7 @@ class VulnRemoteDataSource : VulnDataSource { // TODO: Rate Limiting
 		return DataWithPagingInfo(pagingInfo = pagingInfo, data = mapToItems(listing))
 	}
 	
-	fun refreshSection(sectionIdx: Int, info: VulnRepository.PagingInfo): List<VulnItemWithMetrics> {
+	fun refreshSection(sectionIdx: Int, info: VulnRepository.PagingInfo): List<VulnDataItem> {
 		val listing = api.getSection(info.itemsPerPage * sectionIdx).execute().body()
 		return mapToItems(listing)
 	}

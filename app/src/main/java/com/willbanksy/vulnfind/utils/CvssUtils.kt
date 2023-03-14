@@ -1,7 +1,8 @@
-package com.willbanksy.vulnfind.util
+package com.willbanksy.vulnfind.utils
 
 import androidx.compose.ui.graphics.Color
-import com.willbanksy.vulnfind.data.VulnMetric
+import com.willbanksy.vulnfind.data.VulnDataItem
+import com.willbanksy.vulnfind.data.VulnDataItemMetric
 import com.willbanksy.vulnfind.ui.theme.CvssColours
 
 enum class CvssSeverity {
@@ -69,8 +70,8 @@ fun parseVersion(version: String): Float {
 	return numStr.toFloatOrNull() ?: 0f
 }
 
-fun pickPrimaryMetric(metrics: List<VulnMetric>): VulnMetric? {
-	var ret: VulnMetric? = null
+fun pickPrimaryMetric(metrics: List<VulnDataItemMetric>): VulnDataItemMetric? {
+	var ret: VulnDataItemMetric? = null
 	var retVersion = 0f
 	for(m in metrics) {
 		val mVersion = parseVersion(m.version)

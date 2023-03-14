@@ -1,6 +1,6 @@
 package com.willbanksy.vulnfind.data.source
 
-import com.willbanksy.vulnfind.data.VulnItemWithMetrics
+import com.willbanksy.vulnfind.data.VulnDataItem
 import com.willbanksy.vulnfind.data.source.local.VulnLocalDataSource
 import com.willbanksy.vulnfind.data.source.remote.VulnRemoteDataSource
 import kotlinx.coroutines.Dispatchers
@@ -11,8 +11,6 @@ class VulnRepository(
 	private val remote: VulnRemoteDataSource,
 	private val local: VulnLocalDataSource
 ) {
-//	val vulns: LiveData<List<VulnItemWithMetrics>> = local.getVulnsStream() // LiveData objects shouldn't live in the repository
-	
 	data class PagingInfo(
 		val itemsPerPage: Int,
 		val totalItems: Int
@@ -49,9 +47,9 @@ class VulnRepository(
 //		return local.getAllMetrics()
 //	}
 	
-	fun getVuln(cveId: String): Flow<VulnItemWithMetrics?> {
+	fun observeById(cveId: String): Flow<VulnDataItem?> {
 		// BUG: This will return null if the CVE ID is not in the local database. Need some way of fetching from remote
-		return local.getVulnStream(cveId)
+		return local.observeById(cveId)
 	}
 
 //	suspend fun getVuln(cveId: String): VulnItemWithMetrics? {
@@ -63,8 +61,8 @@ class VulnRepository(
 //		return localVuln
 //	}
 	
-	fun getVulns(): Flow<List<VulnItemWithMetrics>> {
-		return local.getVulnsStream()
+	fun observeAll(): Flow<List<VulnDataItem>> {
+		return local.observeAll()
 	}
 	
 //	suspend fun getVulns(): List<VulnItemWithMetrics> {

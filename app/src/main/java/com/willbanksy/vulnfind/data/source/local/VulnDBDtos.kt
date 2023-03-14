@@ -1,4 +1,4 @@
-package com.willbanksy.vulnfind.data
+package com.willbanksy.vulnfind.data.source.local
 
 import androidx.room.*
 
@@ -14,7 +14,7 @@ import androidx.room.*
 //}
 
 @Entity(tableName = "VulnDB")
-data class VulnItem( // TODO: Add more fields to this. Make sure to update NvdDtosMapper.kt when I do
+data class VulnDBVulnDto( // TODO: Add more fields to this. Make sure to update NvdDtosMapper.kt when I do
 	@PrimaryKey @ColumnInfo("cve_id") val cveId: String = "",
 	val description: String = "",
 	@ColumnInfo("published_date") val publishedDate: String = "",
@@ -25,22 +25,22 @@ data class VulnItem( // TODO: Add more fields to this. Make sure to update NvdDt
 )
 
 @Entity(tableName = "VulnMetrics")
-data class VulnMetric(
+data class VulnDBMetricDto(
 	@PrimaryKey val id: String = "",
-	val of_cve_id: String = "",
+	@ColumnInfo("of_cve_id") val ofCveId: String = "",
 	val version: String = "",
 	@ColumnInfo("vector_string") val vectorString: String = "",
 	@ColumnInfo("base_score") val baseScore: Float = 0f,
 	@ColumnInfo("base_severity") val baseSeverity: String = ""
 )
 
-data class VulnItemWithMetrics(
-	@Embedded val item: VulnItem,
+data class VulnDBVulnWithMetricsDto(
+	@Embedded val item: VulnDBVulnDto,
 	@Relation(
 		parentColumn = "cve_id",
 		entityColumn = "of_cve_id",
 	)
-	val metrics: List<VulnMetric>
+	val metrics: List<VulnDBMetricDto>
 )
 
 //@Entity(tableName = "VulnReferences")

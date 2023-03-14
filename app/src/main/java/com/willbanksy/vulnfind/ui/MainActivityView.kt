@@ -15,7 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.willbanksy.vulnfind.R
-import com.willbanksy.vulnfind.model.VulnListModel
+import com.willbanksy.vulnfind.models.MainViewModel
 import com.willbanksy.vulnfind.ui.components.HomeScreenView
 import com.willbanksy.vulnfind.ui.components.MenuSheetView
 import com.willbanksy.vulnfind.ui.components.TopBarView
@@ -24,7 +24,7 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterialApi::class)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun MainActivityView(model: VulnListModel, notifPermissionRequest: ActivityResultLauncher<String>) {
+fun MainActivityView(model: MainViewModel, notifPermissionRequest: ActivityResultLauncher<String>) {
 	Surface(
 		modifier = Modifier.fillMaxSize(),
 		color = MaterialTheme.colors.background
