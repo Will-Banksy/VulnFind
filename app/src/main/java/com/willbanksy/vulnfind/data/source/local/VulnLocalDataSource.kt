@@ -1,5 +1,6 @@
 package com.willbanksy.vulnfind.data.source.local
 
+import androidx.paging.PagingSource
 import com.willbanksy.vulnfind.data.VulnDataItem
 import com.willbanksy.vulnfind.data.source.VulnDataSource
 import kotlinx.coroutines.flow.Flow
@@ -19,10 +20,11 @@ class VulnLocalDataSource(
 		}
     }
 
-    fun observeAll(): Flow<List<VulnDataItem>> {
-        return dao.observeAll().map { vulnsDtos ->
-			mapToItems(vulnsDtos)
-		}
+    fun observeAll(): PagingSource<Int, VulnDBVulnWithMetricsDto> {
+        return dao.observeAll() // TODO: Find a way to map the contents of this PagingSource to VulnDataItem
+//			.map<Int, VulnDBVulnWithMetricsDto> {
+//			mapToItems(vulnsDtos)
+//		}
     }
 
     fun addVulns(vulns: List<VulnDataItem>) {

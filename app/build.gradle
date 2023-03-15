@@ -63,6 +63,7 @@ dependencies {
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
+    implementation("androidx.room:room-paging:$room_version")
 
     // Retrofit dependencies
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
@@ -70,7 +71,7 @@ dependencies {
     
     // Paging 3 dependencies
     implementation 'androidx.paging:paging-runtime:3.1.1'
-    implementation 'androidx.paging:paging-compose:1.0.0-alpha18'
+    implementation 'androidx.paging:paging-compose:1.0.0-alpha14'
     
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.4.0'
@@ -88,7 +89,6 @@ dependencies {
 //    implementation 'androidx.navigation:navigation-compose:2.5.3'
 //    implementation 'com.google.android.material:material:1.8.0' // Remove if unneeded
 //    implementation "io.github.fornewid:material-motion-compose-navigation:0.10.4"
-    implementation 'androidx.core:core-ktx:1.9.0'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'

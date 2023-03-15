@@ -1,6 +1,8 @@
 package com.willbanksy.vulnfind.data.source
 
+import androidx.paging.PagingSource
 import com.willbanksy.vulnfind.data.VulnDataItem
+import com.willbanksy.vulnfind.data.source.local.VulnDBVulnWithMetricsDto
 import com.willbanksy.vulnfind.data.source.local.VulnLocalDataSource
 import com.willbanksy.vulnfind.data.source.remote.VulnRemoteDataSource
 import kotlinx.coroutines.Dispatchers
@@ -61,7 +63,7 @@ class VulnRepository(
 //		return localVuln
 //	}
 	
-	fun observeAll(): Flow<List<VulnDataItem>> {
+	fun observeAll(): PagingSource<Int, VulnDBVulnWithMetricsDto> {
 		return local.observeAll()
 	}
 	

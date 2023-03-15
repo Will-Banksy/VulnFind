@@ -1,5 +1,6 @@
 package com.willbanksy.vulnfind.data.source.local
 
+import androidx.paging.PagingSource
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
 
@@ -15,7 +16,7 @@ interface VulnDBDao {
 
 	@Transaction
     @Query("SELECT * FROM VulnDB ORDER BY published_date_unix DESC")
-    fun observeAll(): Flow<List<VulnDBVulnWithMetricsDto>>
+    fun observeAll(): PagingSource<Int, VulnDBVulnWithMetricsDto>
 
 	@Transaction
     @Query("SELECT * FROM VulnDB WHERE cve_id = :cveId")
