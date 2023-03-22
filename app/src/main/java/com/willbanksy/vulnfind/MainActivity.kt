@@ -19,15 +19,12 @@ class MainActivity : ComponentActivity() {
 	private lateinit var vulnDB: VulnDB
 	private lateinit var model: MainViewModel
 	
-	override fun onCreate(savedInstanceState: Bundle?) { // TODO: Hmm does this method end up being called whenever the window changes size?
+	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		
 		val notifPermissionRequest = registerForActivityResult(
 			ActivityResultContracts.RequestPermission()
 		) { granted ->
-			if(granted) {
-				// do fucking what, idk
-			}
 		}
 		
 		setContent {

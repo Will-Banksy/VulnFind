@@ -36,6 +36,14 @@ interface VulnDBDao {
 	@Transaction
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(vuln: VulnDBVulnDto, metrics: List<VulnDBMetricDto>)
+	
+	@Insert(onConflict = OnConflictStrategy.REPLACE)
+	fun insertAllVulns(vulns: List<VulnDBVulnDto>)
+	
+	@Insert(onConflict = OnConflictStrategy.REPLACE)
+	fun insertAllMetrics(metrics: List<VulnDBMetricDto>)
+	
+//	fun insertAllMetrics()
 
 //	@Transaction
 //    @Delete

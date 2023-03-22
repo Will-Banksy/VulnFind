@@ -22,7 +22,9 @@ class ListingActivity : ComponentActivity() {
 		super.onCreate(savedInstanceState)
 		setContent {
 			VulnFindTheme {
-				vulnDB = Room.databaseBuilder(this, VulnDB::class.java, "VulnDB").enableMultiInstanceInvalidation().build()
+				vulnDB = Room.databaseBuilder(this, VulnDB::class.java, "VulnDB")
+					.enableMultiInstanceInvalidation()
+					.build()
 				repository = VulnRepository(VulnRemoteDataSource(), VulnLocalDataSource(vulnDB.dao()))
 				model = MainViewModel(repository)
 

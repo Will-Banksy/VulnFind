@@ -18,7 +18,7 @@ fun VulnDetailView(model: MainViewModel, cveId: String) {
 		model.getById(cveId)
 	}
 	val vuln = vulnStream.collectAsState(initial = null).value
-	val vulnTitle = vuln?.cveId ?: "Not Found"
+	val vulnTitle = vuln?.cveId ?: "Loading..."
 	
 	Box(
 		modifier = Modifier

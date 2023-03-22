@@ -8,8 +8,18 @@
     <string name="activity.listing_title">Full Listing</string>
     <string name="activity.about_title">About</string>
 
-    <string name="notification.channel_name">Download/Sync</string>
-    <string name="notification.channel_desc">Category for notifications that inform users of ongoing network operations</string>
+    <string name="notification.channel.download_name">Download/Sync</string>
+    <string name="notification.channel.download_desc">Monitor progress of ongoing network operations, and have the option to cancel them.</string>
+    <string name="notification.channel.error_name">Download Errors</string>
+    <string name="notification.channel.error_desc">Receive notification of errors that occur during downloads</string>
+    
+    <string name="notification.download_title">Downloading NVD...</string>
+    <string name="notification.download_action_cancel">Cancel</string>
+    <string name="notification.network_error_title">Error Downloading NVD</string>
+    <string name="notification.network_error_unknown_host_desc">Could not resolve host \"services.nvd.nist.gov\"</string>
+    <string name="notification.network_error_misc_desc">Unknown network error</string>
+    <string name="notification.network_error_database_access_desc">Error accessing local database. This could be a bug</string>
+    <string name="notification.network_error_action_retry">Try again</string>
 
     <string name="view.topbar_back_icon_name">Back</string>
     <string name="view.menu_button">Menu</string>
@@ -22,11 +32,22 @@
     <string name="view.menu.refresh_title">Refresh Local Database</string>
     <string name="view.menu.settings_icon_name">Settings</string>
     <string name="view.menu.settings_title">Settings</string>
-    <string name="view.menu.about_icon_name">About</string>
+    <string name="view.menu.about_icon_name">Information</string>
     <string name="view.menu.about_title">About</string>
+    <string name="view.menu.help_icon_name">Information</string>
+    <string name="view.menu.help_title">Help</string>
+    <string name="view.menu.downloading">Downloading NVD...</string>
+    
+    <string name="view.menu.help.header">Help</string>
+    <string name="view.menu.help.main_text">In order to populate the internal database with CVEs from the National Vulnerability Database (NVD), access the menu from the bottom-left of the screen, where you will find the option to refresh the local database.</string>
+    
+    <string name="view.menu.download_confirm.header">Download?</string>
+    <string name="view.menu.download_confirm.main_text">This will download the NVD in it\'s entirety and store it in the internal database of this application. This is a large download. Entering a valid NVD API key in Settings will speed the download up significantly. Proceed?</string>
+    <string name="view.menu.download_confirm.button_text">Download</string>
 
     <string name="view.home.listing_icon_name">List</string>
     <string name="view.home.listing_title">Full Listing</string>
+    <string name="view.home.downloaded_count_text">Downloaded CVEs</string>
 
     <string name="view.settings.section.api_key_title">API Key</string>
     <string name="view.settings.section.data_usage_title">Data Usage</string>

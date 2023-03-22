@@ -8,7 +8,6 @@ import kotlinx.coroutines.flow.map
 
 class VulnLocalDataSource(
     private val dao: VulnDBDao,
-//    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : VulnDataSource {
     fun observeById(cveId: String): Flow<VulnDataItem?> {
         return dao.observeById(cveId).map { vulnDto ->
@@ -28,10 +27,17 @@ class VulnLocalDataSource(
     }
 
     fun addVulns(vulns: List<VulnDataItem>) {
-		for (v in vulns) {
-			val dto = mapFromItem(v)
-			dao.insert(dto.item, dto.metrics)
+		val vulnsDtos: MutableList<VulnDBVulnDto> = mutableListOf()
+		val metricsDtos: MutableList<VulnDBMetricDto> = mutableListOf()
+		
+		for(item in vulns) {
+			val dto = mapFromItem(item)
+			vulnsDtos.add(dto.item)
+			metricsDtos.addAll(dto.metrics)
 		}
+		
+		dao.insertAllVulns(vulnsDtos)
+		dao.insertAllMetrics(metricsDtos)
     }
 	
 //	fun getAllMetrics(): Flow<List<VulnMetric>> {

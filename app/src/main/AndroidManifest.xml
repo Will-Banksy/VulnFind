@@ -17,12 +17,15 @@
             tools:targetApi="33">
         <activity
                 android:name=".AboutActivity"
-                android:exported="false" />
+                android:configChanges="orientation|screenSize"
+                android:exported="false"
+                android:label="@string/activity.about_title"
+                android:theme="@style/Theme.VulnFind" />
         <activity
                 android:name=".ListingActivity"
+                android:configChanges="orientation|screenSize"
                 android:exported="false"
                 android:label="@string/activity.listing_title"
-                android:configChanges="orientation|screenSize"
                 android:theme="@style/Theme.VulnFind" />
         <activity
                 android:name=".SettingsActivity"
@@ -36,12 +39,13 @@
                 android:theme="@style/Theme.VulnFind" />
         <activity
                 android:name=".MainActivity"
+                android:configChanges="orientation|screenSize"
                 android:exported="true"
                 android:label="@string/app.name"
-                android:theme="@style/Theme.VulnFind">
+                android:theme="@style/Theme.VulnFind"
+                android:launchMode="singleInstancePerTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -49,6 +53,10 @@
         <service
                 android:name="androidx.work.impl.foreground.SystemForegroundService"
                 tools:node="merge" />
+        <service
+                android:name=".services.WorkManagerInitiatorService"
+                android:enabled="true"
+                android:exported="false" />
     </application>
 
 </manifest>

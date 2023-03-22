@@ -15,7 +15,7 @@ object NvdClient {
 	
 	private val okHttpClient: OkHttpClient = OkHttpClient()
 		.newBuilder()
-		.addInterceptor(NVDClientInterceptor)
+		.addInterceptor(NvdClientInterceptor)
 		.build()
 	
 	private val jacksonConfig: ObjectMapper = ObjectMapper()
@@ -29,7 +29,7 @@ object NvdClient {
 			.build()
 }
 
-object NVDClientInterceptor : Interceptor {
+object NvdClientInterceptor : Interceptor {
 	override fun intercept(chain: Interceptor.Chain): Response { // Can do stuff like add headers, authorisation, api keys etc. here
 		val request = chain.request()
 		Log.d(TAG, "NVDClientInterceptor: Network request to: ${request.url()}") // Or log requests

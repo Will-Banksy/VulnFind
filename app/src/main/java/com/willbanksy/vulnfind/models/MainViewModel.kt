@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.Flow
 class MainViewModel( // TODO: Make this class immutable? Or something I'm not quite sure what best practices are and how to achieve them
 	private val vulnRepository: VulnRepository
 ) : ViewModel() {
-	var vulnsStream: PagingSource<Int, VulnDBVulnWithMetricsDto> = vulnRepository.observeAll()
+//	var vulnsStream: PagingSource<Int, VulnDBVulnWithMetricsDto> = vulnRepository.observeAll()
 	var apiKey by mutableStateOf("")
 	
 //	fun refreshId(cveId: String) {
@@ -24,6 +24,10 @@ class MainViewModel( // TODO: Make this class immutable? Or something I'm not qu
 	
 	fun getById(cveId: String): Flow<VulnDataItem?> {
 		return vulnRepository.observeById(cveId)
+	}
+	
+	fun observeAll(): PagingSource<Int, VulnDBVulnWithMetricsDto> {
+		return vulnRepository.observeAll()
 	}
 	
 	// TODO: Remove?
