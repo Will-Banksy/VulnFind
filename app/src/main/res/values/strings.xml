@@ -17,6 +17,7 @@
     <string name="notification.download_action_cancel">Cancel</string>
     <string name="notification.network_error_title">Error Downloading NVD</string>
     <string name="notification.network_error_unknown_host_desc">Could not resolve host \"services.nvd.nist.gov\"</string>
+    <string name="notification.network_error_timeout_desc">Request timed out</string>
     <string name="notification.network_error_misc_desc">Unknown network error</string>
     <string name="notification.network_error_database_access_desc">Error accessing local database. This could be a bug</string>
     <string name="notification.network_error_action_retry">Try again</string>
@@ -25,6 +26,8 @@
     <string name="view.menu_button">Menu</string>
     <string name="view.search_button">Search</string>
     <string name="view.loading_text">Loading...</string>
+    <string name="view.download_successful">Download of NVD successful!</string>
+    <string name="view.download_failed">Download of NVD failed. Check your internet connection</string>
 
     <string name="view.menu_title">Main Menu</string>
     <string name="view.menu_close_button_icon_name">Close Menu</string>
@@ -42,7 +45,7 @@
     <string name="view.menu.help.main_text">In order to populate the internal database with CVEs from the National Vulnerability Database (NVD), access the menu from the bottom-left of the screen, where you will find the option to refresh the local database.</string>
     
     <string name="view.menu.download_confirm.header">Download?</string>
-    <string name="view.menu.download_confirm.main_text">This will download the NVD in it\'s entirety and store it in the internal database of this application. This is a large download. Entering a valid NVD API key in Settings will speed the download up significantly. Proceed?</string>
+    <string name="view.menu.download_confirm.main_text">This will download the NVD in it\'s entirety and store it in the internal database of this application. This is a fairly large download that will take a while. Entering a valid NVD API key in Settings will speed the download up significantly. Proceed?</string>
     <string name="view.menu.download_confirm.button_text">Download</string>
 
     <string name="view.home.listing_icon_name">List</string>

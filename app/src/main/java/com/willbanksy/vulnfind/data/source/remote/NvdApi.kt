@@ -5,8 +5,8 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface NvdApi {
-	@GET("rest/json/cves/2.0/")
-	fun getCveById(@Query("cveId") cveId: String): Call<NvdCveListingDto>
+//	@GET("rest/json/cves/2.0/") // TODO Delete?
+//	fun getCveById(@Query("cveId") cveId: String): Call<NvdCveListingDto>
 	
 	@GET("rest/json/cves/2.0/")
 	fun getInitial(): Call<NvdCveListingDto>

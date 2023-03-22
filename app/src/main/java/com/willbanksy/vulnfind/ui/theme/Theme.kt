@@ -13,7 +13,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
-private val DarkColorPalette = darkColors( // TODO: Tweak dark theme colours
+private val DarkColorPalette = darkColors(
 	primary = Purple600,
 	primaryVariant = Purple300,
 	secondary = Blue800,
@@ -50,8 +50,8 @@ fun VulnFindTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composab
 		SideEffect {
 			val window = (view.context as Activity).window
 			val insets = WindowCompat.getInsetsController(window, view)
-			window.statusBarColor = Color.Transparent.toArgb() // colors.background.toArgb() // choose a status bar color
-			window.navigationBarColor = Color.Transparent.toArgb() // colors.background.toArgb() // choose a navigation bar color
+			window.statusBarColor = Color.Transparent.toArgb()
+			window.navigationBarColor = Color.Transparent.toArgb()
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
 				window.setDecorFitsSystemWindows(false)
 			}

@@ -12,8 +12,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.willbanksy.vulnfind.R
+import com.willbanksy.vulnfind.ui.components.DefaultScaffoldView
 import com.willbanksy.vulnfind.ui.components.TopBarView
 
+@OptIn(ExperimentalMaterialApi::class)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun AboutActivityView() {
@@ -21,11 +23,7 @@ fun AboutActivityView() {
 		modifier = Modifier.fillMaxSize(),
 		color = MaterialTheme.colors.background
 	) {
-		Scaffold(
-			topBar = {
-				TopBarView(label = stringResource(R.string.activity_about_title), true)
-			}
-		) {
+		DefaultScaffoldView(topBarLabel = stringResource(R.string.activity_about_title), topBarShowBack = true) {
 			BoxWithConstraints {
 				if(this.maxWidth > this.maxHeight) {
 					Row(
@@ -50,7 +48,9 @@ fun AboutActivityView() {
 @Composable
 fun AboutIconView(vertical: Boolean, modifier: Modifier) {
 	Column(
-		modifier = Modifier.padding(16.dp).then(modifier)
+		modifier = Modifier
+			.padding(16.dp)
+			.then(modifier)
 	) {
 		Icon(
 			painter = painterResource(R.drawable.vulnfind_launcher_icon_foreground),

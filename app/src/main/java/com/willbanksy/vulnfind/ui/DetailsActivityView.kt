@@ -8,9 +8,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.willbanksy.vulnfind.R
 import com.willbanksy.vulnfind.models.MainViewModel
+import com.willbanksy.vulnfind.ui.components.DefaultScaffoldView
 import com.willbanksy.vulnfind.ui.components.TopBarView
 import com.willbanksy.vulnfind.ui.components.VulnDetailView
 
+@OptIn(ExperimentalMaterialApi::class)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun DetailsActivityView(model: MainViewModel, cveId: String) {
@@ -18,11 +20,7 @@ fun DetailsActivityView(model: MainViewModel, cveId: String) {
 		modifier = Modifier.fillMaxSize(),
 		color = MaterialTheme.colors.background
 	) {
-		Scaffold(
-			topBar = {
-				TopBarView(label = stringResource(R.string.activity_details_title), true)
-			}
-		) {
+		DefaultScaffoldView(topBarLabel = stringResource(R.string.activity_details_title), topBarShowBack = true) {
 			VulnDetailView(model, cveId)
 		}
 	}

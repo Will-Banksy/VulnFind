@@ -20,11 +20,14 @@ import com.willbanksy.vulnfind.services.WorkManagerInitiatorService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.IOException
+import java.net.SocketTimeoutException
 import java.net.UnknownHostException
+import java.time.LocalDateTime
 import java.util.concurrent.CancellationException
 
 enum class ErrorType {
 	UnknownHostError,
+	TimedOutError,
 	MiscNetworkError,
 	DatabaseAccessError
 }
@@ -48,7 +51,6 @@ class DownloadWorker(
 		val cancel = applicationContext.getString(R.string.notification_download_action_cancel)
 		
 		val intent = WorkManager.getInstance(applicationContext).createCancelPendingIntent(id)
-		Log.d("DownloadWorker Cancel Pending Intent", intent.toString())
 		
 		val openIntent = Intent(applicationContext, MainActivity::class.java)
 		val openPending = PendingIntent.getActivity(applicationContext, 0, openIntent, FLAG_IMMUTABLE)
@@ -93,6 +95,7 @@ class DownloadWorker(
 		
 		try {
 			var initial = true
+			var lastRequestedAt: Long = -1
 			withContext(Dispatchers.IO) {
 				while(true) {
 					if(initial) {
@@ -101,6 +104,13 @@ class DownloadWorker(
 						initial = false
 					}
 
+					val now = System.currentTimeMillis()
+					if(now - lastRequestedAt < 6000 && (lastRequestedAt != -1L)) {
+						Log.d("Thread Was Not Slept For Long Enough","Oh no!")
+					} else {
+						Log.d("Thread Was Slept For Long Enough", "${now - lastRequestedAt}")
+					}
+					lastRequestedAt = now
 					downloadNvdSection()
 					setForeground(createForegroundInfo(false))
 
@@ -119,13 +129,17 @@ class DownloadWorker(
 			Log.d("DownloadWorker Network Exception", e.toString())
 			notificationManager.cancel(DOWNLOAD_NOTIF_ID)
 			createErrorNotification(ErrorType.UnknownHostError)
+		} catch(e: SocketTimeoutException) { // Request can time out
+			Log.d("DownloadWorker Timeout Exception", e.toString())
+			notificationManager.cancel(DOWNLOAD_NOTIF_ID)
+			createErrorNotification(ErrorType.TimedOutError)
 		} catch(e: IOException) { // Retrofit2 says that it uses IOException only for network errors (here anyway)
 			Log.d("DownloadWorker Misc Exception", e.toString())
 			notificationManager.cancel(DOWNLOAD_NOTIF_ID)
 			createErrorNotification(ErrorType.MiscNetworkError)
 		} catch(e: CancellationException) { // This is thrown when the work is cancelled
 			notificationManager.cancel(DOWNLOAD_NOTIF_ID)
-			Log.d("DownloadWorker Exception", e.toString())
+			Log.d("DownloadWorker Cancellation Exception", e.toString())
 			return Result.success() // TODO: Decide whether a cancellation is a success or failure
 		} catch(e: Exception) {
 			notificationManager.cancel(DOWNLOAD_NOTIF_ID)
@@ -168,6 +182,9 @@ class DownloadWorker(
 		val desc = when(e) {
 			ErrorType.UnknownHostError -> {
 				applicationContext.getString(R.string.notification_network_error_unknown_host_desc)
+			}
+			ErrorType.TimedOutError -> {
+				applicationContext.getString(R.string.notification_network_error_timeout_desc)
 			}
 			ErrorType.MiscNetworkError -> {
 				applicationContext.getString(R.string.notification_network_error_misc_desc)

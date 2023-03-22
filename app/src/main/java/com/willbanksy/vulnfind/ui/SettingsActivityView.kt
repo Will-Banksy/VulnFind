@@ -11,9 +11,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.willbanksy.vulnfind.R
 import com.willbanksy.vulnfind.models.MainViewModel
+import com.willbanksy.vulnfind.ui.components.DefaultScaffoldView
 import com.willbanksy.vulnfind.ui.components.SettingsItemView
 import com.willbanksy.vulnfind.ui.components.TopBarView
 
+@OptIn(ExperimentalMaterialApi::class)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun SettingsActivityView(model: MainViewModel) {
@@ -21,11 +23,7 @@ fun SettingsActivityView(model: MainViewModel) {
 		modifier = Modifier.fillMaxSize(),
 		color = MaterialTheme.colors.background
 	) {
-		Scaffold(
-			topBar = {
-				TopBarView(label = stringResource(R.string.activity_settings_title), true)
-			}
-		) {
+		DefaultScaffoldView(topBarLabel = stringResource(R.string.activity_settings_title), topBarShowBack = true) {
 			Column(
 				verticalArrangement = Arrangement.spacedBy(4.dp),
 				horizontalAlignment = Alignment.Start

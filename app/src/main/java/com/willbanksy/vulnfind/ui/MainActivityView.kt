@@ -7,7 +7,6 @@ import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -20,8 +19,8 @@ import androidx.compose.ui.unit.dp
 import com.willbanksy.vulnfind.R
 import com.willbanksy.vulnfind.models.MainViewModel
 import com.willbanksy.vulnfind.ui.components.BottomSheetView
+import com.willbanksy.vulnfind.ui.components.DefaultScaffoldView
 import com.willbanksy.vulnfind.ui.components.HomeScreenView
-import com.willbanksy.vulnfind.ui.components.TopBarView
 import kotlinx.coroutines.launch
 
 enum class BottomSheetMode {
@@ -62,39 +61,12 @@ fun MainActivityView(model: MainViewModel, notifPermissionRequest: ActivityResul
 					bottomSheetState.hide()
 				}
 			}
-			Scaffold(
-				topBar = {
-					TopBarView(label = stringResource(R.string.activity_main_title))
-				},
-				bottomBar = {
-					val bottomPadding = WindowInsets.systemBars.asPaddingValues().calculateBottomPadding()
-					BottomAppBar(
-						contentPadding = PaddingValues(bottom = bottomPadding, start = 8.dp, end = 8.dp),
-						elevation = 0.dp,
-						backgroundColor = MaterialTheme.colors.surface
-					) {
-						IconButton(onClick = {
-							bottomSheetMode.value = BottomSheetMode.MENU
-							coroutineScope.launch {
-								bottomSheetState.show()
-							}
-						}) {
-							Icon(
-								imageVector = Icons.Filled.Menu,
-								contentDescription = stringResource(R.string.view_menu_button),
-								tint = MaterialTheme.colors.onSurface
-							)
-						}
-						Spacer(modifier = Modifier.weight(1f))
-						IconButton(onClick = { /*TODO*/ }) {
-							Icon(
-								imageVector = Icons.Filled.Search,
-								contentDescription = stringResource(R.string.view_search_button),
-								tint = MaterialTheme.colors.onSurface
-							)
-						}
-					}
-				}
+			
+			DefaultScaffoldView(
+				topBarLabel = stringResource(R.string.activity_main_title),
+				showBottomBar = true,
+				bottomSheetState = bottomSheetState,
+				bottomSheetMode = bottomSheetMode
 			) {
 				HomeScreenView(model, sheetState = bottomSheetState, sheetMode = bottomSheetMode)
 			}
