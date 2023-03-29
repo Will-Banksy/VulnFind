@@ -5,6 +5,7 @@ import com.willbanksy.vulnfind.data.VulnDataItem
 import com.willbanksy.vulnfind.data.source.local.VulnDBVulnWithMetricsDto
 import com.willbanksy.vulnfind.data.source.local.VulnLocalDataSource
 import com.willbanksy.vulnfind.data.source.remote.VulnRemoteDataSource
+import com.willbanksy.vulnfind.ui.state.ListingFilter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
@@ -63,8 +64,8 @@ class VulnRepository(
 //		return localVuln
 //	}
 	
-	fun observeAll(): PagingSource<Int, VulnDBVulnWithMetricsDto> {
-		return local.observeAll()
+	fun observeAll(filter: ListingFilter? = null): PagingSource<Int, VulnDBVulnWithMetricsDto> {
+		return local.observeAll(filter)
 	}
 	
 //	suspend fun getVulns(): List<VulnItemWithMetrics> {

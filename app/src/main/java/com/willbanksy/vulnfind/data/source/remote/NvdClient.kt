@@ -15,7 +15,8 @@ object NvdClient {
 	
 	private val okHttpClient: OkHttpClient = OkHttpClient()
 		.newBuilder()
-		.connectTimeout(Duration.ofSeconds(20)) // TODO: Timeouts (there are 2 more that need set I think)
+		.connectTimeout(Duration.ofSeconds(0))
+		.callTimeout(Duration.ofSeconds(60))
 		.addInterceptor(NvdClientInterceptor)
 		.build()
 	

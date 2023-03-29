@@ -8,6 +8,7 @@ import androidx.paging.PagingSource
 import com.willbanksy.vulnfind.data.VulnDataItem
 import com.willbanksy.vulnfind.data.source.VulnRepository
 import com.willbanksy.vulnfind.data.source.local.VulnDBVulnWithMetricsDto
+import com.willbanksy.vulnfind.ui.state.ListingFilter
 import kotlinx.coroutines.flow.Flow
 
 class MainViewModel( // TODO: Make this class immutable? Or something I'm not quite sure what best practices are and how to achieve them
@@ -26,8 +27,8 @@ class MainViewModel( // TODO: Make this class immutable? Or something I'm not qu
 		return vulnRepository.observeById(cveId)
 	}
 	
-	fun observeAll(): PagingSource<Int, VulnDBVulnWithMetricsDto> {
-		return vulnRepository.observeAll()
+	fun observeAll(filter: ListingFilter? = null): PagingSource<Int, VulnDBVulnWithMetricsDto> {
+		return vulnRepository.observeAll(filter)
 	}
 	
 	// TODO: Remove?

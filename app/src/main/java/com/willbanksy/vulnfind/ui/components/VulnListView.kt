@@ -13,6 +13,7 @@ import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -31,9 +32,10 @@ import com.willbanksy.vulnfind.DetailsActivity
 import com.willbanksy.vulnfind.models.MainViewModel
 import com.willbanksy.vulnfind.R
 import com.willbanksy.vulnfind.data.source.local.mapToItem
+import com.willbanksy.vulnfind.ui.state.ListingFilter
 
 @Composable
-fun VulnListView(model: MainViewModel, additionalPadding: PaddingValues = PaddingValues(0.dp)) {
+fun VulnListView(model: MainViewModel, filter: MutableState<ListingFilter>, additionalPadding: PaddingValues = PaddingValues(0.dp)) {
 	val pager = remember {
 		Pager(
 			PagingConfig(
@@ -42,7 +44,7 @@ fun VulnListView(model: MainViewModel, additionalPadding: PaddingValues = Paddin
 				maxSize = MAX_SIZE_UNBOUNDED
 			)
 		) {
-			model.observeAll()
+			model.observeAll(filter.value)
 		}
 	}
 	val lazyPagingItems = pager.flow.collectAsLazyPagingItems()

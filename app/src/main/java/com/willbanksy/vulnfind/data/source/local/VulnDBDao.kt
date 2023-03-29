@@ -3,6 +3,8 @@ package com.willbanksy.vulnfind.data.source.local
 import androidx.paging.PagingSource
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
+import java.time.Month
+import java.util.Date
 
 @Dao
 interface VulnDBDao {
@@ -17,6 +19,10 @@ interface VulnDBDao {
 	@Transaction
     @Query("SELECT * FROM VulnDB ORDER BY published_date_unix DESC")
     fun observeAll(): PagingSource<Int, VulnDBVulnWithMetricsDto>
+	
+	@Transaction
+	@Query("SELECT * FROM VulnDB WHERE strftime('%m%Y', datetime(published_date_unix/1000, 'unixepoch')) = strftime('%m%Y', datetime(:monthYearUnix/1000, 'unixepoch')) ORDER BY published_date_unix DESC")
+	fun observeAllFiltered(monthYearUnix: Long): PagingSource<Int, VulnDBVulnWithMetricsDto>
 
 	@Transaction
     @Query("SELECT * FROM VulnDB WHERE cve_id = :cveId")
