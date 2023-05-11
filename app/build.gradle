@@ -61,6 +61,7 @@ android {
 dependencies {
     // Room dependencies
     implementation "androidx.room:room-runtime:$room_version"
+//    implementation 'androidx.core:core-ktx:1.10.0'
     kapt "androidx.room:room-compiler:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
     implementation("androidx.room:room-paging:$room_version")

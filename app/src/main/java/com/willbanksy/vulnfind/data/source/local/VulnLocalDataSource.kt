@@ -1,11 +1,13 @@
 package com.willbanksy.vulnfind.data.source.local
 
+import android.util.Log
 import androidx.paging.PagingSource
 import com.willbanksy.vulnfind.data.VulnDataItem
 import com.willbanksy.vulnfind.data.source.VulnDataSource
 import com.willbanksy.vulnfind.ui.state.ListingFilter
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import java.io.DataInput
 import java.time.ZoneId
 import java.time.ZoneOffset
 import java.time.ZonedDateTime
@@ -28,16 +30,26 @@ class VulnLocalDataSource(
 			return dao.observeAll()
 		}
 		
-		if(filter.year != null && filter.month != null) {
-			return dao.observeAllFiltered(
-				ZonedDateTime.of(
-					filter.year.value, filter.month.value, 1, 0, 0, 0, 0,
-					ZoneId.ofOffset("UTC", ZoneOffset.UTC)
-				).toEpochSecond()
-			)
+		val month: Int = filter.month?.value ?: 1
+		val year: Int = filter.year?.value ?: 2000
+		val dateCmpFormat = if(filter.month != null && filter.year != null) {
+			"%m%Y"
+		} else if(filter.year != null) {
+			"%Y"
+		} else if(filter.month != null) {
+			"%m"
+		} else {
+			""
 		}
-
-		return dao.observeAll()
+		
+		return dao.observeAllFiltered(
+			ZonedDateTime.of(
+				year, month, 1, 0, 0, 0, 0,
+				ZoneId.ofOffset("UTC", ZoneOffset.UTC)
+			).toEpochSecond(),
+			dateCmpFormat
+		)
+		
 		// TODO: Find a way to map the contents of this PagingSource to VulnDataItem
 //			.map<Int, VulnDBVulnWithMetricsDto> {
 //			mapToItems(vulnsDtos)

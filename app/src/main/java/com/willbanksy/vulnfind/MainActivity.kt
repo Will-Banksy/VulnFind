@@ -24,7 +24,7 @@ class MainActivity : ComponentActivity() {
 		
 		val notifPermissionRequest = registerForActivityResult(
 			ActivityResultContracts.RequestPermission()
-		) { granted ->
+		) { _ ->
 		}
 		
 		setContent {

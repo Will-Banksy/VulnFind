@@ -1,6 +1,7 @@
 package com.willbanksy.vulnfind.ui.components
 
 import android.content.Intent
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -19,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat.startActivity
@@ -36,7 +38,7 @@ import com.willbanksy.vulnfind.ui.state.ListingFilter
 
 @Composable
 fun VulnListView(model: MainViewModel, filter: MutableState<ListingFilter>, additionalPadding: PaddingValues = PaddingValues(0.dp)) {
-	val pager = remember {
+	val pager = remember(filter.value) {
 		Pager(
 			PagingConfig(
 				pageSize = 600,
@@ -48,7 +50,7 @@ fun VulnListView(model: MainViewModel, filter: MutableState<ListingFilter>, addi
 		}
 	}
 	val lazyPagingItems = pager.flow.collectAsLazyPagingItems()
-
+	
 	Box(
 		modifier = Modifier
 			.fillMaxSize(),
@@ -64,7 +66,7 @@ fun VulnListView(model: MainViewModel, filter: MutableState<ListingFilter>, addi
 			),
 			modifier = Modifier.fillMaxSize()
 		) {
-			itemsIndexed(lazyPagingItems) {index, dtoItem ->
+			itemsIndexed(lazyPagingItems) {_, dtoItem ->
 				val item = dtoItem.let { dto ->
 					if(dto == null) {
 						return@let null

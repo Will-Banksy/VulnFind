@@ -34,24 +34,28 @@ fun ListingActivityView(model: MainViewModel) {
 		}
 		val bottomPadding = WindowInsets.systemBars.asPaddingValues().calculateBottomPadding()
 		
+		val sheetPeekHeight = remember {
+			mutableStateOf(0.dp)
+		}
+		
 		BottomSheetScaffold(
 			scaffoldState = scaffoldState,
-			sheetPeekHeight = 64.dp + bottomPadding,
+			sheetPeekHeight = sheetPeekHeight.value + bottomPadding,
 			sheetElevation = 2.dp,
 			topBar = {
 				TopBarView(label = stringResource(R.string.activity_listing_title), true)
 			},
 			sheetContent = {
-				ListFilterSheetView(model = model, scaffoldState.bottomSheetState, filter)
+				ListFilterSheetView(model = model, scaffoldState.bottomSheetState, filter, sheetPeekHeight)
 			},
-		) {
+		) { padding ->
 			val coroutineScope = rememberCoroutineScope()
 			BackHandler(scaffoldState.bottomSheetState.isExpanded) {
 				coroutineScope.launch {
 					scaffoldState.bottomSheetState.collapse()
 				}
 			}
-			VulnListView(model = model, filter = filter)
+			VulnListView(model = model, filter = filter, additionalPadding = padding)
 		}
 //		DefaultScaffoldView(topBarLabel = stringResource(R.string.activity_listing_title), topBarShowBack = true) {
 //			//VulnListView(model, PaddingValues(bottom = bottomPadding))

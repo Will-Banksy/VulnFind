@@ -2,19 +2,8 @@ package com.willbanksy.vulnfind.data.source.local
 
 import androidx.room.*
 
-// TODO: Move this shit to be a LocalDataSource specific thing, and will need a mapper to transform that into a standard format for dealing with in the application
-
-// TODO: Probably want to enable FTS4 (Full text search 4)?
-
-//enum class VulnDataSource {
-//    SOURCE_DEFAULT,
-//    SOURCE_NVD,
-//    SOURCE_LOCALSTORAGE,
-//    SOURCE_NONE
-//}
-
 @Entity(tableName = "VulnDB")
-data class VulnDBVulnDto( // TODO: Add more fields to this. Make sure to update NvdDtosMapper.kt when I do
+data class VulnDBVulnDto( // TODO: Add more fields to this. Make sure to update VulnDBDtosMapper.kt when I do
 	@PrimaryKey @ColumnInfo("cve_id") val cveId: String = "",
 	val description: String = "",
 	@ColumnInfo("published_date") val publishedDate: String = "",

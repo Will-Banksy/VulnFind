@@ -82,7 +82,7 @@ fun SheetModeMenuView(sheetState: ModalBottomSheetState, sheetMode: MutableState
 				}
 			}
 		} else {
-			MenuItemView(modifier = Modifier.clickable {
+			HorizontalItemView(modifier = Modifier.clickable {
 				sheetMode.value = BottomSheetMode.DOWNLOAD_CONFIRM
 			},
 				icon = Icons.Filled.Refresh,
@@ -90,7 +90,7 @@ fun SheetModeMenuView(sheetState: ModalBottomSheetState, sheetMode: MutableState
 				itemDesc = stringResource(R.string.view_menu_refresh_title)
 			)
 		}
-		MenuItemView(modifier = Modifier.clickable {
+		HorizontalItemView(modifier = Modifier.clickable {
 			coroutineScope.launch {
 				sheetState.hide()
 			}
@@ -101,14 +101,14 @@ fun SheetModeMenuView(sheetState: ModalBottomSheetState, sheetMode: MutableState
 			iconDesc = stringResource(R.string.view_menu_settings_icon_name),
 			itemDesc = stringResource(R.string.view_menu_settings_title)
 		)
-		MenuItemView(modifier = Modifier.clickable {
+		HorizontalItemView(modifier = Modifier.clickable {
 			sheetMode.value = BottomSheetMode.HELP
 		},
 			icon = Icons.Filled.Help,
 			iconDesc = stringResource(R.string.view_menu_help_icon_name),
 			itemDesc = stringResource(R.string.view_menu_help_title)
 		)
-		MenuItemView(modifier = Modifier.clickable {
+		HorizontalItemView(modifier = Modifier.clickable {
 			coroutineScope.launch {
 				sheetState.hide()
 			}

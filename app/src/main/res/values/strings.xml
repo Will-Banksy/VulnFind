@@ -22,6 +22,8 @@
     <string name="notification.network_error_database_access_desc">Error accessing local database. This could be a bug</string>
     <string name="notification.network_error_action_retry">Try again</string>
 
+    <string name="view.ok">OK</string>
+    <string name="view.cancel">Cancel</string>
     <string name="view.topbar_back_icon_name">Back</string>
     <string name="view.menu_button">Menu</string>
     <string name="view.search_button">Search</string>
@@ -62,4 +64,27 @@
     
     <string name="view.about.version_prefix">Version</string>
     <string name="view.about.disclaimer">This product uses data from the NVD API but is not endorsed or certified by the NVD.</string>
+    
+    <string name="view.listing.applied_filters">Applied Filters</string>
+    <string name="view.listing.filters.filters_title">Filters</string>
+    <string name="view.listing.filters.month_year">Filter by Month/Year</string>
+    <string name="view.listing.filters.month_year_icon">Edit month/year</string>
+    
+    <string name="view.datepicker.year">Year</string>
+    <string name="view.datepicker.month">Month</string>
+    <string name="view.datepicker.no_selection">No selection</string>
+    <string name="view.datepicker.select_date">Select Date</string>
+    <string name="view.datepicker.deselect">Deselect</string>
+    <string name="view.datepicker.january">January</string>
+    <string name="view.datepicker.february">February</string>
+    <string name="view.datepicker.march">March</string>
+    <string name="view.datepicker.april">April</string>
+    <string name="view.datepicker.may">May</string>
+    <string name="view.datepicker.june">June</string>
+    <string name="view.datepicker.july">July</string>
+    <string name="view.datepicker.august">August</string>
+    <string name="view.datepicker.september">September</string>
+    <string name="view.datepicker.october">October</string>
+    <string name="view.datepicker.november">November</string>
+    <string name="view.datepicker.december">December</string>
 </resources>
