@@ -69,6 +69,11 @@
     <string name="view.listing.filters.filters_title">Filters</string>
     <string name="view.listing.filters.month_year">Filter by Month/Year</string>
     <string name="view.listing.filters.month_year_icon">Edit month/year</string>
+    <string name="view.listing.filters.score">Filter by CVSS score</string>
+    <string name="view.listing.filters.score_icon">Score</string>
+    <string name="view.listing.filters.show_empty_metrics">Show empty metrics</string>
+    <string name="view.listing.filters.text">Filter by description content</string>
+    <string name="view.listing.filters.text_icon">Text</string>
     
     <string name="view.datepicker.year">Year</string>
     <string name="view.datepicker.month">Month</string>

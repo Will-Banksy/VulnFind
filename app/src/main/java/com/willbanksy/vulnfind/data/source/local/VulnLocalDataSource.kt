@@ -42,12 +42,16 @@ class VulnLocalDataSource(
 			""
 		}
 		
-		return dao.observeAllFiltered(
+		return dao.observeAllFilteredMetrics(
 			ZonedDateTime.of(
 				year, month, 1, 0, 0, 0, 0,
 				ZoneId.ofOffset("UTC", ZoneOffset.UTC)
 			).toEpochSecond(),
-			dateCmpFormat
+			dateCmpFormat,
+			filter.minScore,
+			filter.maxScore,
+			filter.text.let { if(filter.text.isEmpty() || filter.text.isBlank()) "%" else "%${filter.text}%" },
+			if(filter.showEmptyMetrics) "A" else "N"
 		)
 		
 		// TODO: Find a way to map the contents of this PagingSource to VulnDataItem

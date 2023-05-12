@@ -19,11 +19,11 @@ interface VulnDBDao {
 	@Transaction
     @Query("SELECT * FROM VulnDB ORDER BY published_date_unix DESC")
     fun observeAll(): PagingSource<Int, VulnDBVulnWithMetricsDto>
-	
+
 	@Transaction
-	@Query("SELECT * FROM VulnDB WHERE strftime(:dateCmpFormat, datetime(published_date_unix, 'unixepoch')) = strftime(:dateCmpFormat, datetime(:monthYearUnix, 'unixepoch')) ORDER BY published_date_unix DESC")
-	fun observeAllFiltered(monthYearUnix: Long, dateCmpFormat: String): PagingSource<Int, VulnDBVulnWithMetricsDto>
-	
+	@Query("SELECT * FROM VulnDB WHERE strftime(:dateCmpFormat, datetime(published_date_unix, 'unixepoch')) = strftime(:dateCmpFormat, datetime(:unixTime, 'unixepoch')) AND primary_metric_version <> :primaryMetricFilterOut AND primary_metric_base_score BETWEEN :minSeverity AND :maxSeverity AND description LIKE :descriptionContentFilter ORDER BY published_date_unix DESC")
+	fun observeAllFilteredMetrics(unixTime: Long, dateCmpFormat: String, minSeverity: Float, maxSeverity: Float, descriptionContentFilter: String, primaryMetricFilterOut: String): PagingSource<Int, VulnDBVulnWithMetricsDto>
+
 	@Transaction
     @Query("SELECT * FROM VulnDB WHERE cve_id = :cveId")
     fun observeById(cveId: String): Flow<VulnDBVulnWithMetricsDto?>

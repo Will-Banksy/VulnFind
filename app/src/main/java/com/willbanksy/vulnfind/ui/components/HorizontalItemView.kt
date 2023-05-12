@@ -47,7 +47,7 @@ fun HorizontalItemView(
 	) {
 		Row(
 			modifier = Modifier
-				.padding(16.dp)
+				.padding(padding)
 				.fillMaxWidth()
 		) {
 			Icon(

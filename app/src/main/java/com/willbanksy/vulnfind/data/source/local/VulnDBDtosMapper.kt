@@ -2,6 +2,7 @@ package com.willbanksy.vulnfind.data.source.local
 
 import com.willbanksy.vulnfind.data.VulnDataItem
 import com.willbanksy.vulnfind.data.VulnDataItemMetric
+import com.willbanksy.vulnfind.utils.pickPrimaryMetric
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
@@ -43,7 +44,17 @@ fun mapFromItem(item: VulnDataItem): VulnDBVulnWithMetricsDto {
 			publishedDate = item.publishedDate,
 			lastModifiedDate = item.lastModifiedDate,
 			publishedDateUnix = LocalDateTime.parse(item.publishedDate, DateTimeFormatter.ISO_DATE_TIME).toEpochSecond(
-				ZoneOffset.UTC)
+				ZoneOffset.UTC),
+			primaryMetric = pickPrimaryMetric(item.metrics).let { metric ->
+				VulnDBMetricDto(
+					id = "${item.cveId}_primary",
+					ofCveId = item.cveId,
+					version = metric?.version ?: "N",
+					vectorString = metric?.vectorString ?: "",
+					baseScore = metric?.baseScore ?: 0f,
+					baseSeverity = metric?.baseSeverity ?: ""
+				)
+			}
 		),
 		metrics = item.metrics.mapIndexed { index, metric ->
 			VulnDBMetricDto(
