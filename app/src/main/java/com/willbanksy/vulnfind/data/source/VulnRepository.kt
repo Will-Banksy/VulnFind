@@ -55,4 +55,8 @@ class VulnRepository(
 	fun observeBookmarked(): PagingSource<Int, VulnDBVulnWithMetricsAndReferencesDto> {
 		return local.observeBookmarked()
 	}
+	
+	fun observeAllFilteredById(cveId: String): PagingSource<Int, VulnDBVulnWithMetricsAndReferencesDto> {
+		return local.observeAllFilteredById(cveId)
+	}
 }

@@ -31,4 +31,8 @@ class MainViewModel( // TODO: Make this class immutable? Or something I'm not qu
 	fun observeBookmarked(): PagingSource<Int, VulnDBVulnWithMetricsAndReferencesDto> {
 		return vulnRepository.observeBookmarked()
 	}
+	
+	fun observeAllFilteredById(cveId: String): PagingSource<Int, VulnDBVulnWithMetricsAndReferencesDto> {
+		return vulnRepository.observeAllFilteredById(cveId)
+	}
 }

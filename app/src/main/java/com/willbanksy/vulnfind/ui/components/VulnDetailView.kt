@@ -23,6 +23,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.BottomAppBar
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Snackbar
@@ -33,6 +34,8 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.BookmarkBorder
+import androidx.compose.material.icons.filled.OpenInBrowser
+import androidx.compose.material.icons.filled.OpenInNew
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
@@ -145,10 +148,23 @@ fun VulnDetailView(model: MainViewModel, cveId: String) {
 				.padding(16.dp)
 				.padding(scaffoldPadding)
 		) {
-			Text(
-				text = vulnTitle,
-				style = MaterialTheme.typography.h4
-			)
+			Row {
+				Text(
+					text = vulnTitle,
+					style = MaterialTheme.typography.h4
+				)
+				Spacer(modifier = Modifier.weight(1f))
+				val uriHandler = LocalUriHandler.current
+				IconButton(onClick = {
+					if(vuln != null) {
+						uriHandler.openUri("https://nvd.nist.gov/vuln/detail/${vuln.cveId}")
+					}
+				}) {
+					Icon(imageVector = Icons.Filled.OpenInNew, contentDescription = stringResource(
+						id = R.string.view_details_open_in_browser_icon
+					))
+				}
+			}
 			if(vuln != null) {
 				val primaryMetricId = pickPrimaryMetricId(vuln.metrics)
 				if(primaryMetricId != -1) {

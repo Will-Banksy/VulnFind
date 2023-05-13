@@ -80,6 +80,7 @@
 
     <string name="view.details.heading.metrics">Metrics</string>
     <string name="view.details.heading.references">References</string>
+    <string name="view.details.open_in_browser_icon">Open in browser</string>
     <string name="view.details.bookmark">Bookmark</string>
     <string name="view.details.bookmark_icon">Bookmark</string>
     <string name="view.details.published">Published</string>
@@ -88,6 +89,8 @@
     <string name="view.details.primary_metric_icon">Primary</string>
     <string name="view.details.snackbar_bookmark_added">Bookmark Added</string>
     <string name="view.details.snackbar_bookmark_removed">Bookmark Removed</string>
+
+    <string name="view.search.search_icon">Search</string>
 
     <string name="view.datepicker.year">Year</string>
     <string name="view.datepicker.month">Month</string>
@@ -106,5 +109,4 @@
     <string name="view.datepicker.october">October</string>
     <string name="view.datepicker.november">November</string>
     <string name="view.datepicker.december">December</string>
-    <string name="title_activity_search">SearchActivity</string>
 </resources>

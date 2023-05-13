@@ -83,4 +83,9 @@ class VulnLocalDataSource(
 	fun observeBookmarked(): PagingSource<Int, VulnDBVulnWithMetricsAndReferencesDto> {
 		return dao.observeBookmarked()
 	}
+	
+	fun observeAllFilteredById(cveId: String): PagingSource<Int, VulnDBVulnWithMetricsAndReferencesDto> {
+		val cveIdLike = "%${cveId}%"
+		return dao.observeAllFilteredById(cveIdLike)
+	}
 }

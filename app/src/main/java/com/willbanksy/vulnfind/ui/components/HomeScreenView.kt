@@ -97,13 +97,25 @@ fun HomeScreenView(model: MainViewModel, sheetState: ModalBottomSheetState, shee
 		Text(
 			text = stringResource(id = R.string.view_home_heading_bookmarked),
 			style = MaterialTheme.typography.h6,
-			modifier = Modifier.padding(top = 16.dp, bottom = 8.dp).padding(horizontal = 16.dp)
+			modifier = Modifier
+				.padding(top = 16.dp, bottom = 8.dp)
+				.padding(horizontal = 16.dp)
 		)
 		val filter = remember {
 			mutableStateOf(ListingFilter())
 		}
-		VulnListView(model = model, filter = filter, pagingSourceFactory = {
-			model.observeBookmarked()
+		VulnListView(model = model, filter = filter, pagerFactory = {
+			remember {
+				Pager(
+					PagingConfig(
+						pageSize = 600,
+						enablePlaceholders = true,
+						maxSize = PagingConfig.MAX_SIZE_UNBOUNDED
+					)
+				) {
+					model.observeBookmarked()
+				}
+			}
 		})
 	}
 }

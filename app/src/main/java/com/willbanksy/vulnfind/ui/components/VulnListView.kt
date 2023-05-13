@@ -37,18 +37,19 @@ import com.willbanksy.vulnfind.data.source.local.mapToItem
 import com.willbanksy.vulnfind.ui.state.ListingFilter
 
 @Composable
-fun VulnListView(model: MainViewModel, filter: MutableState<ListingFilter>, additionalPadding: PaddingValues = PaddingValues(0.dp), pagingSourceFactory: (() -> PagingSource<Int, VulnDBVulnWithMetricsAndReferencesDto>)? = null) {
-	val pager = remember(filter.value) {
-		Pager(
-			PagingConfig(
-				pageSize = 600,
-				enablePlaceholders = true,
-				maxSize = MAX_SIZE_UNBOUNDED
-			)
-		) {
-			if(pagingSourceFactory != null) {
-				pagingSourceFactory()
-			} else {
+fun VulnListView(model: MainViewModel, filter: MutableState<ListingFilter>, additionalPadding: PaddingValues = PaddingValues(0.dp), pagerFactory: (@Composable () -> Pager<Int, VulnDBVulnWithMetricsAndReferencesDto>)? = null) {
+
+	val pager = if(pagerFactory != null) {
+		pagerFactory()
+	} else {
+		remember(filter.value) {
+			Pager(
+				PagingConfig(
+					pageSize = 600,
+					enablePlaceholders = true,
+					maxSize = MAX_SIZE_UNBOUNDED
+				)
+			) {
 				model.observeAll(filter.value)
 			}
 		}

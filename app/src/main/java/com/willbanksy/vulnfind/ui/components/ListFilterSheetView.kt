@@ -225,7 +225,7 @@ fun ListFilterSheetView(model: MainViewModel, bottomSheetState: BottomSheetState
 							)
 						}
 						Row {
-							TextField(value = filter.value.text, onValueChange = { str ->
+							TextField(value = filter.value.text, singleLine = true, onValueChange = { str ->
 								filter.value = filter.value.copy(text = str)
 							}, modifier = Modifier.weight(1f))
 						}
