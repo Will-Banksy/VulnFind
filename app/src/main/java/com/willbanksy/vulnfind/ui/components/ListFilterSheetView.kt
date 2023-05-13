@@ -45,7 +45,6 @@ fun ListFilterSheetView(model: MainViewModel, bottomSheetState: BottomSheetState
 		}
 	}
 	
-	
 	BoxWithConstraints {
 		val localDensity = LocalDensity.current
 		Column(
@@ -54,7 +53,7 @@ fun ListFilterSheetView(model: MainViewModel, bottomSheetState: BottomSheetState
 				.heightIn(max = maxHeight - topPadding)
 		) {
 			Column(
-				modifier = Modifier.background(MaterialTheme.colors.surface)//Color.Red.copy(alpha = 0.2f))
+				modifier = Modifier.background(MaterialTheme.colors.surface)
 			) {
 				Row(
 					modifier = Modifier
@@ -63,8 +62,6 @@ fun ListFilterSheetView(model: MainViewModel, bottomSheetState: BottomSheetState
 							sheetPeekHeight.value =
 								with(localDensity) { coordinates.size.height.toDp() }
 						},
-	//					.padding(0.dp),
-	//					.offset(y = topPadding * fractionToExpanded),
 					verticalAlignment = Alignment.CenterVertically
 				) {
 					Spacer(modifier = Modifier.width(16.dp))
@@ -107,7 +104,6 @@ fun ListFilterSheetView(model: MainViewModel, bottomSheetState: BottomSheetState
 						)
 					}
 				}
-	//			Spacer(modifier = Modifier.height(topPadding))
 			}
 			
 			val scrollState = rememberScrollState()
@@ -154,7 +150,9 @@ fun ListFilterSheetView(model: MainViewModel, bottomSheetState: BottomSheetState
 				
 				HorizontalItemView(
 					modifier = Modifier.clickable {
-						dialogVisibility.value = true
+						if(bottomSheetState.isExpanded) {
+							dialogVisibility.value = true
+						}
 					},
 					icon = Icons.Filled.EditCalendar,
 					iconDesc = stringResource(id = R.string.view_listing_filters_month_year_icon),

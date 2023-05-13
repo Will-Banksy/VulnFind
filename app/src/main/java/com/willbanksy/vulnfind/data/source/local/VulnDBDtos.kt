@@ -10,7 +10,9 @@ data class VulnDBVulnDto( // TODO: Add more fields to this. Make sure to update 
 	@ColumnInfo("last_modified_date") val lastModifiedDate: String = "",
 	/// The published date in Unix time to speed up sorting by published date
 	@ColumnInfo("published_date_unix") val publishedDateUnix: Long,
-	@Embedded("primary_metric_") val primaryMetric: VulnDBMetricDto
+	@ColumnInfo("source_id") val sourceId: String,
+	@ColumnInfo("bookmarked") val bookmarked: Boolean = false,
+	@Embedded("primary_metric_") val primaryMetric: VulnDBMetricDto,
 //	val references: List<VulnReference>
 )
 
@@ -24,24 +26,25 @@ data class VulnDBMetricDto(
 	@ColumnInfo("base_severity") val baseSeverity: String = ""
 )
 
-data class VulnDBVulnWithMetricsDto(
+data class VulnDBVulnWithMetricsAndReferencesDto(
 	@Embedded val item: VulnDBVulnDto,
 	@Relation(
 		parentColumn = "cve_id",
 		entityColumn = "of_cve_id",
 	)
-	val metrics: List<VulnDBMetricDto>
+	val metrics: List<VulnDBMetricDto>,
+	@Relation(
+		parentColumn = "cve_id",
+		entityColumn = "of_cve_id"
+	)
+	val references: List<VulnDBReferenceDto>
 )
 
-//@Entity(tableName = "VulnReferences")
-//data class VulnReference(
-//	@PrimaryKey(autoGenerate = true) val id: Int = 0,
-//	val url: String,
-//	val source: String,
-//	val tags: List<String> = emptyList()
-//)
-
-//data class VulnListState(
-//    var vulns: List<VulnItemState> = listOf(),
-//    var source: VulnDataSource = VulnDataSource.SOURCE_NONE
-//)
+@Entity(tableName = "VulnReferences")
+data class VulnDBReferenceDto(
+	@PrimaryKey(autoGenerate = true) val id: Int = 0,
+	@ColumnInfo("of_cve_id") val ofCveId: String,
+	val url: String,
+	val source: String,
+	val tags: String // List stored as a ;-separated string
+)

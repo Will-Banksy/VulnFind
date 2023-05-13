@@ -5,7 +5,9 @@ data class VulnDataItem(
 	val description: String,
 	val publishedDate: String,
 	val lastModifiedDate: String,
-	val metrics: List<VulnDataItemMetric>
+	val sourceId: String,
+	val metrics: List<VulnDataItemMetric>,
+	val references: List<VulnDataItemReference>
 )
 
 data class VulnDataItemMetric(
@@ -13,4 +15,10 @@ data class VulnDataItemMetric(
 	val vectorString: String,
 	val baseScore: Float,
 	val baseSeverity: String,
+)
+
+data class VulnDataItemReference(
+	val url: String,
+	val source: String,
+	val tags: List<String>
 )

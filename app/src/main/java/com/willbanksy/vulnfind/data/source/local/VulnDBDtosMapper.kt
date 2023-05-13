@@ -2,23 +2,19 @@ package com.willbanksy.vulnfind.data.source.local
 
 import com.willbanksy.vulnfind.data.VulnDataItem
 import com.willbanksy.vulnfind.data.VulnDataItemMetric
-import com.willbanksy.vulnfind.utils.pickPrimaryMetric
+import com.willbanksy.vulnfind.data.VulnDataItemReference
+import com.willbanksy.vulnfind.utils.pickPrimaryMetricId
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 
-fun mapToItems(listingDto: List<VulnDBVulnWithMetricsDto>): List<VulnDataItem> {
-	return listingDto.map { itemDto ->
-		mapToItem(itemDto)
-	}
-}
-
-fun mapToItem(itemDto: VulnDBVulnWithMetricsDto): VulnDataItem {
+fun mapToItem(itemDto: VulnDBVulnWithMetricsAndReferencesDto): VulnDataItem {
 	return VulnDataItem(
 		cveId = itemDto.item.cveId,
 		description = itemDto.item.description,
 		publishedDate = itemDto.item.publishedDate,
 		lastModifiedDate = itemDto.item.lastModifiedDate,
+		sourceId = itemDto.item.sourceId,
 		metrics = itemDto.metrics.map { metricDto ->
 			VulnDataItemMetric(
 				version = metricDto.version,
@@ -26,18 +22,20 @@ fun mapToItem(itemDto: VulnDBVulnWithMetricsDto): VulnDataItem {
 				baseScore = metricDto.baseScore,
 				baseSeverity = metricDto.baseSeverity
 			)
+		},
+		references = itemDto.references.map { refDto ->
+			VulnDataItemReference(
+				url = refDto.url,
+				source = refDto.source,
+				tags = refDto.tags.split(";")
+			)
 		}
 	)
 }
 
-fun mapFromItems(items: List<VulnDataItem>): List<VulnDBVulnWithMetricsDto> {
-	return items.map { item -> 
-		mapFromItem(item)
-	}
-}
-
-fun mapFromItem(item: VulnDataItem): VulnDBVulnWithMetricsDto {
-	return VulnDBVulnWithMetricsDto(
+fun mapFromItem(item: VulnDataItem): VulnDBVulnWithMetricsAndReferencesDto {
+	val primaryMetricId = pickPrimaryMetricId(item.metrics)
+	return VulnDBVulnWithMetricsAndReferencesDto(
 		item = VulnDBVulnDto(
 			cveId = item.cveId,
 			description = item.description,
@@ -45,26 +43,36 @@ fun mapFromItem(item: VulnDataItem): VulnDBVulnWithMetricsDto {
 			lastModifiedDate = item.lastModifiedDate,
 			publishedDateUnix = LocalDateTime.parse(item.publishedDate, DateTimeFormatter.ISO_DATE_TIME).toEpochSecond(
 				ZoneOffset.UTC),
-			primaryMetric = pickPrimaryMetric(item.metrics).let { metric ->
-				VulnDBMetricDto(
-					id = "${item.cveId}_primary",
-					ofCveId = item.cveId,
-					version = metric?.version ?: "N",
-					vectorString = metric?.vectorString ?: "",
-					baseScore = metric?.baseScore ?: 0f,
-					baseSeverity = metric?.baseSeverity ?: ""
-				)
-			}
+			sourceId = item.sourceId,
+			primaryMetric = mapFromMetricItem(item.metrics.getOrNull(primaryMetricId), item.cveId, primaryMetricId)
 		),
 		metrics = item.metrics.mapIndexed { index, metric ->
-			VulnDBMetricDto(
-				id = "${item.cveId}.${index}",
+			mapFromMetricItem(metric, item.cveId, index)
+		},
+		references = item.references.map { ref ->
+			VulnDBReferenceDto(
 				ofCveId = item.cveId,
-				version = metric.version,
-				vectorString = metric.vectorString,
-				baseScore = metric.baseScore,
-				baseSeverity = metric.baseSeverity
+				url = ref.url,
+				source = ref.source,
+				tags = ref.tags.foldIndexed("") { i, tag, acc ->
+					if(i == 0) {
+						acc.plus(tag)
+					} else {
+						acc.plus(";${tag}")
+					}
+				}
 			)
 		}
+	)
+}
+
+fun mapFromMetricItem(metric: VulnDataItemMetric?, cveId: String, index: Int): VulnDBMetricDto {
+	return VulnDBMetricDto(
+		id = "${cveId}.${index}",
+		ofCveId = cveId,
+		version = metric?.version ?: "N",
+		vectorString = metric?.vectorString ?: "",
+		baseScore = metric?.baseScore ?: 0f,
+		baseSeverity = metric?.baseSeverity ?: ""
 	)
 }

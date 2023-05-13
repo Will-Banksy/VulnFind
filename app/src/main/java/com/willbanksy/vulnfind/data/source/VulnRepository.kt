@@ -2,7 +2,7 @@ package com.willbanksy.vulnfind.data.source
 
 import androidx.paging.PagingSource
 import com.willbanksy.vulnfind.data.VulnDataItem
-import com.willbanksy.vulnfind.data.source.local.VulnDBVulnWithMetricsDto
+import com.willbanksy.vulnfind.data.source.local.VulnDBVulnWithMetricsAndReferencesDto
 import com.willbanksy.vulnfind.data.source.local.VulnLocalDataSource
 import com.willbanksy.vulnfind.data.source.remote.VulnRemoteDataSource
 import com.willbanksy.vulnfind.ui.state.ListingFilter
@@ -37,44 +37,16 @@ class VulnRepository(
 		}
 	}
 	
-//	suspend fun refreshId(cveId: String) {
-//		withContext(Dispatchers.IO) {
-//			val remoteCve = remote.getVuln(cveId)
-//			if(remoteCve != null) { 
-//				local.addVuln(remoteCve)
-//			}
-//		}
-//	}
-	
-//	fun getAllMetrics(): Flow<List<VulnMetric>> {
-//		return local.getAllMetrics()
-//	}
-	
 	fun observeById(cveId: String): Flow<VulnDataItem?> {
 		// BUG: This will return null if the CVE ID is not in the local database. Need some way of fetching from remote
 		return local.observeById(cveId)
 	}
-
-//	suspend fun getVuln(cveId: String): VulnItemWithMetrics? {
-//		var localVuln = local.getVuln(cveId)
-//		if(localVuln == null) {
-//			refreshId(cveId)
-//			localVuln = local.getVuln(cveId)
-//		}
-//		return localVuln
-//	}
 	
-	fun observeAll(filter: ListingFilter? = null): PagingSource<Int, VulnDBVulnWithMetricsDto> {
+	fun observeAll(filter: ListingFilter? = null): PagingSource<Int, VulnDBVulnWithMetricsAndReferencesDto> {
 		return local.observeAll(filter)
 	}
 	
-//	suspend fun getVulns(): List<VulnItemWithMetrics> {
-//		return local.getVulns()
-//	}
-	
-//	suspend fun manuallySaveToDB(vulns: List<VulnItemWithMetrics>) {
-//		withContext(Dispatchers.IO) {
-//			local.addVulns(vulns)
-//		}
-//	}
+	fun setBookmarked(item: VulnDataItem, bookmarked: Boolean) {
+		local.setBookmarked(item, bookmarked)
+	}
 }

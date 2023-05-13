@@ -71,15 +71,23 @@ fun parseVersion(version: String): Float {
 }
 
 fun pickPrimaryMetric(metrics: List<VulnDataItemMetric>): VulnDataItemMetric? {
-	var ret: VulnDataItemMetric? = null
+	val ret = pickPrimaryMetricId(metrics)
+	if(ret == -1) {
+		return null
+	}
+	return metrics[ret]
+}
+
+fun pickPrimaryMetricId(metrics: List<VulnDataItemMetric>): Int {
+	var ret: Int = -1
 	var retVersion = 0f
-	for(m in metrics) {
-		val mVersion = parseVersion(m.version)
-		if(ret == null) {
-			ret = m
+	for(i in metrics.indices) {
+		val mVersion = parseVersion(metrics[i].version)
+		if(ret == -1) {
+			ret = i
 			retVersion = mVersion
 		} else if(mVersion > retVersion) {
-			ret = m
+			ret = i
 			retVersion = mVersion
 		}
 	}

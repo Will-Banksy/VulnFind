@@ -1,13 +1,11 @@
 package com.willbanksy.vulnfind.data.source.local
 
-import android.util.Log
 import androidx.paging.PagingSource
 import com.willbanksy.vulnfind.data.VulnDataItem
 import com.willbanksy.vulnfind.data.source.VulnDataSource
 import com.willbanksy.vulnfind.ui.state.ListingFilter
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import java.io.DataInput
 import java.time.ZoneId
 import java.time.ZoneOffset
 import java.time.ZonedDateTime
@@ -25,7 +23,7 @@ class VulnLocalDataSource(
 		}
     }
 
-    fun observeAll(filter: ListingFilter? = null): PagingSource<Int, VulnDBVulnWithMetricsDto> {
+    fun observeAll(filter: ListingFilter? = null): PagingSource<Int, VulnDBVulnWithMetricsAndReferencesDto> {
 		if(filter == null) {
 			return dao.observeAll()
 		}
@@ -55,26 +53,30 @@ class VulnLocalDataSource(
 		)
 		
 		// TODO: Find a way to map the contents of this PagingSource to VulnDataItem
-//			.map<Int, VulnDBVulnWithMetricsDto> {
-//			mapToItems(vulnsDtos)
-//		}
     }
 
     fun addVulns(vulns: List<VulnDataItem>) {
 		val vulnsDtos: MutableList<VulnDBVulnDto> = mutableListOf()
 		val metricsDtos: MutableList<VulnDBMetricDto> = mutableListOf()
+		val refsDtos: MutableList<VulnDBReferenceDto> = mutableListOf()
 		
 		for(item in vulns) {
 			val dto = mapFromItem(item)
 			vulnsDtos.add(dto.item)
 			metricsDtos.addAll(dto.metrics)
+			refsDtos.addAll(dto.references)
 		}
 		
 		dao.insertAllVulns(vulnsDtos)
 		dao.insertAllMetrics(metricsDtos)
+		dao.insertAllReferences(refsDtos)
     }
 	
-//	fun getAllMetrics(): Flow<List<VulnMetric>> {
-//		return dao.getAllMetrics()
-//	}
+	fun setBookmarked(item: VulnDataItem, bookmarked: Boolean) {
+		val itemDto = mapFromItem(item)
+		
+		val vulnDto = itemDto.item.copy(bookmarked = bookmarked)
+		
+		dao.updateVuln(vulnDto)
+	}
 }

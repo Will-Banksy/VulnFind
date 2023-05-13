@@ -75,6 +75,13 @@
     <string name="view.listing.filters.text">Filter by description content</string>
     <string name="view.listing.filters.text_icon">Text</string>
     
+    <string name="view.details.heading.metrics">Metrics</string>
+    <string name="view.details.heading.references">References</string>
+    <string name="view.details.published">Published</string>
+    <string name="view.details.modified">Modified</string>
+    <string name="view.details.source_id">Source ID</string>
+    <string name="view.details.primary_metric_icon">Primary</string>
+    
     <string name="view.datepicker.year">Year</string>
     <string name="view.datepicker.month">Month</string>
     <string name="view.datepicker.no_selection">No selection</string>

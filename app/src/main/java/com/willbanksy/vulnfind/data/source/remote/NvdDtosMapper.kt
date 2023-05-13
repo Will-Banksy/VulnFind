@@ -2,6 +2,7 @@ package com.willbanksy.vulnfind.data.source.remote
 
 import com.willbanksy.vulnfind.data.VulnDataItem
 import com.willbanksy.vulnfind.data.VulnDataItemMetric
+import com.willbanksy.vulnfind.data.VulnDataItemReference
 
 fun mapToItems(listingDto: NvdCveListingDto?): List<VulnDataItem> {
 	return listingDto.let { cveListing ->
@@ -27,7 +28,15 @@ fun mapToItems(listingDto: NvdCveListingDto?): List<VulnDataItem> {
 				description = description,
 				publishedDate = cve.published,
 				lastModifiedDate = cve.lastModified,
+				sourceId = cve.sourceIdentifier,
 				metrics = metrics,
+				references = cve.references.map { refDto ->
+					VulnDataItemReference(
+						url = refDto.url ?: "",
+						source = refDto.source,
+						tags = refDto.tags ?: listOf()
+					)
+				}
 			)
 		}
 	}

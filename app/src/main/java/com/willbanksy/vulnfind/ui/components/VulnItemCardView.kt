@@ -48,7 +48,7 @@ fun VulnItemCardView(modifier: Modifier, vuln: VulnDataItem) {
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
                 fontStyle = FontStyle.Italic,
-                color = MaterialTheme.colors.onBackground.copy(alpha = 0.5f)
+                color = MaterialTheme.colors.onSurface.copy(alpha = 0.5f)
             )
         }
     }

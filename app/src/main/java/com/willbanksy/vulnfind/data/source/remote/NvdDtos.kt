@@ -26,6 +26,7 @@ data class NvdCveDto(
 	@JsonProperty("vulnStatus") val vulnStatus: String,
 	@JsonProperty("descriptions") val descriptions: List<NvdCveDescriptionDto>,
 	@JsonProperty("metrics") val metrics: NvdCveMetricsDto,
+	@JsonProperty("references") val references: List<NvdReferenceDto>
 )
 
 data class NvdCveDescriptionDto(
@@ -52,6 +53,12 @@ data class NvdCvssMetricDataDto(
 	@JsonProperty("vectorString") val vectorString: String,
 	@JsonProperty("baseScore") val baseScore: Float,
 	@JsonProperty("baseSeverity") val baseSeverity: String?
+)
+
+data class NvdReferenceDto(
+	@JsonProperty("url") val url: String?,
+	@JsonProperty("source") val source: String,
+	@JsonProperty("tags") val tags: List<String>?
 )
 
 //data class CvssMetricV31Dto(

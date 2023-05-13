@@ -7,32 +7,24 @@ import androidx.lifecycle.ViewModel
 import androidx.paging.PagingSource
 import com.willbanksy.vulnfind.data.VulnDataItem
 import com.willbanksy.vulnfind.data.source.VulnRepository
-import com.willbanksy.vulnfind.data.source.local.VulnDBVulnWithMetricsDto
+import com.willbanksy.vulnfind.data.source.local.VulnDBVulnWithMetricsAndReferencesDto
 import com.willbanksy.vulnfind.ui.state.ListingFilter
 import kotlinx.coroutines.flow.Flow
 
 class MainViewModel( // TODO: Make this class immutable? Or something I'm not quite sure what best practices are and how to achieve them
 	private val vulnRepository: VulnRepository
 ) : ViewModel() {
-//	var vulnsStream: PagingSource<Int, VulnDBVulnWithMetricsDto> = vulnRepository.observeAll()
 	var apiKey by mutableStateOf("")
-	
-//	fun refreshId(cveId: String) {
-//		viewModelScope.launch { 
-//			vulnRepository.refreshId(cveId)
-//		}
-//	}
 	
 	fun getById(cveId: String): Flow<VulnDataItem?> {
 		return vulnRepository.observeById(cveId)
 	}
 	
-	fun observeAll(filter: ListingFilter? = null): PagingSource<Int, VulnDBVulnWithMetricsDto> {
+	fun observeAll(filter: ListingFilter? = null): PagingSource<Int, VulnDBVulnWithMetricsAndReferencesDto> {
 		return vulnRepository.observeAll(filter)
 	}
 	
-	// TODO: Remove?
-//	fun getAllMetrics(): Flow<List<VulnMetric>> {
-//		return vulnRepository.getAllMetrics()
-//	}
+	fun setBookmarked(item: VulnDataItem, bookmarked: Boolean) {
+		vulnRepository.setBookmarked(item, bookmarked)
+	}
 }
