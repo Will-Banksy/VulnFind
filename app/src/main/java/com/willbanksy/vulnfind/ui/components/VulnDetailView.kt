@@ -34,7 +34,6 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.BookmarkBorder
-import androidx.compose.material.icons.filled.OpenInBrowser
 import androidx.compose.material.icons.filled.OpenInNew
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.rememberScaffoldState

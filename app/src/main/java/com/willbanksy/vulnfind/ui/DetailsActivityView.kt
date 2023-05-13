@@ -9,7 +9,6 @@ import androidx.compose.ui.res.stringResource
 import com.willbanksy.vulnfind.R
 import com.willbanksy.vulnfind.models.MainViewModel
 import com.willbanksy.vulnfind.ui.components.DefaultScaffoldView
-import com.willbanksy.vulnfind.ui.components.TopBarView
 import com.willbanksy.vulnfind.ui.components.VulnDetailView
 
 @OptIn(ExperimentalMaterialApi::class)

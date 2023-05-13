@@ -13,7 +13,6 @@ import com.willbanksy.vulnfind.R
 import com.willbanksy.vulnfind.models.MainViewModel
 import com.willbanksy.vulnfind.ui.components.DefaultScaffoldView
 import com.willbanksy.vulnfind.ui.components.SettingsItemView
-import com.willbanksy.vulnfind.ui.components.TopBarView
 
 @OptIn(ExperimentalMaterialApi::class)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")

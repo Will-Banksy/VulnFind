@@ -13,7 +13,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.willbanksy.vulnfind.R
 import com.willbanksy.vulnfind.ui.components.DefaultScaffoldView
-import com.willbanksy.vulnfind.ui.components.TopBarView
 
 @OptIn(ExperimentalMaterialApi::class)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")

@@ -68,7 +68,6 @@
     <string name="view.about.version_prefix">Version</string>
     <string name="view.about.disclaimer">This product uses data from the NVD API but is not endorsed or certified by the NVD.</string>
 
-    <string name="view.listing.applied_filters">Applied Filters</string>
     <string name="view.listing.filters.filters_title">Filters</string>
     <string name="view.listing.filters.month_year">Filter by Month/Year</string>
     <string name="view.listing.filters.month_year_icon">Edit month/year</string>
@@ -93,7 +92,6 @@
     <string name="view.search.search_icon">Search</string>
 
     <string name="view.datepicker.year">Year</string>
-    <string name="view.datepicker.month">Month</string>
     <string name="view.datepicker.no_selection">No selection</string>
     <string name="view.datepicker.select_date">Select Date</string>
     <string name="view.datepicker.deselect">Deselect</string>

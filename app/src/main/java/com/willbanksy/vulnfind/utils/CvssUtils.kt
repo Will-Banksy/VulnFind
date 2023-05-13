@@ -1,7 +1,6 @@
 package com.willbanksy.vulnfind.utils
 
 import androidx.compose.ui.graphics.Color
-import com.willbanksy.vulnfind.data.VulnDataItem
 import com.willbanksy.vulnfind.data.VulnDataItemMetric
 import com.willbanksy.vulnfind.ui.theme.CvssColours
 

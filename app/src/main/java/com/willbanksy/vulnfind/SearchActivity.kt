@@ -9,7 +9,6 @@ import com.willbanksy.vulnfind.data.source.local.VulnDB
 import com.willbanksy.vulnfind.data.source.local.VulnLocalDataSource
 import com.willbanksy.vulnfind.data.source.remote.VulnRemoteDataSource
 import com.willbanksy.vulnfind.models.MainViewModel
-import com.willbanksy.vulnfind.ui.ListingActivityView
 import com.willbanksy.vulnfind.ui.SearchActivityView
 import com.willbanksy.vulnfind.ui.theme.VulnFindTheme
 

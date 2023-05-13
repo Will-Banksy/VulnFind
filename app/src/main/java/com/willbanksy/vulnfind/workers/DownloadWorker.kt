@@ -9,7 +9,11 @@ import android.content.Intent
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.room.Room
-import androidx.work.*
+import androidx.work.CoroutineWorker
+import androidx.work.Data
+import androidx.work.ForegroundInfo
+import androidx.work.WorkManager
+import androidx.work.WorkerParameters
 import com.willbanksy.vulnfind.MainActivity
 import com.willbanksy.vulnfind.R
 import com.willbanksy.vulnfind.data.source.VulnRepository
@@ -22,7 +26,6 @@ import kotlinx.coroutines.withContext
 import java.io.IOException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
-import java.time.LocalDateTime
 import java.util.concurrent.CancellationException
 
 enum class ErrorType {

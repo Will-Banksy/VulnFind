@@ -7,7 +7,12 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
@@ -26,14 +31,13 @@ import androidx.paging.LoadState
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingConfig.Companion.MAX_SIZE_UNBOUNDED
-import androidx.paging.PagingSource
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemsIndexed
 import com.willbanksy.vulnfind.DetailsActivity
-import com.willbanksy.vulnfind.models.MainViewModel
 import com.willbanksy.vulnfind.R
 import com.willbanksy.vulnfind.data.source.local.VulnDBVulnWithMetricsAndReferencesDto
 import com.willbanksy.vulnfind.data.source.local.mapToItem
+import com.willbanksy.vulnfind.models.MainViewModel
 import com.willbanksy.vulnfind.ui.state.ListingFilter
 
 @Composable
