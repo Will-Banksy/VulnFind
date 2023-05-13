@@ -1,24 +1,44 @@
 package com.willbanksy.vulnfind.ui.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.BottomAppBar
+import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Snackbar
+import androidx.compose.material.SnackbarDuration
+import androidx.compose.material.SnackbarHost
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Bookmark
+import androidx.compose.material.icons.filled.BookmarkBorder
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
@@ -27,13 +47,15 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
-import com.willbanksy.vulnfind.models.MainViewModel
 import com.willbanksy.vulnfind.R
 import com.willbanksy.vulnfind.data.VulnDataItemMetric
 import com.willbanksy.vulnfind.data.VulnDataItemReference
+import com.willbanksy.vulnfind.models.MainViewModel
 import com.willbanksy.vulnfind.utils.CvssSeverity
 import com.willbanksy.vulnfind.utils.cvssColourForSeverity
 import com.willbanksy.vulnfind.utils.pickPrimaryMetricId
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @Composable
 fun VulnDetailView(model: MainViewModel, cveId: String) {
@@ -43,15 +65,85 @@ fun VulnDetailView(model: MainViewModel, cveId: String) {
 	val vuln = vulnStream.collectAsState(initial = null).value
 	val vulnTitle = vuln?.cveId ?: stringResource(id = R.string.view_loading_text)
 	
-	Box(
+	val scaffoldState = rememberScaffoldState()
+	
+	Scaffold(
 		modifier = Modifier
-			.fillMaxSize()
-	) {
+			.fillMaxSize(),
+		scaffoldState = scaffoldState,
+		bottomBar = {
+			if(vuln != null) {
+				val bottomPadding = WindowInsets.systemBars.asPaddingValues().calculateBottomPadding()
+				BottomAppBar(
+					contentPadding = PaddingValues(bottom = bottomPadding, top = 0.dp),
+					elevation = 0.dp,
+				) {
+					Row(horizontalArrangement = Arrangement.Center, modifier = Modifier.background(MaterialTheme.colors.surface)) {
+						val coroutineScope = rememberCoroutineScope()
+						val addedStr = stringResource(id = R.string.view_details_snackbar_bookmark_added)
+						val removedStr = stringResource(id = R.string.view_details_snackbar_bookmark_removed)
+						BottomNavigationItem(selected = vuln.bookmarked, alwaysShowLabel = true, onClick = {
+							coroutineScope.launch {
+								model.setBookmarked(vuln, !vuln.bookmarked)
+								val snackbarJob = launch {
+									if (vuln.bookmarked) {
+										scaffoldState.snackbarHostState.showSnackbar(
+											removedStr,
+											duration = SnackbarDuration.Short
+										)
+									} else {
+										scaffoldState.snackbarHostState.showSnackbar(
+											addedStr,
+											duration = SnackbarDuration.Short
+										)
+									}
+								}
+								delay(1500)
+								snackbarJob.cancel()
+							}
+						}, icon = {
+							val iconDesc = stringResource(id = R.string.view_details_bookmark_icon)
+							if(vuln.bookmarked) {
+								Icon(
+									imageVector = Icons.Filled.Bookmark,
+									contentDescription = iconDesc,
+									tint = MaterialTheme.colors.primary
+								)
+							} else {
+								Icon(
+									imageVector = Icons.Filled.BookmarkBorder,
+									contentDescription = iconDesc,
+									tint = MaterialTheme.colors.onSurface
+								)
+							}
+						}, label = {
+							Text(
+								text = stringResource(id = R.string.view_details_bookmark),
+								style = MaterialTheme.typography.caption,
+								color = MaterialTheme.colors.onSurface
+							)
+						})
+					}
+				}
+			}
+		},
+		snackbarHost = { snackbarHostState ->
+			SnackbarHost(hostState = snackbarHostState) { snackbarData ->
+				Snackbar(
+					snackbarData = snackbarData,
+					backgroundColor = MaterialTheme.colors.surface,
+					contentColor = MaterialTheme.colors.onSurface,
+					elevation = 4.dp
+				)
+			}
+		}
+	) { scaffoldPadding ->
 		val scrollState = rememberScrollState()
 		Column(
 			modifier = Modifier
 				.verticalScroll(scrollState)
 				.padding(16.dp)
+				.padding(scaffoldPadding)
 		) {
 			Text(
 				text = vulnTitle,
@@ -110,8 +202,6 @@ fun VulnDetailView(model: MainViewModel, cveId: String) {
 					}
 				}
 			}
-			val bottomPadding = WindowInsets.systemBars.asPaddingValues().calculateBottomPadding()
-			Spacer(modifier = Modifier.padding(bottom = bottomPadding))
 		}
 	}
 }

@@ -79,4 +79,8 @@ class VulnLocalDataSource(
 		
 		dao.updateVuln(vulnDto)
 	}
+	
+	fun observeBookmarked(): PagingSource<Int, VulnDBVulnWithMetricsAndReferencesDto> {
+		return dao.observeBookmarked()
+	}
 }

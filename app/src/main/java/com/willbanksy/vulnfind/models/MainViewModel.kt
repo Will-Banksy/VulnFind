@@ -24,7 +24,11 @@ class MainViewModel( // TODO: Make this class immutable? Or something I'm not qu
 		return vulnRepository.observeAll(filter)
 	}
 	
-	fun setBookmarked(item: VulnDataItem, bookmarked: Boolean) {
+	suspend fun setBookmarked(item: VulnDataItem, bookmarked: Boolean) {
 		vulnRepository.setBookmarked(item, bookmarked)
+	}
+	
+	fun observeBookmarked(): PagingSource<Int, VulnDBVulnWithMetricsAndReferencesDto> {
+		return vulnRepository.observeBookmarked()
 	}
 }

@@ -179,7 +179,7 @@ fun ListFilterSheetView(model: MainViewModel, bottomSheetState: BottomSheetState
 								textAlign = TextAlign.Start
 							)
 							RangeSlider(
-								values = filter.value.minScore..filter.value.maxScore,
+								value = filter.value.minScore..filter.value.maxScore,
 								onValueChange = { selectedRange ->
 									filter.value = filter.value.copy(minScore = (selectedRange.start * 10).roundToInt() / 10f, maxScore = (selectedRange.endInclusive * 10).roundToInt() / 10f)
 								},

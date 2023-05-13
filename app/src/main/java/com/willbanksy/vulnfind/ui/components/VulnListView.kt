@@ -1,7 +1,6 @@
 package com.willbanksy.vulnfind.ui.components
 
 import android.content.Intent
-import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -20,7 +19,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat.startActivity
@@ -28,16 +26,18 @@ import androidx.paging.LoadState
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingConfig.Companion.MAX_SIZE_UNBOUNDED
+import androidx.paging.PagingSource
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemsIndexed
 import com.willbanksy.vulnfind.DetailsActivity
 import com.willbanksy.vulnfind.models.MainViewModel
 import com.willbanksy.vulnfind.R
+import com.willbanksy.vulnfind.data.source.local.VulnDBVulnWithMetricsAndReferencesDto
 import com.willbanksy.vulnfind.data.source.local.mapToItem
 import com.willbanksy.vulnfind.ui.state.ListingFilter
 
 @Composable
-fun VulnListView(model: MainViewModel, filter: MutableState<ListingFilter>, additionalPadding: PaddingValues = PaddingValues(0.dp)) {
+fun VulnListView(model: MainViewModel, filter: MutableState<ListingFilter>, additionalPadding: PaddingValues = PaddingValues(0.dp), pagingSourceFactory: (() -> PagingSource<Int, VulnDBVulnWithMetricsAndReferencesDto>)? = null) {
 	val pager = remember(filter.value) {
 		Pager(
 			PagingConfig(
@@ -46,7 +46,11 @@ fun VulnListView(model: MainViewModel, filter: MutableState<ListingFilter>, addi
 				maxSize = MAX_SIZE_UNBOUNDED
 			)
 		) {
-			model.observeAll(filter.value)
+			if(pagingSourceFactory != null) {
+				pagingSourceFactory()
+			} else {
+				model.observeAll(filter.value)
+			}
 		}
 	}
 	val lazyPagingItems = pager.flow.collectAsLazyPagingItems()
@@ -90,7 +94,7 @@ fun VulnListView(model: MainViewModel, filter: MutableState<ListingFilter>, addi
 		}
 		
 		AnimatedVisibility(
-			visible = lazyPagingItems.loadState.refresh == LoadState.Loading,
+			visible = lazyPagingItems.loadState.refresh == LoadState.Loading || lazyPagingItems.itemCount == 0,
 			enter = fadeIn(tween(100)),
 			exit = fadeOut(tween(100))
 		) {
@@ -101,7 +105,11 @@ fun VulnListView(model: MainViewModel, filter: MutableState<ListingFilter>, addi
 						.background(MaterialTheme.colors.surface.copy(alpha = 0.4f)),
 					contentAlignment = Alignment.Center,
 				) {
-					Text(text = stringResource(R.string.view_loading_text))
+					if(lazyPagingItems.loadState.refresh == LoadState.Loading) {
+						Text(text = stringResource(R.string.view_loading_text))
+					} else {
+						Text(text = stringResource(R.string.view_none_found_text))
+					}
 				}
 			} else {
 				Box(

@@ -6,6 +6,7 @@ data class VulnDataItem(
 	val publishedDate: String,
 	val lastModifiedDate: String,
 	val sourceId: String,
+	val bookmarked: Boolean = false,
 	val metrics: List<VulnDataItemMetric>,
 	val references: List<VulnDataItemReference>
 )

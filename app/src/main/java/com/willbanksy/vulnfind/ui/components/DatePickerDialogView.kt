@@ -134,11 +134,11 @@ fun DatePickerDialog(
 							modifier = Modifier.weight(1f)
 						) {
 							val showingYearSelection = remember {
-								mutableStateOf(false)
+								mutableStateOf(true)
 							}
 
 							val arrowRotation = remember {
-								mutableStateOf(0f)
+								mutableStateOf(180f)
 							}
 							val animatedArrowRotation = animateFloatAsState(targetValue = arrowRotation.value)
 							

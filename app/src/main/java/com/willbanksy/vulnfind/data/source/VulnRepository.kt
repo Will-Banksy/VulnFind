@@ -46,7 +46,13 @@ class VulnRepository(
 		return local.observeAll(filter)
 	}
 	
-	fun setBookmarked(item: VulnDataItem, bookmarked: Boolean) {
-		local.setBookmarked(item, bookmarked)
+	suspend fun setBookmarked(item: VulnDataItem, bookmarked: Boolean) {
+		withContext(Dispatchers.IO) {
+			local.setBookmarked(item, bookmarked)
+		}
+	}
+	
+	fun observeBookmarked(): PagingSource<Int, VulnDBVulnWithMetricsAndReferencesDto> {
+		return local.observeBookmarked()
 	}
 }

@@ -15,6 +15,7 @@ fun mapToItem(itemDto: VulnDBVulnWithMetricsAndReferencesDto): VulnDataItem {
 		publishedDate = itemDto.item.publishedDate,
 		lastModifiedDate = itemDto.item.lastModifiedDate,
 		sourceId = itemDto.item.sourceId,
+		bookmarked = itemDto.item.bookmarked,
 		metrics = itemDto.metrics.map { metricDto ->
 			VulnDataItemMetric(
 				version = metricDto.version,
@@ -44,6 +45,7 @@ fun mapFromItem(item: VulnDataItem): VulnDBVulnWithMetricsAndReferencesDto {
 			publishedDateUnix = LocalDateTime.parse(item.publishedDate, DateTimeFormatter.ISO_DATE_TIME).toEpochSecond(
 				ZoneOffset.UTC),
 			sourceId = item.sourceId,
+			bookmarked = item.bookmarked,
 			primaryMetric = mapFromMetricItem(item.metrics.getOrNull(primaryMetricId), item.cveId, primaryMetricId)
 		),
 		metrics = item.metrics.mapIndexed { index, metric ->

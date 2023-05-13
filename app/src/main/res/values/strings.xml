@@ -7,12 +7,13 @@
     <string name="activity.settings_title">Settings</string>
     <string name="activity.listing_title">Full Listing</string>
     <string name="activity.about_title">About</string>
+    <string name="activity.search_title">Search</string>
 
     <string name="notification.channel.download_name">Download/Sync</string>
     <string name="notification.channel.download_desc">Monitor progress of ongoing network operations, and have the option to cancel them.</string>
     <string name="notification.channel.error_name">Download Errors</string>
     <string name="notification.channel.error_desc">Receive notification of errors that occur during downloads</string>
-    
+
     <string name="notification.download_title">Downloading NVD...</string>
     <string name="notification.download_action_cancel">Cancel</string>
     <string name="notification.network_error_title">Error Downloading NVD</string>
@@ -28,6 +29,7 @@
     <string name="view.menu_button">Menu</string>
     <string name="view.search_button">Search</string>
     <string name="view.loading_text">Loading...</string>
+    <string name="view.none_found_text">Nothing found</string>
     <string name="view.download_successful">Download of NVD successful!</string>
     <string name="view.download_failed">Download of NVD failed. Check your internet connection</string>
 
@@ -42,17 +44,18 @@
     <string name="view.menu.help_icon_name">Information</string>
     <string name="view.menu.help_title">Help</string>
     <string name="view.menu.downloading">Downloading NVD...</string>
-    
+
     <string name="view.menu.help.header">Help</string>
     <string name="view.menu.help.main_text">In order to populate the internal database with CVEs from the National Vulnerability Database (NVD), access the menu from the bottom-left of the screen, where you will find the option to refresh the local database.</string>
-    
+
     <string name="view.menu.download_confirm.header">Download?</string>
-    <string name="view.menu.download_confirm.main_text">This will download the NVD in it\'s entirety and store it in the internal database of this application. This is a fairly large download that will take a while. Entering a valid NVD API key in Settings will speed the download up significantly. Proceed?</string>
+    <string name="view.menu.download_confirm.main_text">This will download the NVD in it\'s entirety and store it in the internal database of this application. This is a fairly large download that will take a while. Entering a valid NVD API key in Settings will speed the download up significantly. This will remove your bookmarks. Proceed?</string>
     <string name="view.menu.download_confirm.button_text">Download</string>
 
     <string name="view.home.listing_icon_name">List</string>
     <string name="view.home.listing_title">Full Listing</string>
     <string name="view.home.downloaded_count_text">Downloaded CVEs</string>
+    <string name="view.home.heading.bookmarked">Bookmarks</string>
 
     <string name="view.settings.section.api_key_title">API Key</string>
     <string name="view.settings.section.data_usage_title">Data Usage</string>
@@ -61,10 +64,10 @@
     <string name="view.settings.item.api_key_description">To obtain an API key for the NVD, go to https://nvd.nist.gov/developers/request-an-api-key and follow the instructions</string>
     <string name="view.settings.item.metered_connections_title">Metered Connections</string>
     <string name="view.settings.item.metered_connections_description">Should network activity (such as downloading the NVD) be allowed over metered connections?</string>
-    
+
     <string name="view.about.version_prefix">Version</string>
     <string name="view.about.disclaimer">This product uses data from the NVD API but is not endorsed or certified by the NVD.</string>
-    
+
     <string name="view.listing.applied_filters">Applied Filters</string>
     <string name="view.listing.filters.filters_title">Filters</string>
     <string name="view.listing.filters.month_year">Filter by Month/Year</string>
@@ -74,14 +77,18 @@
     <string name="view.listing.filters.show_empty_metrics">Show empty metrics</string>
     <string name="view.listing.filters.text">Filter by description content</string>
     <string name="view.listing.filters.text_icon">Text</string>
-    
+
     <string name="view.details.heading.metrics">Metrics</string>
     <string name="view.details.heading.references">References</string>
+    <string name="view.details.bookmark">Bookmark</string>
+    <string name="view.details.bookmark_icon">Bookmark</string>
     <string name="view.details.published">Published</string>
     <string name="view.details.modified">Modified</string>
     <string name="view.details.source_id">Source ID</string>
     <string name="view.details.primary_metric_icon">Primary</string>
-    
+    <string name="view.details.snackbar_bookmark_added">Bookmark Added</string>
+    <string name="view.details.snackbar_bookmark_removed">Bookmark Removed</string>
+
     <string name="view.datepicker.year">Year</string>
     <string name="view.datepicker.month">Month</string>
     <string name="view.datepicker.no_selection">No selection</string>
@@ -99,4 +106,5 @@
     <string name="view.datepicker.october">October</string>
     <string name="view.datepicker.november">November</string>
     <string name="view.datepicker.december">December</string>
+    <string name="title_activity_search">SearchActivity</string>
 </resources>

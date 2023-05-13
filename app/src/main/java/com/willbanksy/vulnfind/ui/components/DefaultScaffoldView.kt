@@ -1,5 +1,6 @@
 package com.willbanksy.vulnfind.ui.components
 
+import android.content.Intent
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -12,9 +13,11 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat.startActivity
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import com.willbanksy.vulnfind.R
+import com.willbanksy.vulnfind.SearchActivity
 import com.willbanksy.vulnfind.ui.BottomSheetMode
 import com.willbanksy.vulnfind.workers.DownloadWorker
 import kotlinx.coroutines.launch
@@ -95,7 +98,10 @@ fun DefaultScaffoldView(
 						)
 					}
 					Spacer(modifier = Modifier.weight(1f))
-					IconButton(onClick = { /*TODO*/ }) {
+					val searchIntent = Intent(context, SearchActivity::class.java)
+					IconButton(onClick = {
+						startActivity(context, searchIntent, null)
+					}) {
 						Icon(
 							imageVector = Icons.Filled.Search,
 							contentDescription = stringResource(R.string.view_search_button),

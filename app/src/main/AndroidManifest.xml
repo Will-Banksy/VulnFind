@@ -16,6 +16,11 @@
             android:theme="@style/Theme.VulnFind"
             tools:targetApi="33">
         <activity
+                android:name=".SearchActivity"
+                android:exported="false"
+                android:label="@string/activity.search_title"
+                android:theme="@style/Theme.VulnFind" />
+        <activity
                 android:name=".AboutActivity"
                 android:configChanges="orientation|screenSize"
                 android:exported="false"
@@ -42,10 +47,11 @@
                 android:configChanges="orientation|screenSize"
                 android:exported="true"
                 android:label="@string/app.name"
-                android:theme="@style/Theme.VulnFind"
-                android:launchMode="singleInstancePerTask">
+                android:launchMode="singleInstancePerTask"
+                android:theme="@style/Theme.VulnFind">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

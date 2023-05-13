@@ -26,6 +26,9 @@ interface VulnDBDao {
     @Query("SELECT * FROM VulnDB WHERE cve_id = :cveId")
     fun observeById(cveId: String): Flow<VulnDBVulnWithMetricsAndReferencesDto?>
 	
+	@Query("SELECT * FROM VulnDB WHERE bookmarked = 1")
+	fun observeBookmarked(): PagingSource<Int, VulnDBVulnWithMetricsAndReferencesDto>
+	
 //	@Query("SELECT * FROM VulnMetrics")
 //	fun getAllMetrics(): Flow<List<VulnMetric>>
 

@@ -21,6 +21,7 @@ import com.willbanksy.vulnfind.ListingActivity
 import com.willbanksy.vulnfind.R
 import com.willbanksy.vulnfind.models.MainViewModel
 import com.willbanksy.vulnfind.ui.BottomSheetMode
+import com.willbanksy.vulnfind.ui.state.ListingFilter
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -93,5 +94,16 @@ fun HomeScreenView(model: MainViewModel, sheetState: ModalBottomSheetState, shee
 				Text(text = stringResource(R.string.view_menu_help_title))
 			}
 		}
+		Text(
+			text = stringResource(id = R.string.view_home_heading_bookmarked),
+			style = MaterialTheme.typography.h6,
+			modifier = Modifier.padding(top = 16.dp, bottom = 8.dp).padding(horizontal = 16.dp)
+		)
+		val filter = remember {
+			mutableStateOf(ListingFilter())
+		}
+		VulnListView(model = model, filter = filter, pagingSourceFactory = {
+			model.observeBookmarked()
+		})
 	}
 }
