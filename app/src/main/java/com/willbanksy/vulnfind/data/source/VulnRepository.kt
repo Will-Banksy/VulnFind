@@ -19,20 +19,20 @@ class VulnRepository(
 		val totalItems: Int
 	)
 	
-	suspend fun refreshWithPagingInfo(): PagingInfo? {
+	suspend fun refreshWithPagingInfo(apiKey: String?): PagingInfo? {
 		var pagingInfo: PagingInfo?
 		withContext(Dispatchers.IO) {
 			// Download vulns to local database
-			val dataWithPagingInfo = remote.refreshWithPagingInfo()
+			val dataWithPagingInfo = remote.refreshWithPagingInfo(apiKey)
 			pagingInfo = dataWithPagingInfo?.pagingInfo
 			local.addVulns(dataWithPagingInfo?.data ?: emptyList())
 		}
 		return pagingInfo
 	}
 	
-	suspend fun refreshSection(sectionIdx: Int, info: PagingInfo) {
+	suspend fun refreshSection(sectionIdx: Int, info: PagingInfo, apiKey: String?) {
 		withContext(Dispatchers.IO) {
-			val vulns = remote.refreshSection(sectionIdx, info)
+			val vulns = remote.refreshSection(sectionIdx, info, apiKey)
 			local.addVulns(vulns)
 		}
 	}

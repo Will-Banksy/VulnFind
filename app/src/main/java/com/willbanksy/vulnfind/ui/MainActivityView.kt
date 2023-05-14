@@ -18,16 +18,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.willbanksy.vulnfind.R
 import com.willbanksy.vulnfind.models.MainViewModel
-import com.willbanksy.vulnfind.ui.components.BottomSheetView
+import com.willbanksy.vulnfind.ui.components.MenuBottomSheetView
 import com.willbanksy.vulnfind.ui.components.DefaultScaffoldView
-import com.willbanksy.vulnfind.ui.components.HomeScreenView
+import com.willbanksy.vulnfind.ui.content_views.HomeScreenView
+import com.willbanksy.vulnfind.ui.state.MenuSheetMode
 import kotlinx.coroutines.launch
-
-enum class BottomSheetMode {
-	MENU,
-	DOWNLOAD_CONFIRM,
-	HELP
-}
 
 @OptIn(ExperimentalMaterialApi::class)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -37,8 +32,8 @@ fun MainActivityView(model: MainViewModel, notifPermissionRequest: ActivityResul
 		modifier = Modifier.fillMaxSize(),
 		color = MaterialTheme.colors.background
 	) {
-		val bottomSheetMode = remember {
-			mutableStateOf(BottomSheetMode.MENU)
+		val menuSheetMode = remember {
+			mutableStateOf(MenuSheetMode.MENU)
 		}
 		val bottomSheetState = rememberModalBottomSheetState(
 			initialValue = ModalBottomSheetValue.Hidden,
@@ -50,7 +45,7 @@ fun MainActivityView(model: MainViewModel, notifPermissionRequest: ActivityResul
 			sheetBackgroundColor = MaterialTheme.colors.surface,
 			sheetElevation = 2.dp,
 			sheetContent = {
-				BottomSheetView(bottomSheetState, bottomSheetMode, notifPermissionRequest)
+				MenuBottomSheetView(bottomSheetState, menuSheetMode, notifPermissionRequest)
 			}
 		) {
 			val coroutineScope = rememberCoroutineScope()
@@ -66,9 +61,9 @@ fun MainActivityView(model: MainViewModel, notifPermissionRequest: ActivityResul
 				topBarLabel = stringResource(R.string.activity_main_title),
 				showBottomBar = true,
 				bottomSheetState = bottomSheetState,
-				bottomSheetMode = bottomSheetMode
+				bottomSheetMode = menuSheetMode
 			) {
-				HomeScreenView(model, sheetState = bottomSheetState, sheetMode = bottomSheetMode)
+				HomeScreenView(model, sheetState = bottomSheetState, sheetMode = menuSheetMode)
 			}
 		}
 	}

@@ -1,4 +1,4 @@
-package com.willbanksy.vulnfind.ui.components
+package com.willbanksy.vulnfind.ui.content_views
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
@@ -53,6 +53,7 @@ import com.willbanksy.vulnfind.R
 import com.willbanksy.vulnfind.data.VulnDataItemMetric
 import com.willbanksy.vulnfind.data.VulnDataItemReference
 import com.willbanksy.vulnfind.models.MainViewModel
+import com.willbanksy.vulnfind.ui.components.CvssRatingChipView
 import com.willbanksy.vulnfind.utils.CvssSeverity
 import com.willbanksy.vulnfind.utils.cvssColourForSeverity
 import com.willbanksy.vulnfind.utils.pickPrimaryMetricId

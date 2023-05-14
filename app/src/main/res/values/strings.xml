@@ -32,9 +32,10 @@
     <string name="view.none_found_text">Nothing found</string>
     <string name="view.download_successful">Download of NVD successful!</string>
     <string name="view.download_failed">Download of NVD failed. Check your internet connection</string>
+    <string name="view.close_icon">Close</string>
+    <string name="view.apply_changes">Apply</string>
 
     <string name="view.menu_title">Main Menu</string>
-    <string name="view.menu_close_button_icon_name">Close Menu</string>
     <string name="view.menu.refresh_icon_name">Refresh</string>
     <string name="view.menu.refresh_title">Refresh Local Database</string>
     <string name="view.menu.settings_icon_name">Settings</string>
@@ -64,6 +65,11 @@
     <string name="view.settings.item.api_key_description">To obtain an API key for the NVD, go to https://nvd.nist.gov/developers/request-an-api-key and follow the instructions</string>
     <string name="view.settings.item.metered_connections_title">Metered Connections</string>
     <string name="view.settings.item.metered_connections_description">Should network activity (such as downloading the NVD) be allowed over metered connections?</string>
+    
+    <string name="view.settings.sheet.enter_api_key">Enter API Key</string>
+    <string name="view.settings.sheet.api_key_icon">Key</string>
+    
+    <string name="view.settings.snackbar_message.api_key_updated">API key updated</string>
 
     <string name="view.about.version_prefix">Version</string>
     <string name="view.about.disclaimer">This product uses data from the NVD API but is not endorsed or certified by the NVD.</string>

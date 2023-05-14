@@ -18,13 +18,13 @@ class VulnRemoteDataSource : VulnDataSource { // TODO: Rate Limiting
 //		return mapToItems(response.body()).getOrNull(0)
 //	}
 
-	fun refreshWithPagingInfo(): DataWithPagingInfo? {
+	fun refreshWithPagingInfo(apiKey: String?): DataWithPagingInfo? {
 		val listing = api.getInitial().execute().body() ?: return null
 		val pagingInfo = VulnRepository.PagingInfo(itemsPerPage = listing.resultsPerPage, totalItems = listing.totalResults)
 		return DataWithPagingInfo(pagingInfo = pagingInfo, data = mapToItems(listing))
 	}
 	
-	fun refreshSection(sectionIdx: Int, info: VulnRepository.PagingInfo): List<VulnDataItem> {
+	fun refreshSection(sectionIdx: Int, info: VulnRepository.PagingInfo, apiKey: String?): List<VulnDataItem> {
 		val listing = api.getSection(info.itemsPerPage * sectionIdx).execute().body()
 		return mapToItems(listing)
 	}

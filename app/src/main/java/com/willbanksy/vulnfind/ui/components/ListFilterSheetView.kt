@@ -29,10 +29,7 @@ import kotlin.math.roundToInt
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun ListFilterSheetView(model: MainViewModel, bottomSheetState: BottomSheetState, filter: MutableState<ListingFilter>, sheetPeekHeight: MutableState<Dp>) {
-//	val firstYearStart = ZonedDateTime.of(1988, 1, 1, 0, 0, 0, 0, ZoneId.ofOffset("UTC", ZoneOffset.UTC))
-//	val firstYearEnd = ZonedDateTime.of(1988, 12, 31, 23, 59, 59, 0, ZoneId.ofOffset("UTC", ZoneOffset.UTC))
-	
+fun ListFilterSheetView(bottomSheetState: BottomSheetState, filter: MutableState<ListingFilter>, sheetPeekHeight: MutableState<Dp>) {
 	val bottomPadding = WindowInsets.systemBars.asPaddingValues().calculateBottomPadding()
 	val topPadding = WindowInsets.systemBars.asPaddingValues().calculateTopPadding()
 	val fractionToExpanded = if(bottomSheetState.progress.fraction == 0f) {

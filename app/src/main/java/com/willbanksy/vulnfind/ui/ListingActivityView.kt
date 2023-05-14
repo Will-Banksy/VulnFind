@@ -15,7 +15,7 @@ import com.willbanksy.vulnfind.R
 import com.willbanksy.vulnfind.models.MainViewModel
 import com.willbanksy.vulnfind.ui.components.ListFilterSheetView
 import com.willbanksy.vulnfind.ui.components.TopBarView
-import com.willbanksy.vulnfind.ui.components.VulnListView
+import com.willbanksy.vulnfind.ui.content_views.VulnListView
 import com.willbanksy.vulnfind.ui.state.ListingFilter
 import kotlinx.coroutines.launch
 
@@ -46,7 +46,7 @@ fun ListingActivityView(model: MainViewModel) {
 				TopBarView(label = stringResource(R.string.activity_listing_title), true)
 			},
 			sheetContent = {
-				ListFilterSheetView(model = model, scaffoldState.bottomSheetState, filter, sheetPeekHeight)
+				ListFilterSheetView(scaffoldState.bottomSheetState, filter, sheetPeekHeight)
 			},
 		) { padding ->
 			val coroutineScope = rememberCoroutineScope()
@@ -57,9 +57,5 @@ fun ListingActivityView(model: MainViewModel) {
 			}
 			VulnListView(model = model, filter = filter, additionalPadding = padding)
 		}
-//		DefaultScaffoldView(topBarLabel = stringResource(R.string.activity_listing_title), topBarShowBack = true) {
-//			//VulnListView(model, PaddingValues(bottom = bottomPadding))
-//			ListingDateView(model = model)
-//		}
 	}
 }

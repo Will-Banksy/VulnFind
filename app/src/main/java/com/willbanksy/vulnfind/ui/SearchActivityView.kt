@@ -23,7 +23,7 @@ import androidx.paging.PagingConfig
 import com.willbanksy.vulnfind.R
 import com.willbanksy.vulnfind.models.MainViewModel
 import com.willbanksy.vulnfind.ui.components.DefaultScaffoldView
-import com.willbanksy.vulnfind.ui.components.VulnListView
+import com.willbanksy.vulnfind.ui.content_views.VulnListView
 import com.willbanksy.vulnfind.ui.state.ListingFilter
 
 @OptIn(ExperimentalMaterialApi::class)

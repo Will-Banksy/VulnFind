@@ -1,4 +1,4 @@
-package com.willbanksy.vulnfind.ui.components
+package com.willbanksy.vulnfind.ui.content_views
 
 import android.content.Intent
 import androidx.compose.foundation.clickable
@@ -20,13 +20,13 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.willbanksy.vulnfind.ListingActivity
 import com.willbanksy.vulnfind.R
 import com.willbanksy.vulnfind.models.MainViewModel
-import com.willbanksy.vulnfind.ui.BottomSheetMode
 import com.willbanksy.vulnfind.ui.state.ListingFilter
+import com.willbanksy.vulnfind.ui.state.MenuSheetMode
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun HomeScreenView(model: MainViewModel, sheetState: ModalBottomSheetState, sheetMode: MutableState<BottomSheetMode>) {
+fun HomeScreenView(model: MainViewModel, sheetState: ModalBottomSheetState, sheetMode: MutableState<MenuSheetMode>) {
 	Column {
 		val pager = remember {
 			Pager(
@@ -76,7 +76,7 @@ fun HomeScreenView(model: MainViewModel, sheetState: ModalBottomSheetState, shee
 			modifier = Modifier
 				.fillMaxWidth()
 				.clickable {
-					sheetMode.value = BottomSheetMode.HELP
+					sheetMode.value = MenuSheetMode.HELP
 					coroutineScope.launch {
 						sheetState.show()
 					}

@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun MenuSheetHeaderView(sheetState: ModalBottomSheetState, headerText: String) {
+fun ModalSheetHeaderView(sheetState: ModalBottomSheetState, headerText: String) {
 	Row(
 		modifier = Modifier
 			.background(MaterialTheme.colors.surface)
@@ -41,7 +41,7 @@ fun MenuSheetHeaderView(sheetState: ModalBottomSheetState, headerText: String) {
 		}, modifier = Modifier.padding(end = 8.dp)) {
 			Icon(
 				imageVector = Icons.Filled.Close,
-				contentDescription = stringResource(R.string.view_menu_close_button_icon_name),
+				contentDescription = stringResource(R.string.view_close_icon),
 				tint = MaterialTheme.colors.onSurface,
 			)
 		}

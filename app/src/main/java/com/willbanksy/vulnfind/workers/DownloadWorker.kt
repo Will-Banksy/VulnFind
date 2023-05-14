@@ -8,6 +8,8 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import androidx.room.Room
 import androidx.work.CoroutineWorker
 import androidx.work.Data
@@ -17,11 +19,13 @@ import androidx.work.WorkerParameters
 import com.willbanksy.vulnfind.MainActivity
 import com.willbanksy.vulnfind.R
 import com.willbanksy.vulnfind.data.source.VulnRepository
+import com.willbanksy.vulnfind.data.source.local.SettingsLocalDataSource
 import com.willbanksy.vulnfind.data.source.local.VulnDB
 import com.willbanksy.vulnfind.data.source.local.VulnLocalDataSource
 import com.willbanksy.vulnfind.data.source.remote.VulnRemoteDataSource
 import com.willbanksy.vulnfind.services.WorkManagerInitiatorService
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.withContext
 import java.io.IOException
 import java.net.SocketTimeoutException
@@ -38,6 +42,7 @@ enum class ErrorType {
 class DownloadWorker(
 	context: Context,
 	params: WorkerParameters,
+	val settingsDataStore: DataStore<Preferences>
 ) : CoroutineWorker(context, params) {
 	private val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 	private val vulnDB = Room.databaseBuilder(applicationContext, VulnDB::class.java, "VulnDB")
@@ -48,6 +53,7 @@ class DownloadWorker(
 	private var itemsPerSection = -1
 	private var totalItems = -1
 	private var currentSection = -1
+	private var currentApiKey: String? = null
 	
 	private fun createForegroundInfo(initial: Boolean) : ForegroundInfo {
 		val title = applicationContext.getString(R.string.notification_download_title)
@@ -101,6 +107,8 @@ class DownloadWorker(
 			var lastRequestedAt: Long = -1
 			withContext(Dispatchers.IO) {
 				while(true) {
+					currentApiKey = settingsDataStore.data.firstOrNull()?.get(SettingsLocalDataSource.PKEY_API_KEY)
+					
 					if(initial) {
 						setForeground(createForegroundInfo(true))
 						setProgress(Data.Builder().putFloat(PARAM_PROGRESS, 0f).build())
@@ -114,7 +122,7 @@ class DownloadWorker(
 						Log.d("Thread Was Slept For Long Enough", "${now - lastRequestedAt}")
 					}
 					lastRequestedAt = now
-					downloadNvdSection()
+					downloadNvdSection(currentApiKey)
 					setForeground(createForegroundInfo(false))
 
 					val completedItems = (currentSection * itemsPerSection).coerceAtMost(totalItems)
@@ -124,7 +132,13 @@ class DownloadWorker(
 					if(currentSection * itemsPerSection >= totalItems) {
 						break
 					}
-					Thread.sleep(6000) // Sleep for 6 seconds to avoid being temporarily blocked from the NVD
+					
+					val dsResult = settingsDataStore.data.firstOrNull()
+					if(dsResult != null && dsResult[SettingsLocalDataSource.PKEY_API_KEY] != "") {
+						Thread.sleep(1700)
+					} else {
+						Thread.sleep(6000) // Sleep for 6 seconds to avoid being temporarily blocked from the NVD
+					}
 				}
 			}
 			return Result.success()
@@ -151,16 +165,16 @@ class DownloadWorker(
 		return Result.failure()
 	}
 	
-	private suspend fun downloadNvdSection() {
+	private suspend fun downloadNvdSection(apiKey: String? = null) {
 		if(totalItems == -1 && currentSection == -1 && itemsPerSection == -1) {
-			val pagingInfo = repository.refreshWithPagingInfo()
+			val pagingInfo = repository.refreshWithPagingInfo(apiKey)
 			if(pagingInfo != null) {
 				totalItems = pagingInfo.totalItems
 				itemsPerSection = pagingInfo.itemsPerPage
 				currentSection = 1
 			}
 		} else {
-			repository.refreshSection(currentSection, VulnRepository.PagingInfo(itemsPerSection, totalItems))
+			repository.refreshSection(currentSection, VulnRepository.PagingInfo(itemsPerSection, totalItems), apiKey)
 			currentSection++
 		}
 	}

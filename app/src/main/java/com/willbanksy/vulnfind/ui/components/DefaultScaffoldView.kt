@@ -17,7 +17,7 @@ import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import com.willbanksy.vulnfind.R
 import com.willbanksy.vulnfind.SearchActivity
-import com.willbanksy.vulnfind.ui.BottomSheetMode
+import com.willbanksy.vulnfind.ui.state.MenuSheetMode
 import com.willbanksy.vulnfind.workers.DownloadWorker
 import kotlinx.coroutines.launch
 
@@ -28,7 +28,7 @@ fun DefaultScaffoldView(
 	topBarShowBack: Boolean = false,
 	showBottomBar: Boolean = false,
 	bottomSheetState: ModalBottomSheetState? = null,
-	bottomSheetMode: MutableState<BottomSheetMode>? = null,
+	bottomSheetMode: MutableState<MenuSheetMode>? = null,
 	content: @Composable () -> Unit
 ) {
 	val coroutineScope = rememberCoroutineScope()
@@ -85,7 +85,7 @@ fun DefaultScaffoldView(
 					backgroundColor = MaterialTheme.colors.surface
 				) {
 					IconButton(onClick = {
-						bottomSheetMode?.value = BottomSheetMode.MENU
+						bottomSheetMode?.value = MenuSheetMode.MENU
 						coroutineScope.launch {
 							bottomSheetState?.show()
 						}

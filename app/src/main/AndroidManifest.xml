@@ -36,7 +36,8 @@
                 android:name=".SettingsActivity"
                 android:exported="false"
                 android:label="@string/activity.settings_title"
-                android:theme="@style/Theme.VulnFind" />
+                android:theme="@style/Theme.VulnFind"
+                android:windowSoftInputMode="adjustResize" />
         <activity
                 android:name=".DetailsActivity"
                 android:exported="false"

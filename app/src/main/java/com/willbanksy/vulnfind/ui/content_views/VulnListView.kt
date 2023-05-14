@@ -1,4 +1,4 @@
-package com.willbanksy.vulnfind.ui.components
+package com.willbanksy.vulnfind.ui.content_views
 
 import android.content.Intent
 import androidx.compose.animation.AnimatedVisibility
@@ -38,6 +38,7 @@ import com.willbanksy.vulnfind.R
 import com.willbanksy.vulnfind.data.source.local.VulnDBVulnWithMetricsAndReferencesDto
 import com.willbanksy.vulnfind.data.source.local.mapToItem
 import com.willbanksy.vulnfind.models.MainViewModel
+import com.willbanksy.vulnfind.ui.components.VulnItemCardView
 import com.willbanksy.vulnfind.ui.state.ListingFilter
 
 @Composable
