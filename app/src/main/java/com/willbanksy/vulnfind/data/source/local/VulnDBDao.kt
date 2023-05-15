@@ -6,14 +6,6 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface VulnDBDao {
-//	@Transaction
-//    @Query("SELECT * FROM VulnDB")
-//    fun getAll(): List<VulnItemWithMetrics>
-//
-//	@Transaction
-//    @Query("SELECT * FROM VulnDB WHERE cve_id = :cveId")
-//    fun getById(cveId: String): VulnItemWithMetrics?
-
 	@Transaction
     @Query("SELECT * FROM VulnDB ORDER BY published_date_unix DESC")
     fun observeAll(): PagingSource<Int, VulnDBVulnWithMetricsAndReferencesDto>
@@ -26,26 +18,13 @@ interface VulnDBDao {
     @Query("SELECT * FROM VulnDB WHERE cve_id = :cveId")
     fun observeById(cveId: String): Flow<VulnDBVulnWithMetricsAndReferencesDto?>
 	
+	@Transaction
 	@Query("SELECT * FROM VulnDB WHERE bookmarked = 1")
 	fun observeBookmarked(): PagingSource<Int, VulnDBVulnWithMetricsAndReferencesDto>
 	
+	@Transaction
 	@Query("SELECT * FROM VulnDB WHERE cve_id LIKE :cveId")
 	fun observeAllFilteredById(cveId: String): PagingSource<Int, VulnDBVulnWithMetricsAndReferencesDto>
-	
-//	@Query("SELECT * FROM VulnMetrics")
-//	fun getAllMetrics(): Flow<List<VulnMetric>>
-
-//	@Transaction
-//    @Query("SELECT * FROM VulnDB WHERE cve_id LIKE :searchTerm")
-//    fun search(searchTerm: String): List<VulnItemWithMetrics>
-
-//	@Transaction
-//    @Insert(onConflict = OnConflictStrategy.REPLACE)
-//    fun insertAll(vulns: List<VulnItem>, metrics: List<List<VulnMetric>>)
-
-//	@Transaction
-//    @Insert(onConflict = OnConflictStrategy.REPLACE)
-//    fun insert(vuln: VulnDBVulnDto, metrics: List<VulnDBMetricDto>)
 	
 	@Insert(onConflict = OnConflictStrategy.REPLACE)
 	fun insertAllVulns(vulns: List<VulnDBVulnDto>)
@@ -58,10 +37,4 @@ interface VulnDBDao {
 	
 	@Update
 	fun updateVuln(vuln: VulnDBVulnDto)
-	
-//	fun insertAllMetrics()
-
-//	@Transaction
-//    @Delete
-//    fun delete(vuln: VulnItemWithMetrics)
 }

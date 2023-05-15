@@ -8,8 +8,6 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import androidx.core.app.NotificationCompat
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
 import androidx.room.Room
 import androidx.work.CoroutineWorker
 import androidx.work.Data
@@ -22,8 +20,10 @@ import com.willbanksy.vulnfind.data.source.VulnRepository
 import com.willbanksy.vulnfind.data.source.local.SettingsLocalDataSource
 import com.willbanksy.vulnfind.data.source.local.VulnDB
 import com.willbanksy.vulnfind.data.source.local.VulnLocalDataSource
+import com.willbanksy.vulnfind.data.source.local.settingsDataStore
 import com.willbanksy.vulnfind.data.source.remote.VulnRemoteDataSource
 import com.willbanksy.vulnfind.services.WorkManagerInitiatorService
+import com.willbanksy.vulnfind.utils.isConnectionMetered
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.withContext
@@ -36,13 +36,16 @@ enum class ErrorType {
 	UnknownHostError,
 	TimedOutError,
 	MiscNetworkError,
-	DatabaseAccessError
+	DatabaseAccessError,
+	MeteredConnectionError,
+	OtherError,
 }
+
+data class MeteredConnectionException(val e: String): Exception()
 
 class DownloadWorker(
 	context: Context,
 	params: WorkerParameters,
-	val settingsDataStore: DataStore<Preferences>
 ) : CoroutineWorker(context, params) {
 	private val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 	private val vulnDB = Room.databaseBuilder(applicationContext, VulnDB::class.java, "VulnDB")
@@ -53,7 +56,9 @@ class DownloadWorker(
 	private var itemsPerSection = -1
 	private var totalItems = -1
 	private var currentSection = -1
+	
 	private var currentApiKey: String? = null
+	private var currentUseMetered: Boolean? = null
 	
 	private fun createForegroundInfo(initial: Boolean) : ForegroundInfo {
 		val title = applicationContext.getString(R.string.notification_download_title)
@@ -104,10 +109,15 @@ class DownloadWorker(
 		
 		try {
 			var initial = true
-			var lastRequestedAt: Long = -1
+//			var lastRequestedAt: Long = -1
 			withContext(Dispatchers.IO) {
 				while(true) {
-					currentApiKey = settingsDataStore.data.firstOrNull()?.get(SettingsLocalDataSource.PKEY_API_KEY)
+					currentApiKey = applicationContext.settingsDataStore.data.firstOrNull()?.get(SettingsLocalDataSource.PKEY_API_KEY)
+					currentUseMetered = applicationContext.settingsDataStore.data.firstOrNull()?.get(SettingsLocalDataSource.PKEY_USE_METERED)
+					
+					if(currentUseMetered == false && isConnectionMetered(applicationContext)) {
+						throw MeteredConnectionException("")
+					}
 					
 					if(initial) {
 						setForeground(createForegroundInfo(true))
@@ -115,13 +125,13 @@ class DownloadWorker(
 						initial = false
 					}
 
-					val now = System.currentTimeMillis()
-					if(now - lastRequestedAt < 6000 && (lastRequestedAt != -1L)) {
-						Log.d("Thread Was Not Slept For Long Enough","Oh no!")
-					} else {
-						Log.d("Thread Was Slept For Long Enough", "${now - lastRequestedAt}")
-					}
-					lastRequestedAt = now
+//					val now = System.currentTimeMillis()
+//					if(now - lastRequestedAt < 6000 && (lastRequestedAt != -1L)) {
+//						Log.d("Thread Was Not Slept For Long Enough","Oh no!")
+//					} else {
+//						Log.d("Thread Was Slept For Long Enough", "${now - lastRequestedAt}")
+//					}
+//					lastRequestedAt = now
 					downloadNvdSection(currentApiKey)
 					setForeground(createForegroundInfo(false))
 
@@ -130,12 +140,12 @@ class DownloadWorker(
 					setProgress(Data.Builder().putFloat(PARAM_PROGRESS, percentProgress).build())
 
 					if(currentSection * itemsPerSection >= totalItems) {
+						Log.d("Things", "currentSection: ${currentSection}, itemsPerSection: ${itemsPerSection}, totalItems: ${totalItems}")
 						break
 					}
 					
-					val dsResult = settingsDataStore.data.firstOrNull()
-					if(dsResult != null && dsResult[SettingsLocalDataSource.PKEY_API_KEY] != "") {
-						Thread.sleep(1700)
+					if(!currentApiKey.isNullOrEmpty()) {
+						Thread.sleep(1700) // But with an API key, we only have to sleep for 1.6666 seconds (rounding up to 1.7 to be safe)
 					} else {
 						Thread.sleep(6000) // Sleep for 6 seconds to avoid being temporarily blocked from the NVD
 					}
@@ -154,10 +164,14 @@ class DownloadWorker(
 			Log.d("DownloadWorker Misc Exception", e.toString())
 			notificationManager.cancel(DOWNLOAD_NOTIF_ID)
 			createErrorNotification(ErrorType.MiscNetworkError)
+		} catch (e: MeteredConnectionException) { // The exception type for when the settings say not to use metered connections but we are anyway
+			Log.d("DownloadWorker Metered Exception", e.toString())
+			notificationManager.cancel(DOWNLOAD_NOTIF_ID)
+			createErrorNotification(ErrorType.MeteredConnectionError)
 		} catch(e: CancellationException) { // This is thrown when the work is cancelled
 			notificationManager.cancel(DOWNLOAD_NOTIF_ID)
 			Log.d("DownloadWorker Cancellation Exception", e.toString())
-			return Result.success() // TODO: Decide whether a cancellation is a success or failure
+			return Result.success()
 		} catch(e: Exception) {
 			notificationManager.cancel(DOWNLOAD_NOTIF_ID)
 			Log.d("DownloadWorker Exception", e.toString())
@@ -168,10 +182,13 @@ class DownloadWorker(
 	private suspend fun downloadNvdSection(apiKey: String? = null) {
 		if(totalItems == -1 && currentSection == -1 && itemsPerSection == -1) {
 			val pagingInfo = repository.refreshWithPagingInfo(apiKey)
+			Log.d("PagingInfo", pagingInfo.toString())
 			if(pagingInfo != null) {
 				totalItems = pagingInfo.totalItems
 				itemsPerSection = pagingInfo.itemsPerPage
 				currentSection = 1
+			} else {
+				throw IOException("Could not get paging data from NVD")
 			}
 		} else {
 			repository.refreshSection(currentSection, VulnRepository.PagingInfo(itemsPerSection, totalItems), apiKey)
@@ -208,6 +225,12 @@ class DownloadWorker(
 			}
 			ErrorType.DatabaseAccessError -> {
 				applicationContext.getString(R.string.notification_network_error_database_access_desc)
+			}
+			ErrorType.MeteredConnectionError -> {
+				applicationContext.getString(R.string.notification_network_error_metered)
+			}
+			ErrorType.OtherError -> {
+				applicationContext.getString(R.string.notification_network_error_other)
 			}
 		}
 		

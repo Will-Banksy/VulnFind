@@ -1,8 +1,7 @@
 package com.willbanksy.vulnfind.models
 
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.paging.PagingSource
 import com.willbanksy.vulnfind.data.SettingsData
@@ -19,6 +18,7 @@ class MainViewModel(
 	private val settingsRepository: SettingsRepository
 ) : ViewModel() {
 	private var settingsData: SettingsData? = null
+	var currentFilter: MutableState<ListingFilter> = mutableStateOf(ListingFilter())
 	
 	fun getById(cveId: String): Flow<VulnDataItem?> {
 		return vulnRepository.observeById(cveId)
@@ -40,12 +40,20 @@ class MainViewModel(
 		return vulnRepository.observeAllFilteredById(cveId)
 	}
 	
-	suspend fun updateApiKey(string: String) {
-		val latest = settingsData ?: observeSettings().firstOrNull() ?: SettingsData("", false)
+	suspend fun updateSettingApiKey(value: String) {
+		val latest = settingsData ?: observeSettings().firstOrNull() ?: SettingsData()
 		if(settingsData == null) {
 			settingsData = latest
 		}
-		settingsRepository.update(latest.copy(apiKey = string))
+		settingsRepository.update(latest.copy(apiKey = value))
+	}
+	
+	suspend fun updateSettingUseMetered(value: Boolean) {
+		val latest = settingsData ?: observeSettings().firstOrNull() ?: SettingsData()
+		if(settingsData == null) {
+			settingsData = latest
+		}
+		settingsRepository.update(latest.copy(useMetered = value))
 	}
 	
 	fun observeSettings(): Flow<SettingsData> {

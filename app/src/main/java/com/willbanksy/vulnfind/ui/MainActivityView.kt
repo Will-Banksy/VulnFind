@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import com.willbanksy.vulnfind.R
 import com.willbanksy.vulnfind.models.MainViewModel
 import com.willbanksy.vulnfind.ui.components.MenuBottomSheetView
-import com.willbanksy.vulnfind.ui.components.DefaultScaffoldView
+import com.willbanksy.vulnfind.ui.components.MainScaffoldView
 import com.willbanksy.vulnfind.ui.content_views.HomeScreenView
 import com.willbanksy.vulnfind.ui.state.MenuSheetMode
 import kotlinx.coroutines.launch
@@ -45,7 +45,7 @@ fun MainActivityView(model: MainViewModel, notifPermissionRequest: ActivityResul
 			sheetBackgroundColor = MaterialTheme.colors.surface,
 			sheetElevation = 2.dp,
 			sheetContent = {
-				MenuBottomSheetView(bottomSheetState, menuSheetMode, notifPermissionRequest)
+				MenuBottomSheetView(model, bottomSheetState, menuSheetMode, notifPermissionRequest)
 			}
 		) {
 			val coroutineScope = rememberCoroutineScope()
@@ -57,7 +57,7 @@ fun MainActivityView(model: MainViewModel, notifPermissionRequest: ActivityResul
 				}
 			}
 			
-			DefaultScaffoldView(
+			MainScaffoldView(
 				topBarLabel = stringResource(R.string.activity_main_title),
 				showBottomBar = true,
 				bottomSheetState = bottomSheetState,

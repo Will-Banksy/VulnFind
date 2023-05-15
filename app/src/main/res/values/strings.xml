@@ -21,10 +21,13 @@
     <string name="notification.network_error_timeout_desc">Request timed out</string>
     <string name="notification.network_error_misc_desc">Unknown network error</string>
     <string name="notification.network_error_database_access_desc">Error accessing local database. This could be a bug</string>
+    <string name="notification.network_error_metered">Connection is metered. Check your network configuration or enable "Metered Connections" in application settings</string>
+    <string name="notification.network_error_other">Unknown error</string>
     <string name="notification.network_error_action_retry">Try again</string>
 
     <string name="view.ok">OK</string>
     <string name="view.cancel">Cancel</string>
+    <string name="view.dismiss">Dismiss</string>
     <string name="view.topbar_back_icon_name">Back</string>
     <string name="view.menu_button">Menu</string>
     <string name="view.search_button">Search</string>
@@ -68,6 +71,7 @@
     
     <string name="view.settings.sheet.enter_api_key">Enter API Key</string>
     <string name="view.settings.sheet.api_key_icon">Key</string>
+    <string name="view.settings.sheet.api_key_warning">Warning: Entering an invalid API key will cause errors</string>
     
     <string name="view.settings.snackbar_message.api_key_updated">API key updated</string>
 

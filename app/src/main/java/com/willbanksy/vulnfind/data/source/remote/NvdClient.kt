@@ -34,7 +34,9 @@ object NvdClient {
 object NvdClientInterceptor : Interceptor {
 	override fun intercept(chain: Interceptor.Chain): Response { // Can do stuff like add headers, authorisation, api keys etc. here
 		val request = chain.request()
-		Log.d("NVDClientInterceptor", "Network request to: ${request.url()}") // Or log requests
-		return chain.proceed(request)
+		Log.d("Intercepted Request", "Network request to: $request") // Or log requests
+		val response = chain.proceed(request)
+		Log.d("Intercepted Response", "Network response: $response") // Or log requests
+		return response
 	}
 }

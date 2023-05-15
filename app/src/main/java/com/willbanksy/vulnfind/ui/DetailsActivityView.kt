@@ -8,7 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.willbanksy.vulnfind.R
 import com.willbanksy.vulnfind.models.MainViewModel
-import com.willbanksy.vulnfind.ui.components.DefaultScaffoldView
+import com.willbanksy.vulnfind.ui.components.MainScaffoldView
 import com.willbanksy.vulnfind.ui.content_views.VulnDetailView
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -19,7 +19,7 @@ fun DetailsActivityView(model: MainViewModel, cveId: String) {
 		modifier = Modifier.fillMaxSize(),
 		color = MaterialTheme.colors.background
 	) {
-		DefaultScaffoldView(topBarLabel = stringResource(R.string.activity_details_title), topBarShowBack = true) {
+		MainScaffoldView(topBarLabel = stringResource(R.string.activity_details_title), topBarShowBack = true) {
 			VulnDetailView(model, cveId)
 		}
 	}

@@ -26,19 +26,23 @@ import androidx.work.*
 import com.willbanksy.vulnfind.AboutActivity
 import com.willbanksy.vulnfind.R
 import com.willbanksy.vulnfind.SettingsActivity
+import com.willbanksy.vulnfind.data.SettingsData
+import com.willbanksy.vulnfind.models.MainViewModel
 import com.willbanksy.vulnfind.ui.state.MenuSheetMode
+import com.willbanksy.vulnfind.utils.isConnectionMetered
 import com.willbanksy.vulnfind.workers.DownloadWorker
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun MenuBottomSheetView(sheetState: ModalBottomSheetState, sheetMode: MutableState<MenuSheetMode>, notifPermissionRequest: ActivityResultLauncher<String>) {
+fun MenuBottomSheetView(model: MainViewModel, sheetState: ModalBottomSheetState, sheetMode: MutableState<MenuSheetMode>, notifPermissionRequest: ActivityResultLauncher<String>) {
 	when (sheetMode.value) {
 		MenuSheetMode.MENU -> {
 			MenuSheetModeMenuView(sheetState, sheetMode)
 		}
 		MenuSheetMode.DOWNLOAD_CONFIRM -> {
-			MenuSheetModeDownloadConfirmView(sheetState, sheetMode, notifPermissionRequest)
+			MenuSheetModeDownloadConfirmView(model, sheetState, sheetMode, notifPermissionRequest)
 		}
 		MenuSheetMode.HELP -> {
 			MenuSheetModeHelpView(sheetState)
@@ -153,7 +157,7 @@ fun MenuSheetModeMenuView(sheetState: ModalBottomSheetState, sheetMode: MutableS
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun MenuSheetModeDownloadConfirmView(sheetState: ModalBottomSheetState, sheetMode: MutableState<MenuSheetMode>, notifPermissionRequest: ActivityResultLauncher<String>) {
+fun MenuSheetModeDownloadConfirmView(model: MainViewModel, sheetState: ModalBottomSheetState, sheetMode: MutableState<MenuSheetMode>, notifPermissionRequest: ActivityResultLauncher<String>) {
 	val bottomPadding = WindowInsets.systemBars.asPaddingValues().calculateBottomPadding()
 	Column(
 		modifier = Modifier.padding(bottom = bottomPadding)
@@ -167,11 +171,21 @@ fun MenuSheetModeDownloadConfirmView(sheetState: ModalBottomSheetState, sheetMod
 		) {
 			Text(text = stringResource(R.string.view_menu_download_confirm_main_text))
 			Spacer(modifier = Modifier.height(16.dp))
+			val showMeteredErrorText = remember {
+				mutableStateOf(false)
+			}
+			if(showMeteredErrorText.value) {
+				Text(text = stringResource(id = R.string.notification_network_error_metered))
+				Spacer(modifier = Modifier.height(16.dp))
+			}
 			Row {
 				Spacer(modifier = Modifier.weight(1f))
 				val context = LocalContext.current
+				val settings = model.observeSettings().collectAsState(initial = SettingsData())
 				Button(onClick = {
-					if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+					if(!settings.value.useMetered && isConnectionMetered(context)) {
+						showMeteredErrorText.value = true
+					} else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
 						if (context.checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
 							val work: OneTimeWorkRequest =
 								OneTimeWorkRequestBuilder<DownloadWorker>().build()

@@ -12,7 +12,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.willbanksy.vulnfind.R
-import com.willbanksy.vulnfind.ui.components.DefaultScaffoldView
+import com.willbanksy.vulnfind.ui.components.MainScaffoldView
 
 @OptIn(ExperimentalMaterialApi::class)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -22,7 +22,7 @@ fun AboutActivityView() {
 		modifier = Modifier.fillMaxSize(),
 		color = MaterialTheme.colors.background
 	) {
-		DefaultScaffoldView(topBarLabel = stringResource(R.string.activity_about_title), topBarShowBack = true) {
+		MainScaffoldView(topBarLabel = stringResource(R.string.activity_about_title), topBarShowBack = true) {
 			BoxWithConstraints {
 				if(this.maxWidth > this.maxHeight) {
 					Row(

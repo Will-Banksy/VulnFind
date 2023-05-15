@@ -31,7 +31,8 @@
                 android:configChanges="orientation|screenSize"
                 android:exported="false"
                 android:label="@string/activity.listing_title"
-                android:theme="@style/Theme.VulnFind" />
+                android:theme="@style/Theme.VulnFind"
+                android:windowSoftInputMode="adjustResize" />
         <activity
                 android:name=".SettingsActivity"
                 android:exported="false"

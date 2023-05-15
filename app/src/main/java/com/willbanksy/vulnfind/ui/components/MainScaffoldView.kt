@@ -23,16 +23,16 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun DefaultScaffoldView(
+fun MainScaffoldView(
 	topBarLabel: String,
 	topBarShowBack: Boolean = false,
 	showBottomBar: Boolean = false,
 	bottomSheetState: ModalBottomSheetState? = null,
 	bottomSheetMode: MutableState<MenuSheetMode>? = null,
+	scaffoldState: ScaffoldState = rememberScaffoldState(),
 	content: @Composable () -> Unit
 ) {
 	val coroutineScope = rememberCoroutineScope()
-	val scaffoldState = rememberScaffoldState()
 	val context = LocalContext.current
 	val bottomPadding = WindowInsets.systemBars.asPaddingValues().calculateBottomPadding()
 	
@@ -112,7 +112,9 @@ fun DefaultScaffoldView(
 		}
 	) { scaffoldPadding ->
 		Box(
-			modifier = Modifier.fillMaxSize().padding(scaffoldPadding)
+			modifier = Modifier
+				.fillMaxSize()
+				.padding(scaffoldPadding)
 		) {
 			content()
 		}

@@ -30,7 +30,6 @@ import kotlin.math.roundToInt
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ListFilterSheetView(bottomSheetState: BottomSheetState, filter: MutableState<ListingFilter>, sheetPeekHeight: MutableState<Dp>) {
-	val bottomPadding = WindowInsets.systemBars.asPaddingValues().calculateBottomPadding()
 	val topPadding = WindowInsets.systemBars.asPaddingValues().calculateTopPadding()
 	val fractionToExpanded = if(bottomSheetState.progress.fraction == 0f) {
 		if(bottomSheetState.isExpanded) { 1f } else { 0f }
@@ -106,130 +105,135 @@ fun ListFilterSheetView(bottomSheetState: BottomSheetState, filter: MutableState
 			val scrollState = rememberScrollState()
 			
 			Column(
-				modifier = Modifier.alpha(fractionToExpanded).verticalScroll(scrollState)
+				modifier = Modifier
+					.alpha(fractionToExpanded)
+					.verticalScroll(scrollState)
+					.imePadding()
 			) {
-				val dialogVisibility = remember {
-					mutableStateOf(false)
-				}
-				DatePickerDialog(
-					showing = dialogVisibility,
-					initialYear = filter.value.year,
-					initialMonth = filter.value.month,
-					yearRange = 1988..LocalDateTime.now().year,
-					onDateChange = { year, month ->
-						filter.value = filter.value.copy(year = year, month = month)
-					}
-				)
-		
-				val monthYearFilterStr: @Composable () -> String = {
-					val sb = StringBuilder()
-					sb.append(stringResource(id = R.string.view_listing_filters_month_year))
-					var filters = false
-					if(filter.value.month != null) {
-						sb.append(" (")
-						sb.append(localisedMonth(month = filter.value.month!!))
-						filters = true
-					}
-					if(filter.value.year != null) {
-						if(!filters) {
-							sb.append(" (")
-						} else {
-							sb.append(", ")
-						}
-						sb.append(filter.value.year.toString())
-						filters = true
-					}
-					if(filters) {
-						sb.append(')')
-					}
-					sb.toString()
-				}
-				
-				HorizontalItemView(
-					modifier = Modifier.clickable {
-						if(bottomSheetState.isExpanded) {
-							dialogVisibility.value = true
-						}
-					},
-					icon = Icons.Filled.EditCalendar,
-					iconDesc = stringResource(id = R.string.view_listing_filters_month_year_icon),
-					itemDesc = monthYearFilterStr()
-				)
-				
-				HorizontalItemView {
-					Column {
-						Row {
-							Icon(imageVector = Icons.Filled.Score, contentDescription = stringResource(
-								id = R.string.view_listing_filters_score_icon
-							))
-							Spacer(modifier = Modifier.width(16.dp))
-							Text(
-								text = stringResource(id = R.string.view_listing_filters_score)
-							)
-						}
-						Row(
-							verticalAlignment = Alignment.CenterVertically
-						) {
-							Text(
-								text = String.format("%.1f", filter.value.minScore),
-								modifier = Modifier.widthIn(min = 32.dp),
-								textAlign = TextAlign.Start
-							)
-							RangeSlider(
-								value = filter.value.minScore..filter.value.maxScore,
-								onValueChange = { selectedRange ->
-									filter.value = filter.value.copy(minScore = (selectedRange.start * 10).roundToInt() / 10f, maxScore = (selectedRange.endInclusive * 10).roundToInt() / 10f)
-								},
-								valueRange = 0f..10f,
-								modifier = Modifier.weight(1f)
-							)
-							Text(
-								text = String.format("%.1f", filter.value.maxScore),
-								modifier = Modifier.widthIn(min = 32.dp),
-								textAlign = TextAlign.End
-							)
-						}
-					}
-				}
-				
-				HorizontalItemView(
-					modifier = Modifier.clickable {
-						filter.value = filter.value.copy(showEmptyMetrics = !filter.value.showEmptyMetrics)
-					}
+				Column(
+					modifier = Modifier.navigationBarsPadding().imePadding()
 				) {
-					Checkbox(
-						checked = filter.value.showEmptyMetrics,
-						onCheckedChange = null,
-						colors = CheckboxDefaults.colors(checkedColor = MaterialTheme.colors.primary)
-					)
-					Spacer(modifier = Modifier.width(16.dp))
-					Text(
-						text = stringResource(id = R.string.view_listing_filters_show_empty_metrics)
-					)
-				}
-				
-				HorizontalItemView {
-					Column {
-						Row(
-							modifier = Modifier.padding(bottom = 16.dp)
-						) {
-							Icon(imageVector = Icons.Filled.TextFields, contentDescription = stringResource(
-								id = R.string.view_listing_filters_text_icon
-							))
-							Spacer(modifier = Modifier.width(16.dp))
-							Text(
-								text = stringResource(id = R.string.view_listing_filters_text)
-							)
+					val dialogVisibility = remember {
+						mutableStateOf(false)
+					}
+					DatePickerDialog(
+						showing = dialogVisibility,
+						initialYear = filter.value.year,
+						initialMonth = filter.value.month,
+						yearRange = 1988..LocalDateTime.now().year,
+						onDateChange = { year, month ->
+							filter.value = filter.value.copy(year = year, month = month)
 						}
-						Row {
-							TextField(value = filter.value.text, singleLine = true, onValueChange = { str ->
-								filter.value = filter.value.copy(text = str)
-							}, modifier = Modifier.weight(1f))
+					)
+			
+					val monthYearFilterStr: @Composable () -> String = {
+						val sb = StringBuilder()
+						sb.append(stringResource(id = R.string.view_listing_filters_month_year))
+						var filters = false
+						if(filter.value.month != null) {
+							sb.append(" (")
+							sb.append(localisedMonth(month = filter.value.month!!))
+							filters = true
+						}
+						if(filter.value.year != null) {
+							if(!filters) {
+								sb.append(" (")
+							} else {
+								sb.append(", ")
+							}
+							sb.append(filter.value.year.toString())
+							filters = true
+						}
+						if(filters) {
+							sb.append(')')
+						}
+						sb.toString()
+					}
+					
+					HorizontalItemView(
+						modifier = Modifier.clickable {
+							if(bottomSheetState.isExpanded) {
+								dialogVisibility.value = true
+							}
+						},
+						icon = Icons.Filled.EditCalendar,
+						iconDesc = stringResource(id = R.string.view_listing_filters_month_year_icon),
+						itemDesc = monthYearFilterStr()
+					)
+					
+					HorizontalItemView {
+						Column {
+							Row {
+								Icon(imageVector = Icons.Filled.Score, contentDescription = stringResource(
+									id = R.string.view_listing_filters_score_icon
+								))
+								Spacer(modifier = Modifier.width(16.dp))
+								Text(
+									text = stringResource(id = R.string.view_listing_filters_score)
+								)
+							}
+							Row(
+								verticalAlignment = Alignment.CenterVertically
+							) {
+								Text(
+									text = String.format("%.1f", filter.value.minScore),
+									modifier = Modifier.widthIn(min = 32.dp),
+									textAlign = TextAlign.Start
+								)
+								RangeSlider(
+									value = filter.value.minScore..filter.value.maxScore,
+									onValueChange = { selectedRange ->
+										filter.value = filter.value.copy(minScore = (selectedRange.start * 10).roundToInt() / 10f, maxScore = (selectedRange.endInclusive * 10).roundToInt() / 10f)
+									},
+									valueRange = 0f..10f,
+									modifier = Modifier.weight(1f)
+								)
+								Text(
+									text = String.format("%.1f", filter.value.maxScore),
+									modifier = Modifier.widthIn(min = 32.dp),
+									textAlign = TextAlign.End
+								)
+							}
+						}
+					}
+					
+					HorizontalItemView(
+						modifier = Modifier.clickable {
+							filter.value = filter.value.copy(showEmptyMetrics = !filter.value.showEmptyMetrics)
+						}
+					) {
+						Checkbox(
+							checked = filter.value.showEmptyMetrics,
+							onCheckedChange = null,
+							colors = CheckboxDefaults.colors(checkedColor = MaterialTheme.colors.primary)
+						)
+						Spacer(modifier = Modifier.width(16.dp))
+						Text(
+							text = stringResource(id = R.string.view_listing_filters_show_empty_metrics)
+						)
+					}
+					
+					HorizontalItemView {
+						Column {
+							Row(
+								modifier = Modifier.padding(bottom = 16.dp)
+							) {
+								Icon(imageVector = Icons.Filled.TextFields, contentDescription = stringResource(
+									id = R.string.view_listing_filters_text_icon
+								))
+								Spacer(modifier = Modifier.width(16.dp))
+								Text(
+									text = stringResource(id = R.string.view_listing_filters_text)
+								)
+							}
+							Row {
+								TextField(value = filter.value.text, singleLine = true, onValueChange = { str ->
+									filter.value = filter.value.copy(text = str)
+								}, modifier = Modifier.weight(1f))
+							}
 						}
 					}
 				}
-				
-				Spacer(modifier = Modifier.height(bottomPadding))
 			}
 		}
 	}
