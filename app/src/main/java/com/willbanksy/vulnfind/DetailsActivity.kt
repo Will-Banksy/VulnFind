@@ -16,19 +16,15 @@ import com.willbanksy.vulnfind.ui.DetailsActivityView
 import com.willbanksy.vulnfind.ui.theme.VulnFindTheme
 
 class DetailsActivity : ComponentActivity() {
-	// TODO: find some way to scope these to the activity or application or something so that they don't get recreated when the device is rotated etc
-	private lateinit var vulnDB: VulnDB
-	private lateinit var vulnRepository: VulnRepository
-	private lateinit var settingsRepository: SettingsRepository
 	private lateinit var model: MainViewModel
 	
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContent {
 			VulnFindTheme {
-				vulnDB = Room.databaseBuilder(this, VulnDB::class.java, "VulnDB").enableMultiInstanceInvalidation().build()
-				vulnRepository = VulnRepository(VulnRemoteDataSource(), VulnLocalDataSource(vulnDB.dao()))
-				settingsRepository = SettingsRepository(SettingsLocalDataSource(settingsDataStore))
+				val vulnDB = Room.databaseBuilder(this, VulnDB::class.java, "VulnDB").enableMultiInstanceInvalidation().build()
+				val vulnRepository = VulnRepository(VulnRemoteDataSource(), VulnLocalDataSource(vulnDB.dao()))
+				val settingsRepository = SettingsRepository(SettingsLocalDataSource(settingsDataStore))
 				model = MainViewModel(vulnRepository, settingsRepository)
 				
 				// Get intent data

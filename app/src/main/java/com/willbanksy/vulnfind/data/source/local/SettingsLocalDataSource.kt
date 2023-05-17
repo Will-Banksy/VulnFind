@@ -20,14 +20,12 @@ class SettingsLocalDataSource(
 	/// Updates the saved settings data with the passed-in settings data
 	suspend fun update(data: SettingsData) {
 		settingsStore.edit { mutPrefs ->
-			// Only write the api key if it is actually defined - Otherwise an empty api key will be written
-//			if(data.apiKey != null) {
 				mutPrefs[PKEY_API_KEY] = data.apiKey
-//			}
 			mutPrefs[PKEY_USE_METERED] = data.useMetered
 		}
 	}
 	
+	// Returns an Flow for observing changes to the DataStore
 	fun observe(): Flow<SettingsData> {
 		val defaultSettings = SettingsData()
 		return settingsStore.data.map { prefs ->

@@ -63,7 +63,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun VulnDetailView(model: MainViewModel, cveId: String) {
 	val vulnStream = remember {
-		model.getById(cveId)
+		model.observeById(cveId)
 	}
 	val vuln = vulnStream.collectAsState(initial = null).value
 	val vulnTitle = vuln?.cveId ?: stringResource(id = R.string.view_loading_text)
